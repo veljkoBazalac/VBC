@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -18,12 +19,22 @@ class HomeViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
         
     }
-
-
+    
+    
     @IBAction func searchButtonPressed(_ sender: UIButton) {
     }
     
     @IBAction func languageButtonPressed(_ sender: UIButton) {
+     
+        do {
+            try Auth.auth().signOut()
+            navigationController?.popToRootViewController(animated: true)
+            
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+        
+        
     }
     
 }
