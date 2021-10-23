@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A2E272449EE00A6331B /* AppDelegate.swift */; };
 		D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A30272449EE00A6331B /* SceneDelegate.swift */; };
-		D00F0A33272449EE00A6331B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A32272449EE00A6331B /* ViewController.swift */; };
+		D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A32272449EE00A6331B /* HomeViewController.swift */; };
 		D00F0A36272449EE00A6331B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A34272449EE00A6331B /* Main.storyboard */; };
 		D00F0A38272449F400A6331B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A37272449F400A6331B /* Assets.xcassets */; };
 		D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A39272449F400A6331B /* LaunchScreen.storyboard */; };
-		D00F0A46272449F500A6331B /* VBCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A45272449F500A6331B /* VBCTests.swift */; };
-		D00F0A50272449F500A6331B /* VBCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A4F272449F500A6331B /* VBCUITests.swift */; };
-		D00F0A52272449F500A6331B /* VBCUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A51272449F500A6331B /* VBCUITestsLaunchTests.swift */; };
+		D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A60272452D300A6331B /* LoginViewController.swift */; };
+		D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,16 +38,15 @@
 		D00F0A2B272449EE00A6331B /* VBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F0A2E272449EE00A6331B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D00F0A30272449EE00A6331B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D00F0A32272449EE00A6331B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D00F0A32272449EE00A6331B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D00F0A35272449EE00A6331B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D00F0A37272449F400A6331B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D00F0A3A272449F400A6331B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D00F0A3C272449F400A6331B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D00F0A41272449F500A6331B /* VBCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D00F0A45272449F500A6331B /* VBCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBCTests.swift; sourceTree = "<group>"; };
 		D00F0A4B272449F500A6331B /* VBCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D00F0A4F272449F500A6331B /* VBCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBCUITests.swift; sourceTree = "<group>"; };
-		D00F0A51272449F500A6331B /* VBCUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBCUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D00F0A60272452D300A6331B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D00F0A642724591300A6331B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				D00F0A2D272449EE00A6331B /* VBC */,
-				D00F0A44272449F500A6331B /* VBCTests */,
-				D00F0A4E272449F500A6331B /* VBCUITests */,
 				D00F0A2C272449EE00A6331B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,8 +97,8 @@
 			children = (
 				D00F0A2E272449EE00A6331B /* AppDelegate.swift */,
 				D00F0A30272449EE00A6331B /* SceneDelegate.swift */,
-				D00F0A32272449EE00A6331B /* ViewController.swift */,
-				D00F0A34272449EE00A6331B /* Main.storyboard */,
+				D00F0A5E27244CB100A6331B /* Controllers */,
+				D00F0A5F27244CBE00A6331B /* Views */,
 				D00F0A37272449F400A6331B /* Assets.xcassets */,
 				D00F0A39272449F400A6331B /* LaunchScreen.storyboard */,
 				D00F0A3C272449F400A6331B /* Info.plist */,
@@ -110,21 +106,38 @@
 			path = VBC;
 			sourceTree = "<group>";
 		};
-		D00F0A44272449F500A6331B /* VBCTests */ = {
+		D00F0A5E27244CB100A6331B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D00F0A45272449F500A6331B /* VBCTests.swift */,
+				D00F0A62272452F300A6331B /* Login */,
+				D00F0A63272452FD00A6331B /* Home */,
 			);
-			path = VBCTests;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
-		D00F0A4E272449F500A6331B /* VBCUITests */ = {
+		D00F0A5F27244CBE00A6331B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D00F0A4F272449F500A6331B /* VBCUITests.swift */,
-				D00F0A51272449F500A6331B /* VBCUITestsLaunchTests.swift */,
+				D00F0A34272449EE00A6331B /* Main.storyboard */,
 			);
-			path = VBCUITests;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D00F0A62272452F300A6331B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				D00F0A60272452D300A6331B /* LoginViewController.swift */,
+				D00F0A642724591300A6331B /* RegisterViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		D00F0A63272452FD00A6331B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				D00F0A32272449EE00A6331B /* HomeViewController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +271,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D00F0A33272449EE00A6331B /* ViewController.swift in Sources */,
+				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
+				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
+				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
 			);
@@ -268,7 +283,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D00F0A46272449F500A6331B /* VBCTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,8 +290,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D00F0A52272449F500A6331B /* VBCUITestsLaunchTests.swift in Sources */,
-				D00F0A50272449F500A6331B /* VBCUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +379,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -422,7 +434,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -445,8 +457,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,8 +487,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
