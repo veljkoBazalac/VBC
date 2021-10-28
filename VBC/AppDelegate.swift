@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,12 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+//        Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
+//                    if let user = user {
+//                        // user is already logged in
+//
+//
+//                    } else {
+//                        // user is not logged in
+//                    }
+//                }
+        
+        
+        
         return true
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-
-        
         
             do {
                 try Auth.auth().signOut()

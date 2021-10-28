@@ -16,7 +16,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        //navigationController?.setNavigationBarHidden(true, animated: false)
         
     }
     
@@ -27,9 +27,11 @@ class HomeViewController: UIViewController {
     @IBAction func languageButtonPressed(_ sender: UIButton) {
      
         do {
-            try Auth.auth().signOut()
-            navigationController?.popToRootViewController(animated: true)
             
+            try Auth.auth().signOut()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
