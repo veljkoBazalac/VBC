@@ -12,7 +12,9 @@ class VerifyViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        
     }
     
     // Email Verification
@@ -26,11 +28,11 @@ class VerifyViewController: UIViewController {
                 // Notify the user that the mail has sent or couldn't because of an error.
                 if error != nil {
                     // Error sending Email verification
-                    let alert = UIAlertController(title: "Verification failed.", message: "Email verification error. Please try again.", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Verification failed", message: "Email verification error. Check your internet connection and try again.", preferredStyle: .alert)
             
                     self.present(alert, animated: true, completion: nil)
                     
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.dismiss(animated: true, completion: nil)
                         }
                     
@@ -42,16 +44,13 @@ class VerifyViewController: UIViewController {
             
                     self.present(alert, animated: true, completion: nil)
                     
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.dismiss(animated: true, completion: nil)
                         }
                 }
             })
         }
     }
-    
-    
-    
     
 
     @IBAction func sendAgainButtonPressed(_ sender: UIButton) {
@@ -73,7 +72,7 @@ class VerifyViewController: UIViewController {
         
                 self.present(alert, animated: true, completion: nil)
                 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         self.dismiss(animated: true, completion: nil)
                     }
             }

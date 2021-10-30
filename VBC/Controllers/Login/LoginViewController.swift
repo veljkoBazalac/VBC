@@ -22,9 +22,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -57,66 +56,63 @@ class LoginViewController: UIViewController {
             
             showError(error!)
         } else {
-            print ("Ovde jeee")
             
             let user = Auth.auth().currentUser
             
-            
-            
-
-                
-                
-                // Login a user
-                if let email = self.emailTextField.text, let password = self.passwordTextField.text {
-                    Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                        // Check for errors
+            // Login a user
+            if let email = self.emailTextField.text, let password = self.passwordTextField.text {
+                Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+                    // Check for errors
+                    
+                    if error != nil {
+                        // There was an error
+                        
+                        self.showError("User do not exist.")
+                        print(error!)
+                    } else if user != nil {
+                        // Login successfully
+                        
                         user?.reload(completion: { error in
-                        if error != nil {
-                            // There was an error
                             
-                            self.showError("User do not exist.")
-                            print(error!)
-                        } else if user != nil && user!.isEmailVerified != false {
-                            
-                            // Login successfully
-                            
-                                // User is available and user is Email verified.
+                            if error != nil {
+                                // Error reloading user login data and email verification
+                                print("Error reloading...")
+                            } else {
                                 
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                // Data reloaded
+                                
+                                if user!.isEmailVerified != true {
+                                    
+                                    // User is NOT verified
+                                    
+                                    self.emailTextField.text = ""
+                                    self.passwordTextField.text = ""
+                                    self.errorLabel.alpha = 0
+                                    
+                                    self.performSegue(withIdentifier: Constants.Segue.loginToVerify, sender: self)
+                                    
+                                } else {
+                                    
+                                    // User is Email verified
                                     
                                     self.emailTextField.text = ""
                                     self.passwordTextField.text = ""
                                     self.errorLabel.alpha = 0
                                     
                                     self.performSegue(withIdentifier: Constants.Segue.loginSegue, sender: self)
+                                    
                                 }
-                            
-                        } else {
-                            // User is NOT verified
-                                self.performSegue(withIdentifier: Constants.Segue.loginToVerify, sender: self)
-                          
-                        }
-                            
+                            }
                         })
                     }
                 }
-                
-                
-                
-                
-                
-
-            
+            }
         }
-        
-        
-        
-        
     }
     
     func showError(_ message: String) {
         errorLabel.text = message
         errorLabel.alpha = 1
     }
-
+    
 }

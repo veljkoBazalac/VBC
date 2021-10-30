@@ -21,6 +21,8 @@ class RegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,9 +66,11 @@ class RegisterViewController: UIViewController {
             
                     self.present(alert, animated: true, completion: nil)
                     
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             self.dismiss(animated: true, completion: nil)
                         }
+                    
+                    print(error!)
                     
                 } else {
                     

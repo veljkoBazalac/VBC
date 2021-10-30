@@ -22,4 +22,16 @@ struct Constants {
         static let verifyToHome = "verifyToHomeSegue"
         
     }
+    
+    struct Cell {
+        
+        static let homeCell = "homeCell"
+        
+    }
+    
+    struct Nib {
+        
+        static let homeViewCell = "HomeViewCell"
+        
+    }
 }
