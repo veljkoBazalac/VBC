@@ -23,6 +23,11 @@
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
+		D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutViewController.swift */; };
+		D0E77540272D8A34001FB9F8 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */; };
+		D0E77542272DD83E001FB9F8 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77541272DD83E001FB9F8 /* LikeViewController.swift */; };
+		D0E77547272DDA5C001FB9F8 /* LikeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77545272DDA5C001FB9F8 /* LikeTableViewCell.swift */; };
+		D0E77548272DDA5C001FB9F8 /* LikeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0E77546272DDA5C001FB9F8 /* LikeTableViewCell.xib */; };
 		D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */; };
 		D85EAA19D8225A13F486B9D1 /* Pods_VBC_VBCUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 965C4F27F51350AA6FD6A08C /* Pods_VBC_VBCUITests.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +76,11 @@
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D0E7753D272D7321001FB9F8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		D0E77541272DD83E001FB9F8 /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
+		D0E77545272DDA5C001FB9F8 /* LikeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeTableViewCell.swift; sourceTree = "<group>"; };
+		D0E77546272DDA5C001FB9F8 /* LikeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LikeTableViewCell.xib; sourceTree = "<group>"; };
 		D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F61C45378CA26B341EC60C72 /* Pods-VBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VBC.debug.xcconfig"; path = "Target Support Files/Pods-VBC/Pods-VBC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,8 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
-				D01EF8EF272D233000146DDC /* HomeViewCell.swift */,
-				D01EF8F0272D233000146DDC /* HomeViewCell.xib */,
+				D0E77543272DDA25001FB9F8 /* Home View Cell */,
+				D0E77544272DDA2F001FB9F8 /* Like View Cell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -187,8 +197,29 @@
 			children = (
 				D00F0A32272449EE00A6331B /* HomeViewController.swift */,
 				D0144F73272D52D200576083 /* CardViewController.swift */,
+				D0E7753D272D7321001FB9F8 /* AboutViewController.swift */,
+				D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */,
+				D0E77541272DD83E001FB9F8 /* LikeViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D0E77543272DDA25001FB9F8 /* Home View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D01EF8EF272D233000146DDC /* HomeViewCell.swift */,
+				D01EF8F0272D233000146DDC /* HomeViewCell.xib */,
+			);
+			path = "Home View Cell";
+			sourceTree = "<group>";
+		};
+		D0E77544272DDA2F001FB9F8 /* Like View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D0E77545272DDA5C001FB9F8 /* LikeTableViewCell.swift */,
+				D0E77546272DDA5C001FB9F8 /* LikeTableViewCell.xib */,
+			);
+			path = "Like View Cell";
 			sourceTree = "<group>";
 		};
 		E71AE2FCB527CBA0C9F591E7 /* Frameworks */ = {
@@ -310,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0E77548272DDA5C001FB9F8 /* LikeTableViewCell.xib in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
 				D00F0A38272449F400A6331B /* Assets.xcassets in Resources */,
@@ -444,10 +476,14 @@
 			files = (
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
+				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
+				D0E77547272DDA5C001FB9F8 /* LikeTableViewCell.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
+				D0E77540272D8A34001FB9F8 /* ContactViewController.swift in Sources */,
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
+				D0E77542272DD83E001FB9F8 /* LikeViewController.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
 				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,

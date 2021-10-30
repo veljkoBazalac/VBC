@@ -24,19 +24,23 @@ struct Constants {
         //Tab Bar
         
         static let homeToCard = "HomeToCardSegue"
-        
+        static let cardToLike = "CardToLike"
+        static let cardToContact = "CardToContactSegue"
+        static let cardToAbout = "CardToAboutSegue"
         
     }
     
     struct Cell {
         
         static let homeCell = "homeCell"
+        static let likeCell = "likeCell"
         
     }
     
     struct Nib {
         
         static let homeViewCell = "HomeViewCell"
+        static let likeViewCell = "LikeTableViewCell"
         
     }
 }
