@@ -16,12 +16,16 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        
+        navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     
@@ -65,6 +69,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        performSegue(withIdentifier: Constants.Segue.homeToCard, sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == Constants.Segue.homeToCard {
+            let destinationVC = segue.destination as! CardViewController
+            
+            if let indexPath = tableView.indexPathForSelectedRow {
+                
+//                destinationVC.nameLabel = [indexPath.row].
+            }
+            
+        }
+        
+        
+        
     }
 
 }

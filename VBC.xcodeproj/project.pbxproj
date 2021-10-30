@@ -17,6 +17,7 @@
 		D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A39272449F400A6331B /* LaunchScreen.storyboard */; };
 		D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A60272452D300A6331B /* LoginViewController.swift */; };
 		D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterViewController.swift */; };
+		D0144F74272D52D200576083 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0144F73272D52D200576083 /* CardViewController.swift */; };
 		D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */; };
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
@@ -64,6 +65,7 @@
 		D00F0A4B272449F500A6331B /* VBCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F0A60272452D300A6331B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D00F0A642724591300A6331B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		D0144F73272D52D200576083 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				D00F0A32272449EE00A6331B /* HomeViewController.swift */,
+				D0144F73272D52D200576083 /* CardViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
+				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,
 				D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
