@@ -22,6 +22,9 @@
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
+		D06C2294272E941F00D497EA /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2293272E941F00D497EA /* ImagesViewController.swift */; };
+		D06C2298272E967400D497EA /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2296272E967400D497EA /* ImageCollectionViewCell.swift */; };
+		D06C2299272E967400D497EA /* ImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06C2297272E967400D497EA /* ImageCollectionViewCell.xib */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
 		D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutViewController.swift */; };
 		D0E77540272D8A34001FB9F8 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */; };
@@ -75,6 +78,9 @@
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
+		D06C2293272E941F00D497EA /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
+		D06C2296272E967400D497EA /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		D06C2297272E967400D497EA /* ImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D0E7753D272D7321001FB9F8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +183,7 @@
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
 				D0E77543272DDA25001FB9F8 /* Home View Cell */,
 				D0E77544272DDA2F001FB9F8 /* Like View Cell */,
+				D06C2295272E963A00D497EA /* Image View Cell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -200,8 +207,18 @@
 				D0E7753D272D7321001FB9F8 /* AboutViewController.swift */,
 				D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */,
 				D0E77541272DD83E001FB9F8 /* LikeViewController.swift */,
+				D06C2293272E941F00D497EA /* ImagesViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D06C2295272E963A00D497EA /* Image View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D06C2296272E967400D497EA /* ImageCollectionViewCell.swift */,
+				D06C2297272E967400D497EA /* ImageCollectionViewCell.xib */,
+			);
+			path = "Image View Cell";
 			sourceTree = "<group>";
 		};
 		D0E77543272DDA25001FB9F8 /* Home View Cell */ = {
@@ -344,6 +361,7 @@
 				D0E77548272DDA5C001FB9F8 /* LikeTableViewCell.xib in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
+				D06C2299272E967400D497EA /* ImageCollectionViewCell.xib in Resources */,
 				D00F0A38272449F400A6331B /* Assets.xcassets in Resources */,
 				D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */,
 				D00F0A36272449EE00A6331B /* Main.storyboard in Resources */,
@@ -474,7 +492,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06C2294272E941F00D497EA /* ImagesViewController.swift in Sources */,
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
+				D06C2298272E967400D497EA /* ImageCollectionViewCell.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,

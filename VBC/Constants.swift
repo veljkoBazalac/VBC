@@ -23,10 +23,13 @@ struct Constants {
         
         //Tab Bar
         
+        // Home
         static let homeToCard = "HomeToCardSegue"
         static let cardToLike = "CardToLike"
         static let cardToContact = "CardToContactSegue"
         static let cardToAbout = "CardToAboutSegue"
+        static let cardToImages = "CardToImages"
+        static let imageDetail = "ImageDetailSegue"
         
     }
     
@@ -34,6 +37,7 @@ struct Constants {
         
         static let homeCell = "homeCell"
         static let likeCell = "likeCell"
+        static let imageCell = "ImageCollectionCell"
         
     }
     
@@ -41,6 +45,7 @@ struct Constants {
         
         static let homeViewCell = "HomeViewCell"
         static let likeViewCell = "LikeTableViewCell"
+        static let imageViewCell = "ImageCollectionViewCell"
         
     }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCollectionCell" id="gTV-IL-0wX" customClass="ImageCollectionViewCell" customModule="VBC" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="182" height="218"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="182" height="218"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test2" translatesAutoresizingMaskIntoConstraints="NO" id="Two-Ql-fpA">
+                        <rect key="frame" x="41" y="59" width="100" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="100" id="0Hz-pU-IWe"/>
+                            <constraint firstAttribute="width" constant="100" id="706-21-FCT"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" name="Background Color"/>
+            <constraints>
+                <constraint firstItem="Two-Ql-fpA" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="lcK-6M-Gq7"/>
+                <constraint firstItem="Two-Ql-fpA" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="nRr-79-dn3"/>
+            </constraints>
+            <size key="customSize" width="661" height="683"/>
+            <connections>
+                <outlet property="imageView" destination="Two-Ql-fpA" id="DNO-4N-dJS"/>
+            </connections>
+            <point key="canvasLocation" x="200.00000000000003" y="215.625"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="test2" width="200" height="133"/>
+        <namedColor name="Background Color">
+            <color red="0.84700000286102295" green="0.88999998569488525" blue="0.90600001811981201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
