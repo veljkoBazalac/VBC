@@ -31,6 +31,11 @@ class LoginViewController: UIViewController {
         errorLabel.alpha = 0
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // Check the fields and validate that data is correct. If everything is correct, this method returns nil. Otherwise, it returns error message.
     
     func validateFields() -> String? {

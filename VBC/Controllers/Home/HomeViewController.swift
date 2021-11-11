@@ -22,30 +22,23 @@ class HomeViewController: UIViewController {
         tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(false)
+    
+    @IBAction func searchButtonPressed(_ sender: UIBarButtonItem) {
+    }
+    
+    
+    @IBAction func languageButtonPressed(_ sender: UIBarButtonItem) {
         
-        navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    
-    @IBAction func searchButtonPressed(_ sender: UIButton) {
-    }
-    
-    @IBAction func languageButtonPressed(_ sender: UIButton) {
-     
         do {
-            
-            try Auth.auth().signOut()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.navigationController?.popToRootViewController(animated: true)
-            }
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
-        
-        
+              try Auth.auth().signOut()
+              DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                  self.navigationController?.popToRootViewController(animated: true)
+              }
+          } catch let signOutError as NSError {
+              print("Error signing out: %@", signOutError)
+          }
     }
+    
     
 }
 

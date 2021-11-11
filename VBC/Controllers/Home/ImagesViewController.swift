@@ -108,7 +108,7 @@ class ImagesViewController: UIViewController {
 extension ImagesViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         productName.text = "Bojler 40L"
         popUpImageView.image = UIImage(named: dataSource[indexPath.row])
         

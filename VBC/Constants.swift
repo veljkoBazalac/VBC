@@ -31,6 +31,11 @@ struct Constants {
         static let cardToImages = "CardToImages"
         static let imageDetail = "ImageDetailSegue"
         
+        // My VBC
+        static let addVBC = "addVBCSegue"
+        static let viewCard = "ViewCardSegue"
+        
+        
     }
     
     struct Cell {
@@ -38,6 +43,7 @@ struct Constants {
         static let homeCell = "homeCell"
         static let likeCell = "likeCell"
         static let imageCell = "ImageCollectionCell"
+      
         
     }
     
@@ -46,6 +52,7 @@ struct Constants {
         static let homeViewCell = "HomeViewCell"
         static let likeViewCell = "LikeTableViewCell"
         static let imageViewCell = "ImageCollectionViewCell"
+     
         
     }
 }
