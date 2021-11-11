@@ -55,4 +55,24 @@ struct Constants {
      
         
     }
+    
+    struct Firestore {
+        
+        struct CollectionName {
+            
+            static let workActivity = "WorkActivity"
+            static let productType = "ProductType"
+            static let cityName = "City"
+             
+            
+        }
+        
+        struct Key {
+            
+            static let work = "work"
+            static let type = "type"
+            static let name = "name"
+        }
+        
+    }
 }
