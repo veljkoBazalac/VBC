@@ -60,6 +60,7 @@ struct Constants {
         
         struct CollectionName {
             
+            static let cards = "Cards"
             static let workActivity = "WorkActivity"
             static let productType = "ProductType"
             static let cityName = "City"

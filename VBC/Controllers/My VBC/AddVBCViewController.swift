@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 
 class AddVBCViewController: UIViewController {
     
@@ -17,9 +18,12 @@ class AddVBCViewController: UIViewController {
     @IBOutlet weak var cityName: UITextField!
     
     let db = Firestore.firestore()
+    let storage = Storage.storage().reference()
+    
     
     var pickerView = UIPickerView()
     
+    var cardID : String = ""
     
     // Dictionaries for Text Fields
     
@@ -42,6 +46,18 @@ class AddVBCViewController: UIViewController {
         
 //        db.collection("Cards").addDocument(data: ["Name": "Legend KV", "WorkActiviry": "Prodaja", "ProductType": "Garderoba", "City": "Kraljevo"])
         
+    }
+    
+    func createCardID() {
+        
+        let cityLetters = CityName().getCityLetters(city: cityName.text!)
+        
+        let createID = "381\(cityLetters)"
+     
+        print(createID)
+        
+        self.cardID = createID
+
     }
     
     func configureTextFields() {
@@ -171,8 +187,29 @@ class AddVBCViewController: UIViewController {
         
     }
     
+// MARK: - Upload Data to Firestore
     
     @IBAction func savePressed(_ sender: UIBarButtonItem) {
+        
+//        guard let image = imageView.image else {return}
+//
+//        guard let imageData = image.pngData() else {return}
+//
+//        storage.putData(imageData, metadata: nil) { metadata, error in
+//
+//            if error != nil {
+//                print("Failed to Upload image.")
+//            }
+//
+//
+//
+//        }
+       
+        
+        db.collection(Constants.Firestore.CollectionName.cards).document(cardID).setData(["Name": companyName.text, "WorkActiviry": workActivity.text, "ProductType": productType.text, "City": cityName.text, "CardID": cardID])
+        
+        
+        
     }
     
 }
@@ -253,6 +290,8 @@ extension AddVBCViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         else if cityName.isEditing {
             cityName.text = cities[row].name
+            createCardID()
+            
         } else {
             print("Error selecting Row!")
         }
