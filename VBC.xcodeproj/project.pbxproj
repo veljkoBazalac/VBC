@@ -21,9 +21,6 @@
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
-		D06C2294272E941F00D497EA /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2293272E941F00D497EA /* ImagesViewController.swift */; };
-		D06C2298272E967400D497EA /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C2296272E967400D497EA /* ImageCollectionViewCell.swift */; };
-		D06C2299272E967400D497EA /* ImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D06C2297272E967400D497EA /* ImageCollectionViewCell.xib */; };
 		D0AB29C3273AFCF300A43EF2 /* myVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* myVBCViewController.swift */; };
 		D0AB29C5273B204800A43EF2 /* AddVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* AddVBCViewController.swift */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
@@ -31,10 +28,6 @@
 		D0CF1CD3273DB51900599EF5 /* WorkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD2273DB51900599EF5 /* WorkActivity.swift */; };
 		D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */; };
 		D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutViewController.swift */; };
-		D0E77540272D8A34001FB9F8 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */; };
-		D0E77542272DD83E001FB9F8 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77541272DD83E001FB9F8 /* LikeViewController.swift */; };
-		D0E77547272DDA5C001FB9F8 /* LikeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E77545272DDA5C001FB9F8 /* LikeTableViewCell.swift */; };
-		D0E77548272DDA5C001FB9F8 /* LikeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0E77546272DDA5C001FB9F8 /* LikeTableViewCell.xib */; };
 		D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -75,9 +68,6 @@
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
-		D06C2293272E941F00D497EA /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
-		D06C2296272E967400D497EA /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		D06C2297272E967400D497EA /* ImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		D0AB29C2273AFCF300A43EF2 /* myVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myVBCViewController.swift; sourceTree = "<group>"; };
 		D0AB29C4273B204800A43EF2 /* AddVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVBCViewController.swift; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -85,10 +75,6 @@
 		D0CF1CD2273DB51900599EF5 /* WorkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkActivity.swift; sourceTree = "<group>"; };
 		D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		D0E7753D272D7321001FB9F8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
-		D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
-		D0E77541272DD83E001FB9F8 /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
-		D0E77545272DDA5C001FB9F8 /* LikeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeTableViewCell.swift; sourceTree = "<group>"; };
-		D0E77546272DDA5C001FB9F8 /* LikeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LikeTableViewCell.xib; sourceTree = "<group>"; };
 		D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F61C45378CA26B341EC60C72 /* Pods-VBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VBC.debug.xcconfig"; path = "Target Support Files/Pods-VBC/Pods-VBC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -180,8 +166,6 @@
 			children = (
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
 				D0E77543272DDA25001FB9F8 /* Home View Cell */,
-				D0E77544272DDA2F001FB9F8 /* Like View Cell */,
-				D06C2295272E963A00D497EA /* Image View Cell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -203,20 +187,8 @@
 				D00F0A32272449EE00A6331B /* HomeViewController.swift */,
 				D0144F73272D52D200576083 /* CardViewController.swift */,
 				D0E7753D272D7321001FB9F8 /* AboutViewController.swift */,
-				D0E7753F272D8A34001FB9F8 /* ContactViewController.swift */,
-				D0E77541272DD83E001FB9F8 /* LikeViewController.swift */,
-				D06C2293272E941F00D497EA /* ImagesViewController.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		D06C2295272E963A00D497EA /* Image View Cell */ = {
-			isa = PBXGroup;
-			children = (
-				D06C2296272E967400D497EA /* ImageCollectionViewCell.swift */,
-				D06C2297272E967400D497EA /* ImageCollectionViewCell.xib */,
-			);
-			path = "Image View Cell";
 			sourceTree = "<group>";
 		};
 		D0AB29C1273AFCBA00A43EF2 /* My VBC */ = {
@@ -245,15 +217,6 @@
 				D01EF8F0272D233000146DDC /* HomeViewCell.xib */,
 			);
 			path = "Home View Cell";
-			sourceTree = "<group>";
-		};
-		D0E77544272DDA2F001FB9F8 /* Like View Cell */ = {
-			isa = PBXGroup;
-			children = (
-				D0E77545272DDA5C001FB9F8 /* LikeTableViewCell.swift */,
-				D0E77546272DDA5C001FB9F8 /* LikeTableViewCell.xib */,
-			);
-			path = "Like View Cell";
 			sourceTree = "<group>";
 		};
 		E71AE2FCB527CBA0C9F591E7 /* Frameworks */ = {
@@ -370,10 +333,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0E77548272DDA5C001FB9F8 /* LikeTableViewCell.xib in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
-				D06C2299272E967400D497EA /* ImageCollectionViewCell.xib in Resources */,
 				D00F0A38272449F400A6331B /* Assets.xcassets in Resources */,
 				D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */,
 				D00F0A36272449EE00A6331B /* Main.storyboard in Resources */,
@@ -443,22 +404,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D06C2294272E941F00D497EA /* ImagesViewController.swift in Sources */,
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
-				D06C2298272E967400D497EA /* ImageCollectionViewCell.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
-				D0E77547272DDA5C001FB9F8 /* LikeTableViewCell.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
 				D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */,
-				D0E77540272D8A34001FB9F8 /* ContactViewController.swift in Sources */,
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
 				D0AB29C3273AFCF300A43EF2 /* myVBCViewController.swift in Sources */,
 				D0AB29C5273B204800A43EF2 /* AddVBCViewController.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* WorkActivity.swift in Sources */,
-				D0E77542272DD83E001FB9F8 /* LikeViewController.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
 				D0CF1CD1273DAAD300599EF5 /* CityName.swift in Sources */,

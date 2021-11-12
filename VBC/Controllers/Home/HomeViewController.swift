@@ -42,6 +42,8 @@ class HomeViewController: UIViewController {
     
 }
 
+// MARK: - TableView
+
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,22 +66,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: Constants.Segue.homeToCard, sender: self)
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == Constants.Segue.homeToCard {
-            let destinationVC = segue.destination as! CardViewController
-            
-            if let indexPath = tableView.indexPathForSelectedRow {
-                
-//                destinationVC.nameLabel = [indexPath.row].
-            }
-            
-        }
-        
-        
         
     }
 

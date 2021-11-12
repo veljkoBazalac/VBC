@@ -20,7 +20,6 @@ class AddVBCViewController: UIViewController {
     let db = Firestore.firestore()
     let storage = Storage.storage().reference()
     
-    
     var pickerView = UIPickerView()
     
     var cardID : String = ""
@@ -41,7 +40,6 @@ class AddVBCViewController: UIViewController {
         
         getWorkActivity()
         getCityName()
-        
         
         
 //        db.collection("Cards").addDocument(data: ["Name": "Legend KV", "WorkActiviry": "Prodaja", "ProductType": "Garderoba", "City": "Kraljevo"])
@@ -162,7 +160,6 @@ class AddVBCViewController: UIViewController {
                         if let cityName = data[Constants.Firestore.Key.name] as? String {
                             
                             let city = CityName(name: cityName)
-                            
                             self.cities.append(city)
                             
                         }

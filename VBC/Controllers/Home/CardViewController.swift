@@ -17,19 +17,6 @@ class CardViewController: UIViewController {
     @IBOutlet weak var workTwoLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     
-    // Follow and Like Outlets
-    @IBOutlet weak var followNumber: UILabel!
-    @IBOutlet weak var likeNumber: UILabel!
-    @IBOutlet weak var dislikeNumber: UILabel!
-    
-    // Like and Dislike Image Outlets
-    @IBOutlet weak var likeImageView: UIStackView!
-    @IBOutlet weak var dislikeImageView: UIImageView!
-    
-    // Images Outlets
-    @IBOutlet weak var imageOne: UIImageView!
-    @IBOutlet weak var imageTwo: UIImageView!
-    @IBOutlet weak var imageThree: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,10 +26,7 @@ class CardViewController: UIViewController {
         workTwoLabel.text = "Bojleri"
         cityLabel.text = "Gornji Milanovac"
         
-        // Image Corners Change
-        imageCorners(image: imageOne)
-        imageCorners(image: imageTwo)
-        imageCorners(image: imageThree)
+        
           
     }
     
@@ -51,41 +35,39 @@ class CardViewController: UIViewController {
         
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
+
     
-    func imageCorners(image: UIImageView) {
-        image.layer.cornerRadius = image.frame.size.height / 10
+// MARK: - Contact Buttons
+    
+    // Call Button
+    @IBAction func callButtonPressed(_ sender: UITapGestureRecognizer) {
+        print("Call Pressed")
     }
     
-    
-    // Button Manipulation
-    
-    // Like and Comment Pressed
-    @IBAction func followAndLikeTapped(_ sender: UITapGestureRecognizer) {
-        
-        performSegue(withIdentifier: Constants.Segue.cardToLike, sender: self)
+    // Email Button
+    @IBAction func emailButtonPressed(_ sender: UITapGestureRecognizer) {
+        print("Email Pressed")
     }
     
-    // Images Pressed
-    @IBAction func imagesTapped(_ sender: UITapGestureRecognizer) {
-        
-        performSegue(withIdentifier: Constants.Segue.cardToImages, sender: self)
+    // Map Button
+    @IBAction func mapButtonPressed(_ sender: UITapGestureRecognizer) {
+        print("Map Pressed")
     }
+    
+    // Website Button
+    @IBAction func websiteButtonPressed(_ sender: UITapGestureRecognizer) {
+        print("Website Pressed")
+    }
+   
+    
+// MARK: - Buttons
     
     // About Button Pressed
     @IBAction func aboutButtonPressed(_ sender: UIButton) {
-        
         performSegue(withIdentifier: Constants.Segue.cardToAbout, sender: self)
     }
-    
-    // Contact Button Pressed
-    @IBAction func contactButtonPressed(_ sender: UIButton) {
-        
-        performSegue(withIdentifier: Constants.Segue.cardToContact, sender: self)
+    // Save Button Pressed
+    @IBAction func saveButtonPressed(_ sender: UIButton) {
     }
-    
-    @IBAction func followButtonPressed(_ sender: UIButton) {
-    }
-    
-    
-    
+
 }
