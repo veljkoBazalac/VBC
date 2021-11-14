@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkActivity {
+struct Sectors {
     
-    var work : String = ""
+    var name : String = ""
 }

@@ -21,11 +21,15 @@
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
-		D0AB29C3273AFCF300A43EF2 /* myVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* myVBCViewController.swift */; };
-		D0AB29C5273B204800A43EF2 /* AddVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* AddVBCViewController.swift */; };
+		D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */; };
+		D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */; };
+		D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197127413922000B2E1F /* CAdd3ViewController.swift */; };
+		D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */; };
+		D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */; };
+		D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
 		D0CF1CD1273DAAD300599EF5 /* CityName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD0273DAAD300599EF5 /* CityName.swift */; };
-		D0CF1CD3273DB51900599EF5 /* WorkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD2273DB51900599EF5 /* WorkActivity.swift */; };
+		D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD2273DB51900599EF5 /* Sectors.swift */; };
 		D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */; };
 		D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutViewController.swift */; };
 		D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */; };
@@ -68,11 +72,15 @@
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
-		D0AB29C2273AFCF300A43EF2 /* myVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myVBCViewController.swift; sourceTree = "<group>"; };
-		D0AB29C4273B204800A43EF2 /* AddVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVBCViewController.swift; sourceTree = "<group>"; };
+		D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVBCViewController.swift; sourceTree = "<group>"; };
+		D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd2ViewController.swift; sourceTree = "<group>"; };
+		D0A7197127413922000B2E1F /* CAdd3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd3ViewController.swift; sourceTree = "<group>"; };
+		D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedAddVBCViewController.swift; sourceTree = "<group>"; };
+		D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
+		D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd1ViewController.swift; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D0CF1CD0273DAAD300599EF5 /* CityName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityName.swift; sourceTree = "<group>"; };
-		D0CF1CD2273DB51900599EF5 /* WorkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkActivity.swift; sourceTree = "<group>"; };
+		D0CF1CD2273DB51900599EF5 /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
 		D0E7753D272D7321001FB9F8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -191,11 +199,23 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		D0A7196C27413855000B2E1F /* Company Add VBC */ = {
+			isa = PBXGroup;
+			children = (
+				D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */,
+				D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */,
+				D0A7197127413922000B2E1F /* CAdd3ViewController.swift */,
+			);
+			path = "Company Add VBC";
+			sourceTree = "<group>";
+		};
 		D0AB29C1273AFCBA00A43EF2 /* My VBC */ = {
 			isa = PBXGroup;
 			children = (
-				D0AB29C2273AFCF300A43EF2 /* myVBCViewController.swift */,
-				D0AB29C4273B204800A43EF2 /* AddVBCViewController.swift */,
+				D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */,
+				D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */,
+				D0A7196C27413855000B2E1F /* Company Add VBC */,
+				D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */,
 			);
 			path = "My VBC";
 			sourceTree = "<group>";
@@ -204,7 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				D0CF1CD0273DAAD300599EF5 /* CityName.swift */,
-				D0CF1CD2273DB51900599EF5 /* WorkActivity.swift */,
+				D0CF1CD2273DB51900599EF5 /* Sectors.swift */,
 				D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */,
 			);
 			path = Model;
@@ -406,18 +426,22 @@
 			files = (
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
+				D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
 				D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */,
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
-				D0AB29C3273AFCF300A43EF2 /* myVBCViewController.swift in Sources */,
-				D0AB29C5273B204800A43EF2 /* AddVBCViewController.swift in Sources */,
-				D0CF1CD3273DB51900599EF5 /* WorkActivity.swift in Sources */,
+				D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */,
+				D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */,
+				D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */,
+				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
+				D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
 				D0CF1CD1273DAAD300599EF5 /* CityName.swift in Sources */,
+				D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */,
 				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,
 				D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */,
 			);

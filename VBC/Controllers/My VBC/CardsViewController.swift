@@ -7,7 +7,7 @@
 
 import UIKit
 
-class myVBCViewController: UIViewController {
+class CardsViewController: UIViewController {
 
 
     @IBOutlet weak var segmentControl: UISegmentedControl!
@@ -35,7 +35,7 @@ class myVBCViewController: UIViewController {
     
 }
 
-extension myVBCViewController: UITableViewDelegate, UITableViewDataSource {
+extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3

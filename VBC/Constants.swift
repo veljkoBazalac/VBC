@@ -10,7 +10,6 @@ import Foundation
 struct Constants {
     
     struct Storyboard {
-        
         static let homeVC = "HomeVC"
     }
     
@@ -25,35 +24,34 @@ struct Constants {
         
         // Home
         static let homeToCard = "HomeToCardSegue"
-        static let cardToLike = "CardToLike"
-        static let cardToContact = "CardToContactSegue"
         static let cardToAbout = "CardToAboutSegue"
-        static let cardToImages = "CardToImages"
-        static let imageDetail = "ImageDetailSegue"
         
-        // My VBC
-        static let addVBC = "addVBCSegue"
+        // Cards
         static let viewCard = "ViewCardSegue"
+        static let addVBC = "addVBCSegue"
+    
+            // Company Add VBC
+        static let cAdd1 = "CompanyAddVBC1"
+        static let cAdd2 = "CompanyAddVBC2"
+        static let cAdd3 = "CompanyAddVBC3"
+        static let cAddFinish = "CompanyAddVBCFinish"
+            // Personal Add VBC
+        static let pAdd1 = "PersonalAddVBC1"
+        static let pAdd2 = "PersonalAddVBC2"
         
         
     }
     
     struct Cell {
-        
         static let homeCell = "homeCell"
         static let likeCell = "likeCell"
         static let imageCell = "ImageCollectionCell"
-      
-        
     }
     
     struct Nib {
-        
         static let homeViewCell = "HomeViewCell"
         static let likeViewCell = "LikeTableViewCell"
         static let imageViewCell = "ImageCollectionViewCell"
-     
-        
     }
     
     struct Firestore {
@@ -61,16 +59,14 @@ struct Constants {
         struct CollectionName {
             
             static let cards = "Cards"
-            static let workActivity = "WorkActivity"
+            static let sectors = "Sectors"
             static let productType = "ProductType"
-            static let cityName = "City"
              
             
         }
         
         struct Key {
-            
-            static let work = "work"
+
             static let type = "type"
             static let name = "name"
         }
