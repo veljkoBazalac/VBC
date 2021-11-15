@@ -28,10 +28,14 @@
 		D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */; };
 		D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
-		D0CF1CD1273DAAD300599EF5 /* CityName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD0273DAAD300599EF5 /* CityName.swift */; };
 		D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD2273DB51900599EF5 /* Sectors.swift */; };
 		D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */; };
+		D0D6A5782743104700773C52 /* MultipleCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* MultipleCity.swift */; };
+		D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57927431AF000773C52 /* AddListViewController.swift */; };
+		D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */; };
+		D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */; };
 		D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutViewController.swift */; };
+		D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8BD482742BE0600B0AB0D /* Country.swift */; };
 		D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -79,10 +83,14 @@
 		D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
 		D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd1ViewController.swift; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		D0CF1CD0273DAAD300599EF5 /* CityName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityName.swift; sourceTree = "<group>"; };
 		D0CF1CD2273DB51900599EF5 /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
+		D0D6A5772743104700773C52 /* MultipleCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleCity.swift; sourceTree = "<group>"; };
+		D0D6A57927431AF000773C52 /* AddListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListViewController.swift; sourceTree = "<group>"; };
+		D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocListTableViewCell.swift; sourceTree = "<group>"; };
+		D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLocListTableViewCell.xib; sourceTree = "<group>"; };
 		D0E7753D272D7321001FB9F8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		D0E8BD482742BE0600B0AB0D /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F61C45378CA26B341EC60C72 /* Pods-VBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VBC.debug.xcconfig"; path = "Target Support Files/Pods-VBC/Pods-VBC.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -174,6 +182,7 @@
 			children = (
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
 				D0E77543272DDA25001FB9F8 /* Home View Cell */,
+				D0D6A58127431B6F00773C52 /* Add Location List */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,6 +213,7 @@
 			children = (
 				D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */,
 				D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */,
+				D0D6A57927431AF000773C52 /* AddListViewController.swift */,
 				D0A7197127413922000B2E1F /* CAdd3ViewController.swift */,
 			);
 			path = "Company Add VBC";
@@ -223,11 +233,21 @@
 		D0CF1CCF273DAABE00599EF5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D0CF1CD0273DAAD300599EF5 /* CityName.swift */,
 				D0CF1CD2273DB51900599EF5 /* Sectors.swift */,
 				D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */,
+				D0E8BD482742BE0600B0AB0D /* Country.swift */,
+				D0D6A5772743104700773C52 /* MultipleCity.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D0D6A58127431B6F00773C52 /* Add Location List */ = {
+			isa = PBXGroup;
+			children = (
+				D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */,
+				D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */,
+			);
+			path = "Add Location List";
 			sourceTree = "<group>";
 		};
 		D0E77543272DDA25001FB9F8 /* Home View Cell */ = {
@@ -353,6 +373,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
 				D00F0A38272449F400A6331B /* Assets.xcassets in Resources */,
@@ -427,20 +448,23 @@
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
 				D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */,
+				D0D6A5782743104700773C52 /* MultipleCity.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
 				D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */,
+				D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */,
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
 				D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */,
 				D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */,
 				D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */,
+				D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */,
+				D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
 				D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
-				D0CF1CD1273DAAD300599EF5 /* CityName.swift in Sources */,
 				D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */,
 				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,
 				D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */,

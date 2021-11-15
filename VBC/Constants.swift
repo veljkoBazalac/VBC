@@ -33,6 +33,7 @@ struct Constants {
             // Company Add VBC
         static let cAdd1 = "CompanyAddVBC1"
         static let cAdd2 = "CompanyAddVBC2"
+        static let cAddLocationList = "AddNewLocationList"
         static let cAdd3 = "CompanyAddVBC3"
         static let cAddFinish = "CompanyAddVBCFinish"
             // Personal Add VBC
@@ -44,23 +45,25 @@ struct Constants {
     
     struct Cell {
         static let homeCell = "homeCell"
-        static let likeCell = "likeCell"
-        static let imageCell = "ImageCollectionCell"
+        static let addLocListCell = "addLocListCell"
+    
     }
     
     struct Nib {
         static let homeViewCell = "HomeViewCell"
-        static let likeViewCell = "LikeTableViewCell"
-        static let imageViewCell = "ImageCollectionViewCell"
+        static let addLocList = "AddLocListTableViewCell"
     }
     
     struct Firestore {
         
         struct CollectionName {
             
-            static let cards = "Cards"
+            static let companyCards = "Company Cards"
+            static let personalCards = "Personal Cards"
             static let sectors = "Sectors"
+            static let countries = "Country"
             static let productType = "ProductType"
+            static let multipleCity = "Multiple City"
              
             
         }
@@ -69,6 +72,12 @@ struct Constants {
 
             static let type = "type"
             static let name = "name"
+            static let city = "City"
+            static let street = "Street"
+            static let gMaps = "gMaps Link"
+            
+            
+            
         }
         
     }
