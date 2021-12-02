@@ -88,6 +88,65 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         
     }
 
+// MARK: - Upload Company Logo Image
+    
+    func uploadImage() {
+        
+        guard let image = logoImage, let data = image.jpegData(compressionQuality: 1.0) else {
+            popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
+            return
+        }
+        
+        let imageName = UUID().uuidString
+        let imageReference = storage.child(Constants.Firestore.Storage.companyLogo).child(imageName)
+    
+        imageReference.putData(data, metadata: nil) { mData, error in
+            if let error = error {
+                self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Image data to Database. Please Check your Internet connection and try again. \(error.localizedDescription)")
+                return
+            }
+            
+            imageReference.downloadURL { [self] url, error in
+                
+                if let error = error {
+                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading Image URL from Database. Please Check your Internet connection and try again. \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let url = url else {
+                    self.popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
+                    return
+                }
+                
+                let urlString = url.absoluteString
+                
+                let dataReference = db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID)
+                
+                let data = [
+                    LogoImage.imageURL: urlString
+                ]
+                
+                dataReference.setData(data, merge: true) { error in
+                    
+                    if let error = error {
+                        self.popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading Image URL from Database. Please Check your Internet connection and try again. \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    UserDefaults.standard.set(cardID, forKey: LogoImage.uid)
+                    
+                    popUpWithOk(newTitle: "Success", newMessage: "Successfully Uploaded Image to Database.")
+                    
+                }
+            }
+            
+            
+        }
+        
+    }
+    
+    
+
 // MARK: - NavBar Back Button
     
     func customBackButton() {
@@ -163,6 +222,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 
                 } else {
                     
+                    // Uploading Logo image.
+                    uploadImage()
+                    
                     // Adding Data to Firestore Database if user selected One Place
                     db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) {error in
                         
@@ -180,6 +242,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 if numberOfPlaces <= 1 {
                     popUpWithOk(newTitle: "You selected Multiple Places", newMessage: "You must add at least two places.")
                 } else {
+                    // Uploading Logo image.
+                    uploadImage()
+                    
                     performSegue(withIdentifier: Constants.Segue.cAdd3, sender: self)
                 }
                 
@@ -199,9 +264,10 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
             popUpWithOk(newTitle: "Location fields empty", newMessage: "Please fill all Location fields. Google Maps Link is optional." )
 
         } else {
+            
             // Adding Basic Data from previous ViewController.
             db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text, "Sector": companySector.text, "ProductType": companyProductType.text, "CardID": cardID])
-                
+            
             // Adding Location Data from this ViewController.
             db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).collection(Constants.Firestore.CollectionName.multiplePlaces).document("\(cityName.text!) - \(streetName.text!)").setData(["City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
                 

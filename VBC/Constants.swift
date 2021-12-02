@@ -76,8 +76,11 @@ struct Constants {
             static let street = "Street"
             static let gMaps = "gMaps Link"
             
+        }
+        
+        struct Storage {
             
-            
+            static let companyLogo = "Company Logo Folder"
         }
         
     }

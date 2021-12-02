@@ -21,6 +21,7 @@
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
+		D08E9292275974F700846EA4 /* LogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08E9291275974F700846EA4 /* LogoImage.swift */; };
 		D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */; };
 		D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */; };
 		D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197127413922000B2E1F /* CAdd3ViewController.swift */; };
@@ -76,6 +77,7 @@
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
+		D08E9291275974F700846EA4 /* LogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImage.swift; sourceTree = "<group>"; };
 		D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVBCViewController.swift; sourceTree = "<group>"; };
 		D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd2ViewController.swift; sourceTree = "<group>"; };
 		D0A7197127413922000B2E1F /* CAdd3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd3ViewController.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */,
 				D0E8BD482742BE0600B0AB0D /* Country.swift */,
 				D0D6A5772743104700773C52 /* MultiplePlaces.swift */,
+				D08E9291275974F700846EA4 /* LogoImage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				D0D6A5782743104700773C52 /* MultiplePlaces.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
+				D08E9292275974F700846EA4 /* LogoImage.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
 				D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */,
 				D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */,

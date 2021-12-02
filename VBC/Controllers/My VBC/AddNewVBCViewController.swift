@@ -12,6 +12,8 @@ class AddNewVBCViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tabBarController?.tabBar.isHidden = true
+        
     }
     
     @IBAction func createCompanyVBCPressed(_ sender: UIButton) {
