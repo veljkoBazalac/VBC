@@ -30,7 +30,7 @@
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
 		D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD2273DB51900599EF5 /* Sectors.swift */; };
 		D0CF1CD5273DBDBF00599EF5 /* ProductType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */; };
-		D0D6A5782743104700773C52 /* MultipleCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* MultipleCity.swift */; };
+		D0D6A5782743104700773C52 /* MultiplePlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* MultiplePlaces.swift */; };
 		D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57927431AF000773C52 /* AddListViewController.swift */; };
 		D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */; };
 		D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */; };
@@ -85,7 +85,7 @@
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D0CF1CD2273DB51900599EF5 /* Sectors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sectors.swift; sourceTree = "<group>"; };
 		D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductType.swift; sourceTree = "<group>"; };
-		D0D6A5772743104700773C52 /* MultipleCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleCity.swift; sourceTree = "<group>"; };
+		D0D6A5772743104700773C52 /* MultiplePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePlaces.swift; sourceTree = "<group>"; };
 		D0D6A57927431AF000773C52 /* AddListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListViewController.swift; sourceTree = "<group>"; };
 		D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocListTableViewCell.swift; sourceTree = "<group>"; };
 		D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLocListTableViewCell.xib; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 				D0CF1CD2273DB51900599EF5 /* Sectors.swift */,
 				D0CF1CD4273DBDBF00599EF5 /* ProductType.swift */,
 				D0E8BD482742BE0600B0AB0D /* Country.swift */,
-				D0D6A5772743104700773C52 /* MultipleCity.swift */,
+				D0D6A5772743104700773C52 /* MultiplePlaces.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -448,7 +448,7 @@
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
 				D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */,
-				D0D6A5782743104700773C52 /* MultipleCity.swift in Sources */,
+				D0D6A5782743104700773C52 /* MultiplePlaces.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,

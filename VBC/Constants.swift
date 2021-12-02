@@ -63,7 +63,7 @@ struct Constants {
             static let sectors = "Sectors"
             static let countries = "Country"
             static let productType = "ProductType"
-            static let multipleCity = "Multiple City"
+            static let multiplePlaces = "Multiple Places"
              
             
         }

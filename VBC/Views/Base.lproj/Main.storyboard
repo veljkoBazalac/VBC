@@ -428,14 +428,15 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBh-lx-rWR">
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GBh-lx-rWR">
                                         <rect key="frame" x="280" y="0.0" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="30" id="mOR-ng-gKg"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <color key="tintColor" name="Color SDS"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="plus" catalog="system"/>
                                         <connections>
                                             <action selector="addLocationPressed:" destination="VZB-T1-8BV" eventType="touchUpInside" id="ifJ-8l-EEc"/>
                                         </connections>
@@ -446,8 +447,8 @@
                                             <constraint firstAttribute="width" constant="30" id="P5G-Ae-vhG"/>
                                         </constraints>
                                         <color key="tintColor" name="Color SDS"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="list.dash" catalog="system"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="list.dash" catalog="system"/>
                                         <connections>
                                             <action selector="listButtonPressed:" destination="VZB-T1-8BV" eventType="touchUpInside" id="YMd-EL-xgr"/>
                                         </connections>

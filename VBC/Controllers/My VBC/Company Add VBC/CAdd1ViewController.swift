@@ -39,14 +39,12 @@ class CAdd1ViewController: UIViewController {
     
     func validateFields() -> String? {
         
-//        if companyName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || selectSector.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || productType.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-//            return "Please fill all the fields."
-//        }
+
         if companyName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count > 20 {
             return "Company Name can have Max 20 letters."
         }
-        else if companyName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 4 {
-            return "Company Name must have Min 4 letters."
+        else if companyName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 3 {
+            return "Company Name must have Min 3 letters."
         }
         else if sectorRow == 0 {
             return "Please Select Sector."
@@ -54,18 +52,14 @@ class CAdd1ViewController: UIViewController {
         else if productType.text!.trimmingCharacters(in: .whitespacesAndNewlines).count > 30 {
             return "Product Type can have Max 30 letters."
         }
-        else if productType.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 4 {
-            return "Product Type must have Min 4 letters."
-        }
-        else if imageView.image == UIImage(named: "Add_Logo") {
-            return "Please Add Your Logo"
+        else if productType.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 3 {
+            return "Product Type must have Min 3 letters."
         }
         
         return nil
     }
     
     @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
-        //imageView.image != nil && companyName.text != nil && selectSector.text != nil && productType.text != nil
         
         let error = validateFields()
         
@@ -73,7 +67,6 @@ class CAdd1ViewController: UIViewController {
             // If fields are not correct, show error.
             print(error!)
         } else {
-            
             performSegue(withIdentifier: Constants.Segue.cAdd2, sender: self)
         }
     }

@@ -8,8 +8,9 @@
 import UIKit
 import Firebase
 import FirebaseStorage
+import SafariServices
 
-class CAdd2ViewController: UIViewController {
+class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
 
     // Image and Text Stack Outlets
     @IBOutlet weak var logoImageView: UIImageView!
@@ -38,8 +39,9 @@ class CAdd2ViewController: UIViewController {
     
     // Country List Dict
     private var countryList : [Country] = []
-    // Multiple City List Dict
-    private var multipleCityList : [MultipleCity] = []
+    
+    // Current Number of Multiple Places
+    private var numberOfPlaces: Int = 0
     
     var cardID : String = ""
     
@@ -55,9 +57,12 @@ class CAdd2ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        customBackButton()
+        
         pickerView.delegate = self
         pickerView.dataSource = self
         selectCountry.inputView = pickerView
+        infoButton.isHidden = true
         
         logoImageView.image = logoImage
         companyName.text = newCompanyName
@@ -70,12 +75,69 @@ class CAdd2ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         
-        addButton.isHidden = true
-        addButton.titleLabel?.text = ""
-        listButton.isHidden = true
-        listButton.titleLabel?.text = ""
-        infoButton.isHidden = true
-        infoButton.titleLabel?.text = ""
+        if segmentedControl.selectedSegmentIndex == 0 {
+            segmentedControl.isEnabled = true
+            addButton.isHidden = true
+            listButton.isHidden = true
+            
+        } else {
+            segmentedControl.isEnabled = false
+            addButton.isHidden = false
+            listButton.isHidden = false
+        }
+        
+    }
+
+// MARK: - NavBar Back Button
+    
+    func customBackButton() {
+        
+        let customBackButton = UIBarButtonItem(image: UIImage(named: "backArrow") , style: .plain, target: self, action: #selector(backAction(sender:)))
+            customBackButton.imageInsets = UIEdgeInsets(top: 2, left: -8, bottom: 0, right: 0)
+            navigationItem.leftBarButtonItem = customBackButton
+    }
+    
+    
+    @objc func backAction(sender: UIBarButtonItem) {
+        // Pop Up with Yes and No
+        let alert = UIAlertController(title: "Going Back?", message: "If you Go Back all your data will be lost. If you made a mistake previously, you can edit your data later!", preferredStyle: .alert)
+        let actionCANCEL = UIAlertAction(title: "Cancel", style: .default) { action in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        let actionGOBACK = UIAlertAction(title: "GO BACK", style: .destructive) { [self] action in
+            navigationController?.popViewController(animated: true)
+        }
+
+        alert.addAction(actionGOBACK)
+        alert.addAction(actionCANCEL)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+// MARK: - Get Number of Places delegate
+    
+    func getNumberOfPlaces(places: Int) {
+        numberOfPlaces = places
+        
+        if numberOfPlaces == 0 {
+            selectCountry.isEnabled = true
+            segmentedControl.isEnabled = true
+            listButton.isHidden = true
+            infoButton.isHidden = true
+        }
+    }
+
+// MARK: - Pop Up With Ok
+    
+    func popUpWithOk(newTitle: String, newMessage: String) {
+        // Pop Up with OK button
+        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
+        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(actionOK)
+        self.present(alert, animated: true, completion: nil)
     }
     
 // MARK: - Create Card ID Funcion
@@ -92,68 +154,109 @@ class CAdd2ViewController: UIViewController {
 // MARK: - Next Button Pressed
     
     @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
+            
+            if segmentedControl.selectedSegmentIndex == 0 {
+                
+                if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || streetName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                    
+                    popUpWithOk(newTitle: "Location fields empty", newMessage: "Please fill all Location fields. Google Maps Link is optional." )
+                
+                } else {
+                    
+                    // Adding Data to Firestore Database if user selected One Place
+                    db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) {error in
+                        
+                        if error != nil {
+                            self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                            print("Error Uploading data to Firestore. \(error!)")
+                        } else {
+                            self.performSegue(withIdentifier: Constants.Segue.cAdd3, sender: self)
+                        }
+                    }
+                }
+                
+            } else {
+                
+                if numberOfPlaces <= 1 {
+                    popUpWithOk(newTitle: "You selected Multiple Places", newMessage: "You must add at least two places.")
+                } else {
+                    performSegue(withIdentifier: Constants.Segue.cAdd3, sender: self)
+                }
+                
+            }
+            
+    
         
-        if segmentedControl.selectedSegmentIndex == 0 {
-            
-            db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID])
-            
-        } else {
-            
-            print("You selected Multiple Places. Please Add at least two Places.")
-        }
-        
-     
-        //performSegue(withIdentifier: Constants.Segue.cAdd3, sender: self)
     }
     
 // MARK: - Add Location Button Pressed
     
     @IBAction func addLocationPressed(_ sender: UIButton) {
         
-            
-        db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text, "Sector": companySector.text, "ProductType": companyProductType.text, "CardID": cardID])
-            
-            
-        db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).collection(Constants.Firestore.CollectionName.multipleCity).document("\(cityName.text!) - \(streetName.text!)").setData(["City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
-            
-            if error != nil {
-                print("Error Uploading data to Firestore. \(error!)")
-            } else {
-                self.listButton.isHidden = false
-                self.listButton.titleLabel?.text = ""
-                self.addButton.titleLabel?.text = ""
+        // Adding data to Firestore Database if user selected Multiple Places.
+        if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || streetName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            //Checking if Fields are empty.
+            popUpWithOk(newTitle: "Location fields empty", newMessage: "Please fill all Location fields. Google Maps Link is optional." )
+
+        } else {
+            // Adding Basic Data from previous ViewController.
+            db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text, "Sector": companySector.text, "ProductType": companyProductType.text, "CardID": cardID])
+                
+            // Adding Location Data from this ViewController.
+            db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).collection(Constants.Firestore.CollectionName.multiplePlaces).document("\(cityName.text!) - \(streetName.text!)").setData(["City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
+                
+                if error != nil {
+                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                } else {
+                    self.popUpWithOk(newTitle: "Location successfully added", newMessage: "You can see list of your locations by pressing List button.")
+                    
+                    self.listButton.isHidden = false
+                    self.infoButton.isHidden = false
+                    self.selectCountry.isEnabled = false
+                    self.segmentedControl.isEnabled = false
+                    self.cityName.text = ""
+                    self.streetName.text = ""
+                    self.googleMapsLink.text = ""
+                    self.numberOfPlaces += 1
+                }
             }
         }
-        
     }
     
 // MARK: - List Button Pressed
     
     @IBAction func listButtonPressed(_ sender: UIButton) {
-        //getMultipleCity()
-
-        performSegue(withIdentifier: Constants.Segue.cAddLocationList, sender: self)
+        // Perform Segue to view List of Locations
+        self.performSegue(withIdentifier: Constants.Segue.cAddLocationList, sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == Constants.Segue.cAddLocationList {
+            
+            let destinationVC = segue.destination as! AddListViewController
+            
+            destinationVC.cardID = cardID
+            destinationVC.newSector = newSector!
+            destinationVC.selectCountry = selectCountry.text!
+            destinationVC.delegate = self
+    
+        }
     }
     
 // MARK: - Info Button Pressed
     
     @IBAction func infoButtonPressed(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: "You want to change a Country?", message: "To do it you first need to delete all your Places from the List.", preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
+        popUpWithOk(newTitle: "You want to change a Country?", newMessage: "To do it, you first need to delete all your Places from the List.")
     }
 
 // MARK: - Segment Control
     
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
-     
+        // If Segment is 1, you can add Multiple places - If segment is 0, you can add only One place
         if segmentedControl.selectedSegmentIndex == 1 {
             addButton.isHidden = false
-            addButton.titleLabel?.text = ""
         } else {
             addButton.isHidden = true
             listButton.isHidden = true
@@ -163,44 +266,12 @@ class CAdd2ViewController: UIViewController {
 // MARK: - Google Maps Icon Pressed
     
     @IBAction func gMapsIconPressed(_ sender: UITapGestureRecognizer) {
-        
-        print(cardID)
-        
+        //Open Safari and Go to Google Maps Link.
+        guard let url = URL(string: "https://www.google.com/maps") else { return }
+        let svc = SFSafariViewController(url: url)
+        present(svc, animated: true, completion: nil)
     }
-    
-// MARK: - Get Multiple City List
-    
-    func getMultipleCity() {
-        
-        
-        db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).collection(Constants.Firestore.CollectionName.multipleCity).getDocuments { snapshot, error in
-            
-            if let e = error {
-                print ("Error getting Multiple City List. \(e)")
-            } else {
-                
-                if let snapshotDocuments = snapshot?.documents {
-                    
-                    for documents in snapshotDocuments {
-                       
-                        let data = documents.data()
-                        
-                        if let cityName = data[Constants.Firestore.Key.city] as? String {
-                            if let cityStreet = data[Constants.Firestore.Key.street] as? String {
-                                if let cityMap = data[Constants.Firestore.Key.gMaps] as? String {
-                                    
-                                    let cities = MultipleCity(city: cityName, street: cityStreet, gMapsLink: cityMap)
-                                 
-                                    self.multipleCityList.append(cities)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-    }
+
     
 // MARK: - Get Contries List Function
         
@@ -209,11 +280,11 @@ class CAdd2ViewController: UIViewController {
             db.collection(Constants.Firestore.CollectionName.countries).getDocuments { snapshot, error in
                 
                 if let e = error {
-                    print("Error getting Country List. \(e)")
+                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Getting data from Database. Please Check your Internet connection and try again. \(e.localizedDescription)")
                 } else {
                     
                     if let snapshotDocuments = snapshot?.documents {
-                        
+                    
                         for documents in snapshotDocuments {
                             
                             let data = documents.data()
@@ -229,8 +300,7 @@ class CAdd2ViewController: UIViewController {
                 }
             }
         }
-    
-    
+
 }
 
 // MARK: - UIPickerView for Country
@@ -254,6 +324,7 @@ extension CAdd2ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         if selectCountry.isEditing {
+            infoButton.isHidden = true
             return countryList[row].name
         }
          else {
@@ -265,11 +336,12 @@ extension CAdd2ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         if selectCountry.isEditing {
             selectCountry.text = countryList[row].name
-            createCardID()
             infoButton.isHidden = false
+            createCardID()
         }
          else {
-            print("Error selecting Row!")
+             self.popUpWithOk(newTitle: "Error!", newMessage: "There was an Error when selected row. Please try again.")
         }
     }
 }
+
