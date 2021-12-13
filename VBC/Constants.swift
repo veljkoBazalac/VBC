@@ -58,20 +58,31 @@ struct Constants {
         
         struct CollectionName {
             
+            static let VBC = "VBC"
             static let companyCards = "Company Cards"
             static let personalCards = "Personal Cards"
             static let sectors = "Sectors"
             static let countries = "Country"
             static let productType = "ProductType"
             static let multiplePlaces = "Multiple Places"
+            static let singlePlace = "Single Place"
+            static let cardID = "Card ID"
+            static let locations = "Locations"
+            static let basicInfo = "Basic Info"
+            
              
             
         }
         
         struct Key {
-
-            static let type = "type"
+            
+            static let Name = "Name"
             static let name = "name"
+            static let sector = "Sector"
+            static let type = "ProductType"
+            static let country = "Country"
+            static let cardID = "CardID"
+            
             static let city = "City"
             static let street = "Street"
             static let gMaps = "gMaps Link"

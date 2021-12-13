@@ -36,6 +36,8 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
     let db = Firestore.firestore()
     // Firebase Storage
     let storage = Storage.storage().reference()
+    // Firebase Auth Current User
+    let user = Auth.auth().currentUser?.uid
     
     // Country List Dict
     private var countryList : [Country] = []
@@ -43,8 +45,10 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
     // Current Number of Multiple Places
     private var numberOfPlaces: Int = 0
     
+    // Current CardID
     var cardID : String = ""
     
+    // Picker View
     var pickerView = UIPickerView()
     
     // Previous Screen Info
@@ -120,7 +124,12 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 
                 let urlString = url.absoluteString
                 
-                let dataReference = db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID)
+                let dataReference = db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.companyCards)
+                    .collection(user!)
+                    .document(Constants.Firestore.CollectionName.singlePlace)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(Constants.Firestore.CollectionName.basicInfo)
                 
                 let data = [
                     LogoImage.imageURL: urlString
@@ -139,14 +148,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                     
                 }
             }
-            
-            
         }
-        
     }
     
-    
-
 // MARK: - NavBar Back Button
     
     func customBackButton() {
@@ -200,6 +204,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
     }
     
 // MARK: - Create Card ID Funcion
+    
     func createCardID() {
         
         let countryCode = Country().getCountryCode(country: selectCountry.text!)
@@ -222,11 +227,19 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 
                 } else {
                     
-                    // Uploading Logo image.
-                    uploadImage()
+                    numberOfPlaces = 1
                     
-                    // Adding Data to Firestore Database if user selected One Place
-                    db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) {error in
+                    // Uploading Logo image.
+                    //uploadImage()
+                    
+                    // Adding Data to Firestore Database if user selected Single Place
+                    db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .collection(user!)
+                        .document(Constants.Firestore.CollectionName.singlePlace)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(cardID)
+                        .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "Country": selectCountry.text!, "City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
                         
                         if error != nil {
                             self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
@@ -243,16 +256,15 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                     popUpWithOk(newTitle: "You selected Multiple Places", newMessage: "You must add at least two places.")
                 } else {
                     // Uploading Logo image.
-                    uploadImage()
+                    //uploadImage()
                     
                     performSegue(withIdentifier: Constants.Segue.cAdd3, sender: self)
                 }
                 
             }
             
-    
-        
     }
+  
     
 // MARK: - Add Location Button Pressed
     
@@ -264,12 +276,26 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
             popUpWithOk(newTitle: "Location fields empty", newMessage: "Please fill all Location fields. Google Maps Link is optional." )
 
         } else {
-            
+           
             // Adding Basic Data from previous ViewController.
-            db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).setData(["Name": companyName.text, "Sector": companySector.text, "ProductType": companyProductType.text, "CardID": cardID])
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.companyCards)
+                .collection(user!)
+                .document(Constants.Firestore.CollectionName.multiplePlaces)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(Constants.Firestore.CollectionName.basicInfo)
+                .setData(["Name": companyName.text, "Sector": companySector.text, "ProductType": companyProductType.text, "Country": selectCountry.text!, "CardID": cardID])
             
             // Adding Location Data from this ViewController.
-            db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry.text!).collection(newSector!).document(cardID).collection(Constants.Firestore.CollectionName.multiplePlaces).document("\(cityName.text!) - \(streetName.text!)").setData(["City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.companyCards)
+                .collection(user!)
+                .document(Constants.Firestore.CollectionName.multiplePlaces)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(Constants.Firestore.CollectionName.basicInfo)
+                .collection(Constants.Firestore.CollectionName.locations)
+                .document("\(cityName.text!) - \(streetName.text!)")
+                .setData(["City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
                 
                 if error != nil {
                     self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
@@ -308,6 +334,24 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
             destinationVC.delegate = self
     
         }
+        
+        if segue.identifier == Constants.Segue.cAdd3 {
+            
+            let destinationVC = segue.destination as! CAdd3ViewController
+            
+            // Basic Info from 1st Step
+            destinationVC.selectedNewLogo = logoImage
+            destinationVC.selectedNewCompanyName = newCompanyName!
+            destinationVC.selectedNewProductType = newProductType!
+            destinationVC.selectedNewSector = newSector!
+            
+            // Location Info from 2nd Step
+            destinationVC.selectedNewCountry = selectCountry.text!
+            destinationVC.currentCardID = cardID
+            destinationVC.numberOfPlaces = numberOfPlaces
+           
+        }
+        
     }
     
 // MARK: - Info Button Pressed
@@ -402,7 +446,6 @@ extension CAdd2ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         if selectCountry.isEditing {
             selectCountry.text = countryList[row].name
-            infoButton.isHidden = false
             createCardID()
         }
          else {

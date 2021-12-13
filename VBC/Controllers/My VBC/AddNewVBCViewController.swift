@@ -8,26 +8,19 @@
 import UIKit
 
 class AddNewVBCViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tabBarController?.tabBar.isHidden = true
-        
     }
     
     @IBAction func createCompanyVBCPressed(_ sender: UIButton) {
-        
         performSegue(withIdentifier: Constants.Segue.cAdd1, sender: self)
-        
     }
     
     
     @IBAction func CreatePersonalVBCPressed(_ sender: UIButton) {
-        
         performSegue(withIdentifier: Constants.Segue.pAdd1, sender: self)
-        
     }
     
-
 }

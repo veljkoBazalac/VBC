@@ -55,9 +55,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
         
         cell.nameLabel.text = "Metalac AD"
-        cell.workLabel.text = "Bela Tehnika"
-        cell.workTwoLabel.text = "Bojleri"
-        cell.cityLabel.text = "Gornji Milanovac"
+        cell.sectorLabel.text = "Bela Tehnika"
+        cell.productTypeLabel.text = "Bojleri"
+        cell.countryLabel.text = "Gornji Milanovac"
         
         return cell
         

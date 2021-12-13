@@ -6,30 +6,140 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseStorage
 
 class CardsViewController: UIViewController {
-
-
+    
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     
+    // Firebase Firestore Database
+    let db = Firestore.firestore()
+    // Firebase Storage
+    let storage = Storage.storage().reference()
+    // Company Cards Dictionary
+    var companyCards : [ShowVBC] = []
+    
+    var cardID : [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+     
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        companyCards = []
+        getSinglePlaceCard()
+        getMultiplePlacesCard()
+    }
+
+// MARK: - Get Company Cards with Single Place
+    
+    func getSinglePlaceCard() {
+        
+        let user = Auth.auth().currentUser?.uid
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.companyCards)
+            .collection(user!)
+            .document(Constants.Firestore.CollectionName.singlePlace)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print ("Error getting Single Place Card. \(e)")
+                } else {
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let companyName = data[Constants.Firestore.Key.Name] as? String {
+                                if let companySector = data[Constants.Firestore.Key.sector] as? String {
+                                    if let companyProductType = data[Constants.Firestore.Key.type] as? String {
+                                        if let companyCountry = data[Constants.Firestore.Key.country] as? String {
+                                            if let companyCardID = data[Constants.Firestore.Key.cardID] as? String {
+                                            
+                                            let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID)
+                                                
+                                            self.cardID.append(companyCardID)
+                                            self.companyCards.append(card)
+                                            self.tableView.reloadData()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         
     }
     
-    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+// MARK: - Get Company Cards with Multiple Places
+    
+    func getMultiplePlacesCard() {
         
+        let user = Auth.auth().currentUser?.uid
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.companyCards)
+            .collection(user!)
+            .document(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print ("Error getting Multiple Places Data. \(e)")
+                } else {
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let companyName = data[Constants.Firestore.Key.Name] as? String {
+                                if let companySector = data[Constants.Firestore.Key.sector] as? String {
+                                    if let companyProductType = data[Constants.Firestore.Key.type] as? String {
+                                        if let companyCountry = data[Constants.Firestore.Key.country] as? String {
+                                            if let companyCardID = data[Constants.Firestore.Key.cardID] as? String {
+                                            
+                                            let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID)
+                                            
+                                            self.companyCards.append(card)
+                                            self.tableView.reloadData()
+                                            }
+                                        }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: Constants.Segue.addVBC, sender: self)
+        
     }
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        
         
     }
     
@@ -38,17 +148,19 @@ class CardsViewController: UIViewController {
 extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return companyCards.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
         
-        cell.nameLabel.text = "Legend Kraljevo"
-        cell.workLabel.text = "Prodaja"
-        cell.workTwoLabel.text = "Odeca"
-        cell.cityLabel.text = "Kraljevo"
+        let cardRow = companyCards[indexPath.row]
+        
+        cell.nameLabel.text = cardRow.name
+        cell.sectorLabel.text = cardRow.sector
+        cell.productTypeLabel.text = cardRow.type
+        cell.countryLabel.text = cardRow.country
         
         return cell
     }
@@ -56,26 +168,20 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         performSegue(withIdentifier: Constants.Segue.viewCard, sender: self)
-        
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//
-////        if segue.identifier == Constants.Segue.viewCard {
-////            let destinationVC = segue.destination as! CardViewController
-////
-////            if let indexPath = tableView.indexPathForSelectedRow {
-////
-////                destinationVC.nameLabel.text = "Legend Kraljevo"
-////                destinationVC.workLabel.text = "Prodaja"
-////                destinationVC.workTwoLabel.text = "Garderoba"
-////                destinationVC.cityLabel.text = "Kraljevo"
-////
-////            }
-////
-////        }
-//
-//    }
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.Segue.viewCard {
+            
+            let destinationVC = segue.destination as! CardViewController
+            
+            if let indexPath = tableView.indexPathForSelectedRow {
+                
+                print(cardID[indexPath.row])
+                
+                destinationVC.cardID = cardID[indexPath.row]
+            }
+        }
+    }
     
 }

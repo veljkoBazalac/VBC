@@ -65,7 +65,7 @@ class CAdd1ViewController: UIViewController {
         
         if error != nil {
             // If fields are not correct, show error.
-            print(error!)
+            popUpWithOk(newTitle: "Basic Company Info missing", newMessage: "\(error!)")
         } else {
             performSegue(withIdentifier: Constants.Segue.cAdd2, sender: self)
         }
@@ -154,7 +154,22 @@ class CAdd1ViewController: UIViewController {
     
     //        db.collection("Cards").addDocument(data: ["Name": "Legend KV", "WorkActiviry": "Prodaja", "ProductType": "Garderoba", "City": "Kraljevo"])
     
+    
+// MARK: - Pop Up With Ok
+    
+    func popUpWithOk(newTitle: String, newMessage: String) {
+        // Pop Up with OK button
+        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
+        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(actionOK)
+        present(alert, animated: true, completion: nil)
+    }
+    
 }
+
+
 
 // MARK: - UIPickerController for Image Add
 

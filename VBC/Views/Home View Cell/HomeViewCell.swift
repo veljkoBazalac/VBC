@@ -18,9 +18,9 @@ class HomeViewCell: UITableViewCell {
     
     // Text Label
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var workLabel: UILabel!
-    @IBOutlet weak var workTwoLabel: UILabel!
-    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var sectorLabel: UILabel!
+    @IBOutlet weak var productTypeLabel: UILabel!
+    @IBOutlet weak var countryLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

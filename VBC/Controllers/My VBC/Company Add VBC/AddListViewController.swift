@@ -20,6 +20,8 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     let db = Firestore.firestore()
     
+    let user = Auth.auth().currentUser?.uid
+    
     var getMultiplePlacesList : [MultiplePlaces] = []
     
     var cardID : String = ""
@@ -35,9 +37,6 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: Constants.Nib.addLocList, bundle: nil), forCellReuseIdentifier: Constants.Cell.addLocListCell)
-        
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -46,15 +45,21 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
             
     
-// MARK: - Get Multiple City List
+// MARK: - Get Multiple Places List
     
     func getMultiplePlaces() {
         
-        
-        db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry).collection(newSector).document(cardID).collection(Constants.Firestore.CollectionName.multiplePlaces).getDocuments { snapshot, error in
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.companyCards)
+            .collection(user!)
+            .document(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(Constants.Firestore.CollectionName.basicInfo)
+            .collection(Constants.Firestore.CollectionName.locations)
+            .getDocuments { snapshot, error in
             
             if let e = error {
-                print ("Error getting Multiple City List. \(e)")
+                print ("Error getting Multiple Places List. \(e)")
             } else {
                 
                 if let snapshotDocuments = snapshot?.documents {
@@ -79,7 +84,6 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             }
         }
-        
     }
 
 // MARK: - Table View
@@ -114,16 +118,34 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let documentName = title
 
                 if getMultiplePlacesList.count > 1 {
-                db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry).collection(newSector).document(cardID).collection(Constants.Firestore.CollectionName.multiplePlaces).document(documentName).delete()
+                    db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .collection(user!)
+                        .document(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(Constants.Firestore.CollectionName.basicInfo)
+                        .collection(Constants.Firestore.CollectionName.locations)
+                        .document(documentName)
+                        .delete()
 
                 getMultiplePlacesList = []
                 getMultiplePlaces()
+                    
                 } else {
-                db.collection(Constants.Firestore.CollectionName.companyCards).document(selectCountry).collection(newSector).document(cardID).collection(Constants.Firestore.CollectionName.multiplePlaces).document(documentName).delete()
+                    db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .collection(user!)
+                        .document(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(Constants.Firestore.CollectionName.basicInfo)
+                        .collection(Constants.Firestore.CollectionName.locations)
+                        .document(documentName)
+                        .delete()
                 
                 getMultiplePlacesList = []
                 self.dismiss(animated: true, completion: nil)
                 }
+                
             }
 
             alert.addAction(actionDELETE)

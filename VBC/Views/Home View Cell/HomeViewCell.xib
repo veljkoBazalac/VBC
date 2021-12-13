@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
@@ -88,11 +88,11 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" name="Background Color"/>
             <connections>
-                <outlet property="cityLabel" destination="nKe-OW-504" id="0nn-Be-cVI"/>
+                <outlet property="countryLabel" destination="nKe-OW-504" id="0nn-Be-cVI"/>
                 <outlet property="logoImageView" destination="p2G-OT-fcv" id="5Ls-lW-PsQ"/>
                 <outlet property="nameLabel" destination="e4E-lm-xGa" id="RhW-Oo-4q9"/>
-                <outlet property="workLabel" destination="A4B-KO-4cC" id="zur-Fo-u27"/>
-                <outlet property="workTwoLabel" destination="ICl-GJ-EBA" id="m3y-dl-7y8"/>
+                <outlet property="productTypeLabel" destination="ICl-GJ-EBA" id="m3y-dl-7y8"/>
+                <outlet property="sectorLabel" destination="A4B-KO-4cC" id="zur-Fo-u27"/>
             </connections>
             <point key="canvasLocation" x="188.40579710144928" y="155.02232142857142"/>
         </tableViewCell>
