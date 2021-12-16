@@ -29,6 +29,7 @@ struct Constants {
         // Cards
         static let viewCard = "ViewCardSegue"
         static let addVBC = "addVBCSegue"
+        static let cardToPopUp = "CardToPopUp"
     
             // Company Add VBC
         static let cAdd1 = "CompanyAddVBC1"
@@ -63,12 +64,10 @@ struct Constants {
             static let personalCards = "Personal Cards"
             static let sectors = "Sectors"
             static let countries = "Country"
-            static let productType = "ProductType"
             static let multiplePlaces = "Multiple Places"
             static let singlePlace = "Single Place"
             static let cardID = "Card ID"
             static let locations = "Locations"
-            static let basicInfo = "Basic Info"
             
              
             
@@ -76,12 +75,25 @@ struct Constants {
         
         struct Key {
             
+            // Key for Basic Info
             static let Name = "Name"
             static let name = "name"
             static let sector = "Sector"
             static let type = "ProductType"
             static let country = "Country"
             static let cardID = "CardID"
+            static let singlePlace = "Single Place"
+            
+            // Key for Contact Info
+            static let phone1 = "Phone 1"
+            static let phone2 = "Phone 2"
+            static let phone3 = "Phone 3"
+            static let email1 = "Email 1"
+            static let email2 = "Email 2"
+            static let web1 = "Website 1"
+            static let web2 = "Website 2"
+            
+            
             
             static let city = "City"
             static let street = "Street"

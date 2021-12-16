@@ -22,10 +22,11 @@ class CardsViewController: UIViewController {
     var companyCards : [ShowVBC] = []
     
     var cardID : [String] = []
+    var singlePlace : [Bool] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -35,15 +36,16 @@ class CardsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        tableView.reloadData()
+        
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        companyCards = []
         getSinglePlaceCard()
         getMultiplePlacesCard()
     }
-
-// MARK: - Get Company Cards with Single Place
+    
+    // MARK: - Get Company Cards with Single Place
     
     func getSinglePlaceCard() {
         
@@ -71,12 +73,16 @@ class CardsViewController: UIViewController {
                                     if let companyProductType = data[Constants.Firestore.Key.type] as? String {
                                         if let companyCountry = data[Constants.Firestore.Key.country] as? String {
                                             if let companyCardID = data[Constants.Firestore.Key.cardID] as? String {
-                                            
-                                            let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID)
-                                                
-                                            self.cardID.append(companyCardID)
-                                            self.companyCards.append(card)
-                                            self.tableView.reloadData()
+                                                if let companySinglePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
+                                                    
+                                                    let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID, singlePlace: companySinglePlace)
+                                                    
+                                                    self.singlePlace.append(companySinglePlace)
+                                                    self.cardID.append(companyCardID)
+                                                    self.companyCards.append(card)
+                                                    self.tableView.reloadData()
+                                                    
+                                                }
                                             }
                                         }
                                     }
@@ -89,7 +95,7 @@ class CardsViewController: UIViewController {
         
     }
     
-// MARK: - Get Company Cards with Multiple Places
+    // MARK: - Get Company Cards with Multiple Places
     
     func getMultiplePlacesCard() {
         
@@ -117,13 +123,17 @@ class CardsViewController: UIViewController {
                                     if let companyProductType = data[Constants.Firestore.Key.type] as? String {
                                         if let companyCountry = data[Constants.Firestore.Key.country] as? String {
                                             if let companyCardID = data[Constants.Firestore.Key.cardID] as? String {
-                                            
-                                            let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID)
-                                            
-                                            self.companyCards.append(card)
-                                            self.tableView.reloadData()
+                                                if let companySinglePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
+                                                    
+                                                    let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID, singlePlace: companySinglePlace)
+                                                    
+                                                    self.singlePlace.append(companySinglePlace)
+                                                    self.cardID.append(companyCardID)
+                                                    self.companyCards.append(card)
+                                                    self.tableView.reloadData()
+                                                    
+                                                }
                                             }
-                                        }
                                         }
                                     }
                                 }
@@ -132,7 +142,8 @@ class CardsViewController: UIViewController {
                     }
                 }
             }
-
+    }
+    
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: Constants.Segue.addVBC, sender: self)
@@ -155,6 +166,7 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
         
+
         let cardRow = companyCards[indexPath.row]
         
         cell.nameLabel.text = cardRow.name
@@ -176,10 +188,8 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
             let destinationVC = segue.destination as! CardViewController
             
             if let indexPath = tableView.indexPathForSelectedRow {
-                
-                print(cardID[indexPath.row])
-                
                 destinationVC.cardID = cardID[indexPath.row]
+                destinationVC.singlePlace = singlePlace[indexPath.row]
             }
         }
     }

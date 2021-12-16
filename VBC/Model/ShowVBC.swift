@@ -14,4 +14,5 @@ struct ShowVBC {
     var type : String = ""
     var country : String = ""
     var cardID : String = ""
+    var singlePlace : Bool = true
 }

@@ -12,5 +12,4 @@ struct MultiplePlaces {
     var city : String = ""
     var street : String = ""
     var gMapsLink : String = ""
-    
 }

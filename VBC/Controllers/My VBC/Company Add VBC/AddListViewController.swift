@@ -54,7 +54,7 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
             .collection(user!)
             .document(Constants.Firestore.CollectionName.multiplePlaces)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(Constants.Firestore.CollectionName.basicInfo)
+            .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
             
@@ -123,7 +123,7 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                         .collection(user!)
                         .document(Constants.Firestore.CollectionName.multiplePlaces)
                         .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(Constants.Firestore.CollectionName.basicInfo)
+                        .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(documentName)
                         .delete()
@@ -137,7 +137,7 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                         .collection(user!)
                         .document(Constants.Firestore.CollectionName.multiplePlaces)
                         .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(Constants.Firestore.CollectionName.basicInfo)
+                        .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(documentName)
                         .delete()
