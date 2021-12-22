@@ -218,7 +218,7 @@ class CAdd3ViewController: UIViewController {
                     .document(Constants.Firestore.CollectionName.singlePlace)
                     .collection(Constants.Firestore.CollectionName.cardID)
                     .document(currentCardID)
-                    .setData(["Phone 1": "\(phone1Code.text!)\(phone1Number.text!)", "Phone 2": "\(phone2Code.text!)\(phone2Number.text!)", "Phone 3": "\(phone3Code.text!)\(phone3Number.text!)", "Email 1": email1Address.text, "Email 2": email2Address.text, "Website 1": website1Link.text, "Website 2": website2Link.text], merge: true) { error in
+                    .setData(["Phone1Code": phone1Code.text!,"Phone 1": phone1Number.text!,"Phone2Code": phone2Code.text!, "Phone 2": phone2Number.text!, "Phone3Code": phone3Code.text!,"Phone 3": phone3Number.text!, "Email 1": email1Address.text!, "Email 2": email2Address.text!, "Website 1": website1Link.text!, "Website 2": website2Link.text!], merge: true) { error in
                     
                     if error != nil {
                         self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Contact Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
@@ -249,7 +249,7 @@ class CAdd3ViewController: UIViewController {
                     .document(currentCardID)
                     .collection(Constants.Firestore.CollectionName.locations)
                     .document(selectLocation.text!)
-                    .setData(["Phone 1": "\(phone1Code.text!)\(phone1Number.text!)", "Phone 2": "\(phone2Code.text!)\(phone2Number.text!)", "Phone 3": "\(phone3Code.text!)\(phone3Number.text!)", "Email 1": email1Address.text, "Email 2": email2Address.text, "Website 1": website1Link.text, "Website 2": website2Link.text], merge: true) { error in
+                    .setData(["Phone1Code": phone1Code.text!,"Phone 1": phone1Number.text!,"Phone2Code": phone2Code.text!, "Phone 2": phone2Number.text!, "Phone3Code": phone3Code.text!,"Phone 3": phone3Number.text!, "Email 1": email1Address.text!, "Email 2": email2Address.text!, "Website 1": website1Link.text!, "Website 2": website2Link.text!], merge: true) { error in
                     
                     if error != nil {
                         self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Contact Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")

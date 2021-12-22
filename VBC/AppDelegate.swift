@@ -37,13 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        
-            do {
-                try Auth.auth().signOut()
-            } catch let signOutError as NSError {
-                print("Error signing out: %@", signOutError)
-            }
-        
     }
 
     // MARK: UISceneSession Lifecycle

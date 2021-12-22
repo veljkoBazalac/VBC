@@ -8,18 +8,15 @@
 import UIKit
 
 class FinishedAddVBCViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
 
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        
         navigationController?.popToRootViewController(animated: true)
-
     }
     
 

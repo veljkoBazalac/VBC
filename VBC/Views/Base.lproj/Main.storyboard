@@ -227,7 +227,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your Company Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lAK-b2-9GY">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your Company Name" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="lAK-b2-9GY">
                                                 <rect key="frame" x="0.0" y="40" width="350" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Rvf-zh-q2F"/>
@@ -1475,15 +1475,21 @@
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Business Card" id="MkC-PS-BdN"/>
                     <connections>
+                        <outlet property="callButton" destination="9mJ-W3-q4q" id="alN-lY-BAH"/>
                         <outlet property="countryLabel" destination="ScP-My-9Qf" id="iDH-fQ-9Pz"/>
                         <outlet property="locationStack" destination="6Qs-RX-Qu5" id="gBf-Kf-M6t"/>
                         <outlet property="logoImage" destination="b4b-P8-a8D" id="KMw-ac-Peq"/>
+                        <outlet property="mailButton" destination="VIw-Sm-zkG" id="vTw-In-lNF"/>
+                        <outlet property="mapButton" destination="HB3-bb-uhD" id="GbD-JG-SKh"/>
                         <outlet property="nameLabel" destination="7dk-6f-XOr" id="TGA-DW-385"/>
                         <outlet property="productTypeLabel" destination="5QK-QC-MAx" id="xQq-kI-JfK"/>
                         <outlet property="sectorLabel" destination="YC6-lR-XEh" id="j4E-5G-fMc"/>
                         <outlet property="selectLocation" destination="epc-dw-Ieh" id="vbK-r4-jhF"/>
+                        <outlet property="websiteButton" destination="lKm-zM-lTU" id="56x-sJ-hrZ"/>
                         <segue destination="0Uk-Wd-oVf" kind="presentation" identifier="CardToAboutSegue" id="q3Z-g4-szO"/>
-                        <segue destination="qSh-Qg-BE4" kind="presentation" identifier="CardToPopUp" id="cED-wQ-OY8"/>
+                        <segue destination="qSh-Qg-BE4" kind="popoverPresentation" identifier="CardToPopUp" popoverAnchorView="aby-Jk-deV" id="cED-wQ-OY8">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbv-8k-K2E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

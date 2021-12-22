@@ -88,13 +88,15 @@ struct Constants {
             static let phone1 = "Phone 1"
             static let phone2 = "Phone 2"
             static let phone3 = "Phone 3"
+            static let phone1code = "Phone1Code"
+            static let phone2code = "Phone2Code"
+            static let phone3code = "Phone3Code"
             static let email1 = "Email 1"
             static let email2 = "Email 2"
             static let web1 = "Website 1"
             static let web2 = "Website 2"
             
-            
-            
+            // Key for Location Info
             static let city = "City"
             static let street = "Street"
             static let gMaps = "gMaps Link"

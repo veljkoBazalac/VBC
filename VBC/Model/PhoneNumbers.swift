@@ -7,17 +7,8 @@
 
 import Foundation
 
-struct ContactInfo {
+struct PhoneNumber {
     
-    var name : String?
-    
-    var phone : String?
-    var phone2 : String?
-    var phone3 : String?
-    
-    var email1 : String?
-    var email2 : String?
-    
-    var website1 : String?
-    var website2 : String?
+    var code : String = ""
+    var number : String = ""
 }

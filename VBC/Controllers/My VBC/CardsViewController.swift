@@ -18,14 +18,21 @@ class CardsViewController: UIViewController {
     let db = Firestore.firestore()
     // Firebase Storage
     let storage = Storage.storage().reference()
+    // Firebase Auth Current User
+    let user = Auth.auth().currentUser?.uid
     // Company Cards Dictionary
     var companyCards : [ShowVBC] = []
+    
+    var companyCard : Bool = true
     
     var cardID : [String] = []
     var singlePlace : [Bool] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getSinglePlaceCard()
+        getMPCard()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -35,38 +42,32 @@ class CardsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        tableView.reloadData()
-        
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        getSinglePlaceCard()
-        getMultiplePlacesCard()
     }
+    
     
     // MARK: - Get Company Cards with Single Place
     
     func getSinglePlaceCard() {
-        
-        let user = Auth.auth().currentUser?.uid
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
             .collection(user!)
             .document(Constants.Firestore.CollectionName.singlePlace)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .getDocuments { snapshot, error in
+            .addSnapshotListener { snapshot, error in
                 
                 if let e = error {
-                    print ("Error getting Single Place Card. \(e)")
+                    print ("Error getting Single Places Data. \(e)")
                 } else {
                     
-                    if let snapshotDocuments = snapshot?.documents {
+                    snapshot?.documentChanges.forEach({ diff in
                         
-                        for documents in snapshotDocuments {
-                            
-                            let data = documents.data()
+                        let data = diff.document.data()
+                        
+                        if diff.type == .added  {
                             
                             if let companyName = data[Constants.Firestore.Key.Name] as? String {
                                 if let companySector = data[Constants.Firestore.Key.sector] as? String {
@@ -89,7 +90,20 @@ class CardsViewController: UIViewController {
                                 }
                             }
                         }
-                    }
+                        
+                        if diff.type == .modified {
+                            print("Modified")
+                        }
+                        
+                        if diff.type == .removed {
+                            
+                            print("Removed")
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    })
                 }
             }
         
@@ -97,26 +111,25 @@ class CardsViewController: UIViewController {
     
     // MARK: - Get Company Cards with Multiple Places
     
-    func getMultiplePlacesCard() {
-        
-        let user = Auth.auth().currentUser?.uid
+    func getMPCard() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
             .collection(user!)
             .document(Constants.Firestore.CollectionName.multiplePlaces)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .getDocuments { snapshot, error in
+            .addSnapshotListener { snapshot, error in
                 
                 if let e = error {
                     print ("Error getting Multiple Places Data. \(e)")
                 } else {
                     
-                    if let snapshotDocuments = snapshot?.documents {
+                    
+                    snapshot?.documentChanges.forEach({ diff in
                         
-                        for documents in snapshotDocuments {
-                            
-                            let data = documents.data()
+                        let data = diff.document.data()
+                        
+                        if diff.type == .added {
                             
                             if let companyName = data[Constants.Firestore.Key.Name] as? String {
                                 if let companySector = data[Constants.Firestore.Key.sector] as? String {
@@ -139,7 +152,20 @@ class CardsViewController: UIViewController {
                                 }
                             }
                         }
-                    }
+                        
+                        if diff.type == .modified {
+                            print("Modified")
+                        }
+                        
+                        if diff.type == .removed {
+                            
+                            print("Removed")
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    })
                 }
             }
     }
@@ -152,7 +178,14 @@ class CardsViewController: UIViewController {
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
         
+        
+        
+        print(companyCards)
+        
     }
+    
+    
+    
     
 }
 
@@ -166,7 +199,6 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
         
-
         let cardRow = companyCards[indexPath.row]
         
         cell.nameLabel.text = cardRow.name
