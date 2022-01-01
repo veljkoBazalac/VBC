@@ -22,7 +22,7 @@ class CAdd1ViewController: UIViewController {
     var pickerView = UIPickerView()
     var sectorRow : Int = 0
     
-    // Dictionaries for Text Fields
+    // Sector List Dictionary
     private var sectors : [Sectors] = []
     
     override func viewDidLoad() {
@@ -34,7 +34,6 @@ class CAdd1ViewController: UIViewController {
         configureTextFields()
         
         getSectorsList()
-        
     }
     
     func validateFields() -> String? {
@@ -58,6 +57,7 @@ class CAdd1ViewController: UIViewController {
         
         return nil
     }
+// MARK: - Next Button Pressed
     
     @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -70,7 +70,8 @@ class CAdd1ViewController: UIViewController {
             performSegue(withIdentifier: Constants.Segue.cAdd2, sender: self)
         }
     }
-    
+
+// MARK: - Prepare for Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segue.cAdd2 {
             
@@ -84,7 +85,9 @@ class CAdd1ViewController: UIViewController {
            
         }
     }
-
+    
+// MARK: - Configure Text Fields Function
+    
     func configureTextFields() {
         selectSector.inputView = pickerView
         productType.isEnabled = false
@@ -133,27 +136,6 @@ class CAdd1ViewController: UIViewController {
         }
         
     }
-    
-// MARK: - Upload Data to Firestore
-    
-
-        
-//        guard let image = imageView.image else {return}
-//
-//        guard let imageData = image.pngData() else {return}
-//
-//        storage.putData(imageData, metadata: nil) { metadata, error in
-//
-//            if error != nil {
-//                print("Failed to Upload image.")
-//            }
-
-   // let storage = Storage.storage().reference()
-        
-        //db.collection(Constants.Firestore.CollectionName.cards).document(cardID).setData(["Name": companyName.text, "Sector": selectSector.text, "ProductType": productType.text, "CardID": cardID])
-    
-    //        db.collection("Cards").addDocument(data: ["Name": "Legend KV", "WorkActiviry": "Prodaja", "ProductType": "Garderoba", "City": "Kraljevo"])
-    
     
 // MARK: - Pop Up With Ok
     

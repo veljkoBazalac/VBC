@@ -366,7 +366,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
 // MARK: - Segment Control
     
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
-        // If Segment is 1, you can add Multiple places - If segment is 0, you can add only One place
+        // If Segment is 1, you can add Multiple places - If segment is 0, you can add only Single place
         if segmentedControl.selectedSegmentIndex == 1 {
             addButton.isHidden = false
         } else {

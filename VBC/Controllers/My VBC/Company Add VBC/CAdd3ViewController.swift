@@ -18,7 +18,6 @@ class CAdd3ViewController: UIViewController {
     
     // Select Location Outlet
     @IBOutlet weak var selectLocation: UITextField!
-    @IBOutlet weak var addLocationContact: UIButton!
     
     // Phone Number 1
     @IBOutlet weak var phoneLabel: UILabel!
@@ -96,15 +95,6 @@ class CAdd3ViewController: UIViewController {
         companySector.text = selectedNewSector
         companyProductType.text = selectedNewProductType
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        print("View Will Apear")
-        print("Phone: \(numberOfPhones), Email: \(numberOfEmails), Website: \(numberOfWebsite)")
-    }
-    
-    
-
     
     // MARK: - Get Data from Firestore Function
     

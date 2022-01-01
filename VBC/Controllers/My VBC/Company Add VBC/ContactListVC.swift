@@ -105,7 +105,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
-// MARK: - Delete Button
+// MARK: - Get Key for Deleted Button
     
     func getKey(rowNumber: Int) -> String {
         
@@ -122,7 +122,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 // MARK: - Delete Cell Button Pressed
     
     func deleteButtonPressed(with title: String, row: Int) {
-        // TODO: Kad se obrise Info, ostaje i dalje kao da je dodato max 3 kontakta.
+        
         // Pop Up with Yes and No
         let alert = UIAlertController(title: "Delete?", message: "Are you sure that you want to delete? Data will be lost forever.", preferredStyle: .alert)
         let actionBACK = UIAlertAction(title: "Back", style: .default) { action in

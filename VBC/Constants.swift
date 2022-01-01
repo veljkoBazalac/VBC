@@ -43,6 +43,7 @@ struct Constants {
             // Personal Add VBC
         static let pAdd1 = "PersonalAddVBC1"
         static let pAdd2 = "PersonalAddVBC2"
+        static let pPhoneListSegue = "PPhoneListSegue"
         static let pAdd3 = "PersonalAddVBC3"
         static let pAddFinish = "PersonalAddVBCFinish"
         
@@ -113,6 +114,7 @@ struct Constants {
         struct Storage {
             
             static let companyLogo = "Company Logo Folder"
+            static let personalImage = "Personal Image Folder"
         }
         
     }
