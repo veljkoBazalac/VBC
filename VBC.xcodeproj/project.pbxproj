@@ -18,11 +18,17 @@
 		D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A39272449F400A6331B /* LaunchScreen.storyboard */; };
 		D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A60272452D300A6331B /* LoginViewController.swift */; };
 		D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterViewController.swift */; };
+		D013C646277A421E0017F26F /* ContactListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D013C645277A421D0017F26F /* ContactListVC.swift */; };
 		D0144F74272D52D200576083 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0144F73272D52D200576083 /* CardViewController.swift */; };
 		D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */; };
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
+		D02C356C2777924B008E2CA2 /* PAdd1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356B2777924B008E2CA2 /* PAdd1VC.swift */; };
+		D02C356E2777926E008E2CA2 /* PAdd2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356D2777926E008E2CA2 /* PAdd2VC.swift */; };
+		D02C35702777A0B1008E2CA2 /* PAdd3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */; };
+		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
+		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
 		D08E9292275974F700846EA4 /* LogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08E9291275974F700846EA4 /* LogoImage.swift */; };
 		D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0955D232767BCF7009E9CA7 /* ShowVBC.swift */; };
 		D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */; };
@@ -77,11 +83,17 @@
 		D00F0A4B272449F500A6331B /* VBCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F0A60272452D300A6331B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D00F0A642724591300A6331B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		D013C645277A421D0017F26F /* ContactListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListVC.swift; sourceTree = "<group>"; };
 		D0144F73272D52D200576083 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
+		D02C356B2777924B008E2CA2 /* PAdd1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd1VC.swift; sourceTree = "<group>"; };
+		D02C356D2777926E008E2CA2 /* PAdd2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd2VC.swift; sourceTree = "<group>"; };
+		D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd3VC.swift; sourceTree = "<group>"; };
+		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
+		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
 		D08E9291275974F700846EA4 /* LogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImage.swift; sourceTree = "<group>"; };
 		D0955D232767BCF7009E9CA7 /* ShowVBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowVBC.swift; sourceTree = "<group>"; };
 		D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVBCViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +203,7 @@
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
 				D0E77543272DDA25001FB9F8 /* Home View Cell */,
 				D0D6A58127431B6F00773C52 /* Add Location List */,
+				D07BC3642773AA7600711110 /* Card Pop Up Cell */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,6 +230,25 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		D02C356A277791F3008E2CA2 /* Personal Add VBC */ = {
+			isa = PBXGroup;
+			children = (
+				D02C356B2777924B008E2CA2 /* PAdd1VC.swift */,
+				D02C356D2777926E008E2CA2 /* PAdd2VC.swift */,
+				D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */,
+			);
+			path = "Personal Add VBC";
+			sourceTree = "<group>";
+		};
+		D07BC3642773AA7600711110 /* Card Pop Up Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D07BC3602773A0FB00711110 /* CardPopUpCell.swift */,
+				D07BC3612773A0FB00711110 /* CardPopUpCell.xib */,
+			);
+			path = "Card Pop Up Cell";
+			sourceTree = "<group>";
+		};
 		D0A7196C27413855000B2E1F /* Company Add VBC */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +256,7 @@
 				D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */,
 				D0D6A57927431AF000773C52 /* AddListViewController.swift */,
 				D0A7197127413922000B2E1F /* CAdd3ViewController.swift */,
+				D013C645277A421D0017F26F /* ContactListVC.swift */,
 			);
 			path = "Company Add VBC";
 			sourceTree = "<group>";
@@ -233,6 +266,7 @@
 			children = (
 				D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */,
 				D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */,
+				D02C356A277791F3008E2CA2 /* Personal Add VBC */,
 				D0A7196C27413855000B2E1F /* Company Add VBC */,
 				D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */,
 			);
@@ -385,6 +419,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */,
 				D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
@@ -471,9 +506,13 @@
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
 				D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */,
+				D02C35702777A0B1008E2CA2 /* PAdd3VC.swift in Sources */,
+				D013C646277A421E0017F26F /* ContactListVC.swift in Sources */,
+				D02C356E2777926E008E2CA2 /* PAdd2VC.swift in Sources */,
 				D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */,
 				D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */,
 				D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */,
+				D02C356C2777924B008E2CA2 /* PAdd1VC.swift in Sources */,
 				D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */,
@@ -481,6 +520,7 @@
 				D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
 				D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */,
+				D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */,
 				D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */,
 				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,
 				D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */,

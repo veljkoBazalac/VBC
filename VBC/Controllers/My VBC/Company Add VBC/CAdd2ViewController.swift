@@ -239,7 +239,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                         .document(Constants.Firestore.CollectionName.singlePlace)
                         .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
-                        .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "Country": selectCountry.text!, "Single Place": true, "City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
+                        .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "Country": selectCountry.text!, "Single Place": true, "City": cityName.text!, "Street": streetName.text!, "gMaps Link": googleMapsLink.text!]) { error in
                         
                         if error != nil {
                             self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
@@ -284,7 +284,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 .document(Constants.Firestore.CollectionName.multiplePlaces)
                 .collection(Constants.Firestore.CollectionName.cardID)
                 .document(cardID)
-                .setData(["Name": companyName.text, "Sector": companySector.text, "ProductType": companyProductType.text, "Country": selectCountry.text!, "Single Place": false, "CardID": cardID])
+                .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "Country": selectCountry.text!, "Single Place": false, "CardID": cardID])
             
             // Adding Location Data from this ViewController.
             db.collection(Constants.Firestore.CollectionName.VBC)
@@ -295,7 +295,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 .document(cardID)
                 .collection(Constants.Firestore.CollectionName.locations)
                 .document("\(cityName.text!) - \(streetName.text!)")
-                .setData(["City": cityName.text, "Street": streetName.text, "gMaps Link": googleMapsLink.text]) { error in
+                .setData(["City": cityName.text!, "Street": streetName.text!, "gMaps Link": googleMapsLink.text!]) { error in
                 
                 if error != nil {
                     self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
@@ -321,6 +321,8 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         // Perform Segue to view List of Locations
         self.performSegue(withIdentifier: Constants.Segue.cAddLocationList, sender: self)
     }
+
+// MARK: - Prepare for Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

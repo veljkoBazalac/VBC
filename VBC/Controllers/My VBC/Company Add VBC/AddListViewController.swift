@@ -12,7 +12,7 @@ protocol MultiplePlacesDelegate: AnyObject {
     func getNumberOfPlaces(places: Int)
 }
 
-class AddListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AddListCellDelegate {
+class AddListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DeleteCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -98,7 +98,7 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let placeRow = getMultiplePlacesList[indexPath.row]
         
-        cell.configure(with: "\(placeRow.city) - \(placeRow.street)")
+        cell.configure(with: "\(placeRow.city) - \(placeRow.street)", row: indexPath.row)
         cell.delegate = self
         
         return cell
@@ -106,7 +106,7 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
     
 // MARK: - Delete Cell Button
     
-        func deleteButtonPressed(with title: String) {
+    func deleteButtonPressed(with title: String, row: Int) {
             
             // Pop Up with Yes and No
             let alert = UIAlertController(title: "Delete this location?", message: "Are you sure that you want to delete this location?", preferredStyle: .alert)

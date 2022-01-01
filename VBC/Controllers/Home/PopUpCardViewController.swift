@@ -13,7 +13,6 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    
     var popUpTitle : String?
     var phoneNumbersList : [PhoneNumber] = []
     var emailAddressList : [String] = []
@@ -31,17 +30,12 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: Constants.Nib.addLocList, bundle: nil), forCellReuseIdentifier: Constants.Cell.addLocListCell)
+        tableView.register(UINib(nibName: Constants.Nib.popUpCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.popUpCell)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        print(callPressed,emailPressed,websitePressed)
-        
-        print(phoneNumbersList, emailAddressList, websiteList)
-        
         tableView.reloadData()
     }
     
@@ -55,12 +49,11 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             return websiteList.count
         }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.addLocListCell, for: indexPath) as! AddLocListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.popUpCell, for: indexPath) as! CardPopUpCell
         
         if callPressed == true {
             cell.cellTextLabel.text = "\(phoneNumbersList[indexPath.row].code)\(phoneNumbersList[indexPath.row].number)"
@@ -80,7 +73,7 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
                         UIApplication.shared.open(phoneNumber, options: [:], completionHandler: nil)
                     }
         } else if emailPressed == true {
-            if let email = URL(string:"mailto://\(emailAddressList[indexPath.row])"), UIApplication.shared.canOpenURL(email) {
+            if let email = URL(string:"mailto:\(emailAddressList[indexPath.row])"), UIApplication.shared.canOpenURL(email) {
                         UIApplication.shared.open(email, options: [:], completionHandler: nil)
                     }
         } else {
@@ -90,11 +83,5 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             present(svc, animated: true, completion: nil)
         
         }
-        
     }
-    
-    
-    
-
-
 }

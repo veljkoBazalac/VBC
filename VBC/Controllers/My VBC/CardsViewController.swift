@@ -92,12 +92,12 @@ class CardsViewController: UIViewController {
                         }
                         
                         if diff.type == .modified {
-                            print("Modified")
+                            //print("Modified")
                         }
                         
                         if diff.type == .removed {
                             
-                            print("Removed")
+                            //print("Removed")
                         }
                         
                         DispatchQueue.main.async {
@@ -154,12 +154,12 @@ class CardsViewController: UIViewController {
                         }
                         
                         if diff.type == .modified {
-                            print("Modified")
+                            //print("Modified")
                         }
                         
                         if diff.type == .removed {
                             
-                            print("Removed")
+                            //print("Removed")
                         }
                         
                         DispatchQueue.main.async {

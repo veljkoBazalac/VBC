@@ -36,10 +36,15 @@ struct Constants {
         static let cAdd2 = "CompanyAddVBC2"
         static let cAddLocationList = "AddNewLocationList"
         static let cAdd3 = "CompanyAddVBC3"
+        static let cPhoneListSegue = "CPhoneListSegue"
+        static let cEmailListSegue = "CEmailListSegue"
+        static let cWebsiteListSegue = "CWebsiteListSegue"
         static let cAddFinish = "CompanyAddVBCFinish"
             // Personal Add VBC
         static let pAdd1 = "PersonalAddVBC1"
         static let pAdd2 = "PersonalAddVBC2"
+        static let pAdd3 = "PersonalAddVBC3"
+        static let pAddFinish = "PersonalAddVBCFinish"
         
         
     }
@@ -47,12 +52,14 @@ struct Constants {
     struct Cell {
         static let homeCell = "homeCell"
         static let addLocListCell = "addLocListCell"
+        static let popUpCell = "CardPopUpCell"
     
     }
     
     struct Nib {
         static let homeViewCell = "HomeViewCell"
         static let addLocList = "AddLocListTableViewCell"
+        static let popUpCell = "CardPopUpCell"
     }
     
     struct Firestore {

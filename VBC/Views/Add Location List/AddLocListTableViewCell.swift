@@ -7,14 +7,15 @@
 
 import UIKit
 
-protocol AddListCellDelegate: AnyObject {
-    func deleteButtonPressed(with title: String)
+protocol DeleteCellDelegate: AnyObject {
+    func deleteButtonPressed(with title: String, row: Int)
 }
 
 class AddLocListTableViewCell: UITableViewCell {
 
-    weak var delegate: AddListCellDelegate?
+    weak var delegate: DeleteCellDelegate?
     private var rowTitle: String = ""
+    private var rowNumber: Int = 0
     var documentName: String = ""
     
     @IBOutlet weak var cellTextLabel: UILabel!
@@ -24,13 +25,14 @@ class AddLocListTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configure(with title: String) {
+    func configure(with title: String, row: Int) {
         self.rowTitle = title
+        self.rowNumber = row
         cellTextLabel.text = title
     }
     
     @IBAction func deleteButtonPressed(_ sender: UIButton) {
-        delegate?.deleteButtonPressed(with: rowTitle)
+        delegate?.deleteButtonPressed(with: rowTitle, row: rowNumber)
     }
     
 }

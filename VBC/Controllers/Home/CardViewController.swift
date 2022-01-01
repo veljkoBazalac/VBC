@@ -314,7 +314,7 @@ class CardViewController: UIViewController {
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(companyOrPersonal())
             .collection(user!)
-            .document(singleOrMultiple())
+            .document(Constants.Firestore.CollectionName.singlePlace)
             .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .getDocument { document, error in
@@ -604,7 +604,6 @@ class CardViewController: UIViewController {
         }
     }
     
-    
     // MARK: - Buttons
     
     // About Button Pressed
@@ -658,7 +657,6 @@ extension CardViewController {
                 }
             }
     }
-    
     
     // MARK: - Get Multiple Places List
     
