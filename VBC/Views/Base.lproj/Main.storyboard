@@ -1484,9 +1484,10 @@
                         <outlet property="imageView" destination="Ab3-ah-MdC" id="3hV-jv-JzE"/>
                         <outlet property="infoButton" destination="zgK-Bc-tKM" id="Zjj-Vt-yJw"/>
                         <outlet property="listButton" destination="es3-02-cbd" id="pvb-yV-AqV"/>
-                        <outlet property="personalName" destination="FlG-g6-xMT" id="Eop-jS-ESI"/>
+                        <outlet property="nextButton" destination="gT1-B0-bhp" id="Uj1-zk-Szt"/>
+                        <outlet property="personalName" destination="FlG-g6-xMT" id="Qey-xR-QKH"/>
                         <outlet property="personalProductType" destination="rKG-Zj-YhM" id="QOm-Do-x8v"/>
-                        <outlet property="personalSector" destination="uBf-an-sng" id="pKR-yr-cy3"/>
+                        <outlet property="personalSector" destination="uBf-an-sng" id="sEK-tj-CHd"/>
                         <outlet property="phoneCode" destination="olp-bt-r5e" id="K2q-V7-bL1"/>
                         <outlet property="phoneNumber" destination="GFW-Mv-ceM" id="1Qf-Vu-sk2"/>
                         <outlet property="selectCountry" destination="gqS-OL-zHC" id="wUo-me-rgZ"/>
@@ -1526,8 +1527,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsn-X1-su5">
-                                                <rect key="frame" x="79.666666666666657" y="28.333333333333343" width="100.66666666666666" height="23.333333333333329"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sector" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsn-X1-su5">
+                                                <rect key="frame" x="104.99999999999999" y="28.333333333333343" width="50.333333333333329" height="23.333333333333329"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1572,14 +1573,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hru-48-zkG" userLabel="Name">
                                         <rect key="frame" x="0.0" y="40" width="350" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4Z-AU-jmi">
-                                                <rect key="frame" x="0.0" y="0.0" width="54" height="30"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4Z-AU-jmi">
+                                                <rect key="frame" x="0.0" y="0.0" width="57.666666666666664" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste Link here..." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MoP-uX-ohg">
-                                                <rect key="frame" x="64" y="0.0" width="286" height="30"/>
+                                                <rect key="frame" x="67.666666666666657" y="0.0" width="282.33333333333337" height="30"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="xzn-uc-73r"/>
@@ -1621,6 +1622,7 @@
                                         <state key="normal" image="plus" catalog="system"/>
                                         <connections>
                                             <action selector="addLocationPressed:" destination="VZB-T1-8BV" eventType="touchUpInside" id="OSj-7x-nBx"/>
+                                            <action selector="addSocialButtonPressed:" destination="GS1-3h-Zd2" eventType="touchUpInside" id="3mZ-yf-h5t"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2yd-wt-IEW">
@@ -1630,24 +1632,66 @@
                                         </constraints>
                                         <color key="tintColor" name="Color SDS"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="list.dash" catalog="system"/>
+                                        <state key="normal" image="list.dash.header.rectangle" catalog="system"/>
                                         <connections>
                                             <action selector="listButtonPressed:" destination="VZB-T1-8BV" eventType="touchUpInside" id="hTT-3P-Rjc"/>
+                                            <action selector="showSocialList:" destination="GS1-3h-Zd2" eventType="touchUpInside" id="eGg-bA-syl"/>
+                                            <segue destination="tfr-7D-2Xr" kind="popoverPresentation" identifier="pSocialListSegue" popoverAnchorView="2yd-wt-IEW" id="1tK-YE-rgx">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8ey-eg-jYU" userLabel="Email Address Stack">
-                                <rect key="frame" x="20" y="400" width="350" height="104"/>
+                                <rect key="frame" x="20" y="400" width="350" height="70"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giQ-XA-SIU">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="24"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="dwp-Ih-5AE" userLabel="Add Email Stack">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giQ-XA-SIU">
+                                                <rect key="frame" x="0.0" y="3" width="270" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OQF-es-vcA">
+                                                <rect key="frame" x="280" y="0.0" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="GFq-xx-stR"/>
+                                                    <constraint firstAttribute="height" constant="30" id="ey2-rs-Xqh"/>
+                                                </constraints>
+                                                <color key="tintColor" name="Color Dark"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="plus" catalog="system"/>
+                                                <connections>
+                                                    <action selector="addEmailButtonPressed:" destination="GS1-3h-Zd2" eventType="touchUpInside" id="Npk-kf-hYc"/>
+                                                    <action selector="addPhonePressed:" destination="cBh-n3-mQg" eventType="touchUpInside" id="YKe-Gt-qL4"/>
+                                                    <action selector="addPhonePressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="dSQ-tA-Ahh"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KGK-e0-taY">
+                                                <rect key="frame" x="320" y="0.0" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="2FG-Gu-40S"/>
+                                                    <constraint firstAttribute="width" constant="30" id="ZTp-0f-WNg"/>
+                                                </constraints>
+                                                <color key="tintColor" name="Color Dark"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="list.dash.header.rectangle" catalog="system"/>
+                                                <connections>
+                                                    <action selector="showEmailList:" destination="GS1-3h-Zd2" eventType="touchUpInside" id="RDC-ol-ABZ"/>
+                                                    <action selector="showPhoneListPressed:" destination="cBh-n3-mQg" eventType="touchUpInside" id="1hf-ly-RTm"/>
+                                                    <action selector="showPhoneListPressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="8fA-nc-jWx"/>
+                                                    <segue destination="tfr-7D-2Xr" kind="popoverPresentation" identifier="pEmailListSegue" popoverAnchorView="KGK-e0-taY" id="TtW-71-JlF">
+                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                    </segue>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sWt-Xj-Mzg" userLabel="Email Stack">
-                                        <rect key="frame" x="0.0" y="34" width="350" height="30"/>
+                                        <rect key="frame" x="0.0" y="40" width="350" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bre-FI-ynq">
                                                 <rect key="frame" x="0.0" y="0.0" width="49.666666666666664" height="30"/>
@@ -1656,7 +1700,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Email Address" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vev-N0-ZkB">
-                                                <rect key="frame" x="59.666666666666671" y="0.0" width="250.33333333333331" height="30"/>
+                                                <rect key="frame" x="59.666666666666657" y="0.0" width="290.33333333333337" height="30"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="2qN-OS-Meq"/>
@@ -1665,57 +1709,65 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J4u-zo-ZVJ">
-                                                <rect key="frame" x="320" y="0.0" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="saG-Rl-K7X"/>
-                                                </constraints>
-                                                <buttonConfiguration key="configuration" style="plain"/>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="TzR-aq-uQL" userLabel="Email2 Stack">
-                                        <rect key="frame" x="0.0" y="74" width="350" height="30"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email 2 :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIm-Hy-3pH">
-                                                <rect key="frame" x="0.0" y="0.0" width="64" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Email Address" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RW2-Np-9ji">
-                                                <rect key="frame" x="74" y="0.0" width="276" height="30"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="Ojf-gi-fl0"/>
-                                                </constraints>
-                                                <color key="textColor" name="Color SDS"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" textContentType="email"/>
-                                            </textField>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="giQ-XA-SIU" firstAttribute="leading" secondItem="8ey-eg-jYU" secondAttribute="leading" id="1nh-PM-fog"/>
-                                    <constraint firstAttribute="trailing" secondItem="TzR-aq-uQL" secondAttribute="trailing" id="3ym-4A-UFV"/>
-                                    <constraint firstItem="TzR-aq-uQL" firstAttribute="leading" secondItem="8ey-eg-jYU" secondAttribute="leading" id="AkZ-kW-Faq"/>
-                                    <constraint firstAttribute="trailing" secondItem="giQ-XA-SIU" secondAttribute="trailing" id="Q8k-iR-36d"/>
+                                    <constraint firstItem="dwp-Ih-5AE" firstAttribute="leading" secondItem="8ey-eg-jYU" secondAttribute="leading" id="Puc-7q-Xta"/>
+                                    <constraint firstAttribute="trailing" secondItem="dwp-Ih-5AE" secondAttribute="trailing" id="fVL-rj-JaL"/>
                                     <constraint firstItem="sWt-Xj-Mzg" firstAttribute="leading" secondItem="8ey-eg-jYU" secondAttribute="leading" id="hGh-6h-nLo"/>
                                     <constraint firstAttribute="trailing" secondItem="sWt-Xj-Mzg" secondAttribute="trailing" id="icC-hX-qmO"/>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="GkR-wb-P3J" userLabel="Website Stack">
-                                <rect key="frame" x="20" y="534" width="350" height="104"/>
+                                <rect key="frame" x="20" y="500" width="350" height="70"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4v-0Z-YpE">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="24"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kPf-Uo-JDF" userLabel="Add Website Stack">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Website" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so4-w2-bIx">
+                                                <rect key="frame" x="0.0" y="3" width="270" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Csw-tU-8dj">
+                                                <rect key="frame" x="280" y="0.0" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="30" id="bYV-RB-B2u"/>
+                                                    <constraint firstAttribute="height" constant="30" id="fbk-nr-0ka"/>
+                                                </constraints>
+                                                <color key="tintColor" name="Color Dark"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="plus" catalog="system"/>
+                                                <connections>
+                                                    <action selector="addPhonePressed:" destination="cBh-n3-mQg" eventType="touchUpInside" id="KPZ-VU-umX"/>
+                                                    <action selector="addPhonePressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="hty-U7-Sop"/>
+                                                    <action selector="addWebsiteButtonPressed:" destination="GS1-3h-Zd2" eventType="touchUpInside" id="SYt-kO-9FX"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c6a-w7-dmM">
+                                                <rect key="frame" x="320" y="0.0" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="0Mt-BK-v0v"/>
+                                                    <constraint firstAttribute="width" constant="30" id="Uq5-by-yFl"/>
+                                                </constraints>
+                                                <color key="tintColor" name="Color Dark"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="list.dash.header.rectangle" catalog="system"/>
+                                                <connections>
+                                                    <action selector="showPhoneListPressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="eL2-EE-D86"/>
+                                                    <action selector="showPhoneListPressed:" destination="cBh-n3-mQg" eventType="touchUpInside" id="fWP-az-W40"/>
+                                                    <action selector="showWebsiteList:" destination="GS1-3h-Zd2" eventType="touchUpInside" id="MMt-Hk-pQr"/>
+                                                    <segue destination="tfr-7D-2Xr" kind="popoverPresentation" identifier="pWebsiteListSegue" popoverAnchorView="c6a-w7-dmM" id="ZfB-ww-0Mj">
+                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                    </segue>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="bDT-t8-M2M" userLabel="Website1 Stack">
-                                        <rect key="frame" x="0.0" y="34" width="350" height="30"/>
+                                        <rect key="frame" x="0.0" y="40" width="350" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Website :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="91S-e5-C3Q">
                                                 <rect key="frame" x="0.0" y="0.0" width="70.666666666666671" height="30"/>
@@ -1723,8 +1775,14 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5w-rj-HXc">
+                                                <rect key="frame" x="80.666666666666671" y="0.0" width="41.666666666666671" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Website Link" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1kM-LB-1CY">
-                                                <rect key="frame" x="80.666666666666671" y="0.0" width="229.33333333333331" height="30"/>
+                                                <rect key="frame" x="132.33333333333337" y="0.0" width="217.66666666666663" height="30"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="XVN-cm-4zR"/>
@@ -1733,44 +1791,14 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" textContentType="url"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y20-ye-ddB">
-                                                <rect key="frame" x="320" y="0.0" width="30" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="mw5-mp-OH5"/>
-                                                </constraints>
-                                                <buttonConfiguration key="configuration" style="plain"/>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="TtY-6l-Qo1" userLabel="Website2 Stack">
-                                        <rect key="frame" x="0.0" y="74" width="350" height="30"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Website 2 :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8c-vI-1m5">
-                                                <rect key="frame" x="0.0" y="0.0" width="85" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Website Link" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xvf-v8-bgU">
-                                                <rect key="frame" x="95" y="0.0" width="255" height="30"/>
-                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="twF-6D-Fyr"/>
-                                                </constraints>
-                                                <color key="textColor" name="Color SDS"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" textContentType="url"/>
-                                            </textField>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="TtY-6l-Qo1" secondAttribute="trailing" id="9Zd-hh-had"/>
-                                    <constraint firstAttribute="trailing" secondItem="f4v-0Z-YpE" secondAttribute="trailing" id="Gu1-b7-NTf"/>
-                                    <constraint firstItem="f4v-0Z-YpE" firstAttribute="leading" secondItem="GkR-wb-P3J" secondAttribute="leading" id="YrI-tf-od7"/>
+                                    <constraint firstAttribute="trailing" secondItem="kPf-Uo-JDF" secondAttribute="trailing" id="QD4-6r-QOA"/>
                                     <constraint firstAttribute="trailing" secondItem="bDT-t8-M2M" secondAttribute="trailing" id="bsV-bk-JZI"/>
+                                    <constraint firstItem="kPf-Uo-JDF" firstAttribute="leading" secondItem="GkR-wb-P3J" secondAttribute="leading" id="kSi-Xt-jsv"/>
                                     <constraint firstItem="bDT-t8-M2M" firstAttribute="leading" secondItem="GkR-wb-P3J" secondAttribute="leading" id="kzR-y9-adF"/>
-                                    <constraint firstItem="TtY-6l-Qo1" firstAttribute="leading" secondItem="GkR-wb-P3J" secondAttribute="leading" id="nZw-Ye-mnI"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -1795,9 +1823,28 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add New VBC - Step 3/3" id="yUk-ci-0AL">
-                        <barButtonItem key="rightBarButtonItem" title="Finish" id="oo7-hS-GIt"/>
+                        <barButtonItem key="rightBarButtonItem" title="Finish" id="oo7-hS-GIt">
+                            <connections>
+                                <action selector="finishButtonPressed:" destination="GS1-3h-Zd2" id="1hM-PE-h8r"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addEmail" destination="OQF-es-vcA" id="p0q-ds-6hs"/>
+                        <outlet property="addSocial" destination="Gy4-zn-g62" id="DgL-eu-QSF"/>
+                        <outlet property="addWebsite" destination="Csw-tU-8dj" id="47f-ak-MPy"/>
+                        <outlet property="emailAddress" destination="Vev-N0-ZkB" id="laA-dV-Mjh"/>
+                        <outlet property="emailList" destination="KGK-e0-taY" id="QNv-MI-Bea"/>
+                        <outlet property="imageView" destination="ISo-6F-2wH" id="pgg-Wm-vYa"/>
+                        <outlet property="personalName" destination="jWb-kZ-kWe" id="Lfz-NR-fcW"/>
+                        <outlet property="personalProductType" destination="5Ng-NJ-sme" id="5XI-Yf-TVc"/>
+                        <outlet property="personalSector" destination="bsn-X1-su5" id="Sb8-FZ-Zuu"/>
+                        <outlet property="selectSocial" destination="qKb-bQ-A7z" id="Vw5-1W-z0P"/>
+                        <outlet property="socialList" destination="2yd-wt-IEW" id="ygY-AQ-kTM"/>
+                        <outlet property="socialProfile" destination="MoP-uX-ohg" id="jKd-l7-ORb"/>
+                        <outlet property="websiteLink" destination="1kM-LB-1CY" id="GZL-I1-fZM"/>
+                        <outlet property="websiteList" destination="c6a-w7-dmM" id="S9R-bL-f7j"/>
+                        <outlet property="wwwLabel" destination="O5w-rj-HXc" id="DJL-Qi-220"/>
                         <segue destination="SpS-Bk-d4P" kind="show" identifier="PersonalAddVBCFinish" id="0pf-m5-NN7"/>
                     </connections>
                 </viewController>
@@ -3141,11 +3188,12 @@ Metalac inko d.o.o. proizvodi inox i granitne sudopere i Granmatrix kompozitne p
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="gVv-jC-U4b"/>
         <segue reference="BEj-3X-WDA"/>
         <segue reference="Rp6-LF-omk"/>
         <segue reference="tcA-6k-Npe"/>
         <segue reference="GR6-hE-tZO"/>
-        <segue reference="ui4-j4-s12"/>
+        <segue reference="0pf-m5-NN7"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Add Logo" width="666.66668701171875" height="666.66668701171875"/>

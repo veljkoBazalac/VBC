@@ -79,10 +79,10 @@ class PAdd1VC: UIViewController {
                 let destinationVC = segue.destination as! PAdd2VC
 
                     destinationVC.sectorNumber = sectorRow
-                    destinationVC.logoImage = imageView.image
-                    destinationVC.newPersonalName = personalName.text
-                    destinationVC.newSector = selectSector.text
-                    destinationVC.newProductType = productType.text
+                    destinationVC.personalImage2 = imageView.image
+                    destinationVC.personalName2 = personalName.text
+                    destinationVC.personalSector2 = selectSector.text
+                    destinationVC.personalProductType2 = productType.text
                
             }
         }

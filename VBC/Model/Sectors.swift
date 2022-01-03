@@ -8,6 +8,5 @@
 import Foundation
 
 struct Sectors {
-    
     var name : String = ""
 }

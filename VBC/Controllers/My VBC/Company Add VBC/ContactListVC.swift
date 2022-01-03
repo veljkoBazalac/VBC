@@ -59,13 +59,13 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         tableView.register(UINib(nibName: Constants.Nib.addLocList, bundle: nil), forCellReuseIdentifier: Constants.Cell.addLocListCell)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         getData()
     }
-
-// MARK: - Get Data Function
+    
+    // MARK: - Get Data Function
     
     func getData() {
         if singlePlace == true {
@@ -75,7 +75,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
     }
     
-// MARK: - Table View
+    // MARK: - Table View
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -105,7 +105,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         return cell
     }
     
-// MARK: - Get Key for Deleted Button
+    // MARK: - Get Key for Deleted Button
     
     func getKey(rowNumber: Int) -> String {
         
@@ -118,8 +118,8 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
         
     }
-
-// MARK: - Delete Cell Button Pressed
+    
+    // MARK: - Delete Cell Button Pressed
     
     func deleteButtonPressed(with title: String, row: Int) {
         
@@ -143,15 +143,15 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         .document(cardID)
                         .updateData(["\(fieldKey)": FieldValue.delete()])
                 } else {
-                db.collection(Constants.Firestore.CollectionName.VBC)
-                    .document(Constants.Firestore.CollectionName.companyCards)
-                    .collection(user!)
-                    .document(Constants.Firestore.CollectionName.multiplePlaces)
-                    .collection(Constants.Firestore.CollectionName.cardID)
-                    .document(cardID)
-                    .collection(Constants.Firestore.CollectionName.locations)
-                    .document(dataForLocation!)
-                    .updateData(["\(fieldKey)": FieldValue.delete()])
+                    db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .collection(user!)
+                        .document(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(cardID)
+                        .collection(Constants.Firestore.CollectionName.locations)
+                        .document(dataForLocation!)
+                        .updateData(["\(fieldKey)": FieldValue.delete()])
                 }
                 
                 if phoneListPressed == true {
@@ -165,7 +165,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                     getData()
                 }
                 delegate?.keyForContactData(key: fieldKey)
-                } else {
+            } else {
                 
                 if singlePlace == true {
                     db.collection(Constants.Firestore.CollectionName.VBC)
@@ -176,16 +176,16 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         .document(cardID)
                         .updateData(["\(fieldKey)": FieldValue.delete()])
                 } else {
-        
-                db.collection(Constants.Firestore.CollectionName.VBC)
-                    .document(Constants.Firestore.CollectionName.companyCards)
-                    .collection(user!)
-                    .document(Constants.Firestore.CollectionName.multiplePlaces)
-                    .collection(Constants.Firestore.CollectionName.cardID)
-                    .document(cardID)
-                    .collection(Constants.Firestore.CollectionName.locations)
-                    .document(dataForLocation!)
-                    .updateData(["\(fieldKey)": FieldValue.delete()])
+                    
+                    db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .collection(user!)
+                        .document(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(cardID)
+                        .collection(Constants.Firestore.CollectionName.locations)
+                        .document(dataForLocation!)
+                        .updateData(["\(fieldKey)": FieldValue.delete()])
                 }
                 
                 if phoneListPressed == true {
@@ -207,7 +207,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.present(alert, animated: true, completion: nil)
     }
     
-// MARK: - Get Multiple Places Contact Data
+    // MARK: - Get Multiple Places Contact Data
     
     func getMPContactData() {
         

@@ -210,7 +210,7 @@ class CAdd3ViewController: UIViewController {
         // Adding Phone Numbers to Firestore
         if phoneNumber.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-                if phone1 == "" {
+                if phone1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     phone1 = phoneNumber.text!
                     
                     if numberOfPlaces <= 1 {
@@ -226,7 +226,7 @@ class CAdd3ViewController: UIViewController {
                     }
                     phoneNumber.text = ""
                     
-                } else if phone2 == "" {
+                } else if phone2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     phone2 = phoneNumber.text!
                     
                     if numberOfPlaces <= 1 {
@@ -242,7 +242,7 @@ class CAdd3ViewController: UIViewController {
                     }
                     phoneNumber.text = ""
                     
-                } else if phone3 == "" {
+                } else if phone3.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     phone3 = phoneNumber.text!
                     
                     if numberOfPlaces <= 1 {
@@ -271,7 +271,7 @@ class CAdd3ViewController: UIViewController {
         // Adding Emails to Firestore
         if emailAddress.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
     
-                if email1 == "" {
+            if email1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     email1 = emailAddress.text!
                     
                     if numberOfPlaces <= 1 {
@@ -281,7 +281,7 @@ class CAdd3ViewController: UIViewController {
                     }
                     emailAddress.text = ""
                     
-                } else if email2 == "" {
+            } else if email2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     email2 = emailAddress.text!
                     
                     if numberOfPlaces <= 1 {
@@ -292,7 +292,7 @@ class CAdd3ViewController: UIViewController {
                     emailAddress.text = ""
                 
             } else {
-                popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 2 Email Address to your VBC.")
+                popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 2 Email Addresses to your VBC.")
             }
         } else {
             popUpWithOk(newTitle: "Missing Email", newMessage: "Please Enter your Email Address.")
@@ -305,7 +305,7 @@ class CAdd3ViewController: UIViewController {
         // Adding Websites to Firestore
         if websiteLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-                if web1 == "" {
+                if web1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     web1 = websiteLink.text!
                     
                     if numberOfPlaces <= 1 {
@@ -315,7 +315,7 @@ class CAdd3ViewController: UIViewController {
                     }
                     websiteLink.text = ""
                     
-                } else if web2 == "" {
+                } else if web2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     web2 = websiteLink.text!
                     
                     if numberOfPlaces <= 1 {
@@ -536,7 +536,7 @@ extension CAdd3ViewController: NumberOfContactDataDelegate {
 
         func keyForContactData(key: String) {
             
-            if key == Constants.Firestore.Key.phone2 {
+            if key == Constants.Firestore.Key.phone1 {
                 phone1 = ""
             } else if key == Constants.Firestore.Key.phone2 {
                 phone2 = ""

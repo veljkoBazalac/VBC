@@ -28,6 +28,8 @@ class PAdd2VC: UIViewController {
     @IBOutlet weak var listButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     
+    // Next Button Outlet
+    @IBOutlet weak var nextButton: UIBarButtonItem!
     // Firebase Firestore Database
     let db = Firestore.firestore()
     // Firebase Storage
@@ -48,10 +50,10 @@ class PAdd2VC: UIViewController {
     
     // Basic Info from 1st Step
     var sectorNumber : Int?
-    var logoImage : UIImage?
-    var newPersonalName : String?
-    var newSector : String?
-    var newProductType : String?
+    var personalImage2 : UIImage?
+    var personalName2 : String?
+    var personalSector2 : String?
+    var personalProductType2 : String?
     
     // Phone Info from 2nd Step
     var phone1 : String = ""
@@ -63,14 +65,16 @@ class PAdd2VC: UIViewController {
         
         getCountryList()
         
+        nextButton.isEnabled = false
+        
         pickerView.delegate = self
         pickerView.dataSource = self
         selectCountry.inputView = pickerView
         
-        imageView.image = logoImage
-        personalName.text = newPersonalName
-        personalSector.text = newSector
-        personalProductType.text = newProductType
+        imageView.image = personalImage2
+        personalName.text = personalName2
+        personalSector.text = personalSector2
+        personalProductType.text = personalProductType2
     }
     
     // MARK: - Add Phone Button Pressed
@@ -124,6 +128,20 @@ class PAdd2VC: UIViewController {
             destinationVC.phoneNumbers = phoneNumberList
             destinationVC.delegate = self
         }
+        
+        if segue.identifier == Constants.Segue.pAdd3 {
+            
+            let destinationVC = segue.destination as! PAdd3VC
+            
+            // Basic Info from 1st Step
+            destinationVC.personalImage3 = personalImage2
+            destinationVC.personalName3 = personalName2!
+            destinationVC.personalSector3 = personalSector2!
+            destinationVC.personalProductType3 = personalProductType2!
+    
+            // Card ID from 2nd Step
+            destinationVC.personalCardID = cardID
+        }
     }
     
     // MARK: - Pop Up With Ok
@@ -157,6 +175,7 @@ class PAdd2VC: UIViewController {
         
         let newCardID = "VBC\(countryCode)S\(sectorNumber!)\(personalShortName)\(randomNumber)"
         cardID = newCardID
+        nextButton.isEnabled = true
     }
     
     // MARK: - Configure Phone Numbers and return String for Firebase
@@ -270,7 +289,7 @@ class PAdd2VC: UIViewController {
     
     func uploadImage() {
         
-        guard let image = logoImage, let data = image.jpegData(compressionQuality: 1.0) else {
+        guard let image = personalImage2, let data = image.jpegData(compressionQuality: 1.0) else {
             popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
             return
         }

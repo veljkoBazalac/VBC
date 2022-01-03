@@ -28,9 +28,9 @@ struct Constants {
         
         // Cards
         static let viewCard = "ViewCardSegue"
-        static let addVBC = "addVBCSegue"
         static let cardToPopUp = "CardToPopUp"
-    
+        static let addVBC = "addVBCSegue"
+        
             // Company Add VBC
         static let cAdd1 = "CompanyAddVBC1"
         static let cAdd2 = "CompanyAddVBC2"
@@ -45,9 +45,10 @@ struct Constants {
         static let pAdd2 = "PersonalAddVBC2"
         static let pPhoneListSegue = "PPhoneListSegue"
         static let pAdd3 = "PersonalAddVBC3"
+        static let pSocialList = "pSocialListSegue"
+        static let pEmailList = "pEmailListSegue"
+        static let pWebList = "pWebsiteListSegue"
         static let pAddFinish = "PersonalAddVBCFinish"
-        
-        
     }
     
     struct Cell {
@@ -76,9 +77,8 @@ struct Constants {
             static let singlePlace = "Single Place"
             static let cardID = "Card ID"
             static let locations = "Locations"
-            
-             
-            
+            static let social = "Social Media"
+        
         }
         
         struct Key {
@@ -103,12 +103,19 @@ struct Constants {
             static let email2 = "Email 2"
             static let web1 = "Website 1"
             static let web2 = "Website 2"
+            static let social1 = "Social Network 1"
+            static let social2 = "Social Network 2"
+            static let social3 = "Social Network 3"
+            static let social4 = "Social Network 4"
+            static let social5 = "Social Network 5"
             
             // Key for Location Info
             static let city = "City"
             static let street = "Street"
             static let gMaps = "gMaps Link"
             
+            // Key for Social Network
+            static let link = "link"
         }
         
         struct Storage {

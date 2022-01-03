@@ -13,7 +13,6 @@ struct Country {
     
     func getCountryCode(country: String) -> String {
         
-        
         switch country {
         case "Serbia":
             return "381"

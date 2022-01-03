@@ -22,7 +22,6 @@ class CardsViewController: UIViewController {
     let user = Auth.auth().currentUser?.uid
     // Company Cards Dictionary
     var companyCards : [ShowVBC] = []
-    
     var companyCard : Bool = true
     
     var cardID : [String] = []
