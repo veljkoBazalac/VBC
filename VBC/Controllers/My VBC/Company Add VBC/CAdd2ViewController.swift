@@ -215,6 +215,16 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         cardID = newCardID
     }
     
+    func createUserID() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.companyCards)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .setData(["User ID" : user!], merge: true)
+        
+    }
+    
 // MARK: - Next Button Pressed
     
     @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
@@ -232,14 +242,17 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                     // Uploading Logo image.
                     //uploadImage()
                     
+                    // Create UserID
+                    createUserID()
+                    
                     // Adding Data to Firestore Database if user selected Single Place
                     db.collection(Constants.Firestore.CollectionName.VBC)
                         .document(Constants.Firestore.CollectionName.companyCards)
-                        .collection(user!)
-                        .document(Constants.Firestore.CollectionName.singlePlace)
-                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(user!)
+                        .collection(Constants.Firestore.CollectionName.singlePlace)
                         .document(cardID)
-                        .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "Country": selectCountry.text!, "Single Place": true, "City": cityName.text!, "Street": streetName.text!, "gMaps Link": googleMapsLink.text!]) { error in
+                        .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "CardID": cardID, "Country": selectCountry.text!, "Single Place": true, "City": cityName.text!, "Street": streetName.text!, "gMaps Link": googleMapsLink.text!, "Company Card": true, "User ID": user!]) { error in
                         
                         if error != nil {
                             self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
@@ -277,21 +290,23 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
 
         } else {
            
+            createUserID()
+            
             // Adding Basic Data from previous ViewController.
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.companyCards)
-                .collection(user!)
-                .document(Constants.Firestore.CollectionName.multiplePlaces)
-                .collection(Constants.Firestore.CollectionName.cardID)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.multiplePlaces)
                 .document(cardID)
-                .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "Country": selectCountry.text!, "Single Place": false, "CardID": cardID])
+                .setData(["Name": companyName.text!, "Sector": companySector.text!, "ProductType": companyProductType.text!, "Country": selectCountry.text!, "Single Place": false, "CardID": cardID, "Company Card": true, "User ID": user!])
             
             // Adding Location Data from this ViewController.
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.companyCards)
-                .collection(user!)
-                .document(Constants.Firestore.CollectionName.multiplePlaces)
-                .collection(Constants.Firestore.CollectionName.cardID)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.multiplePlaces)
                 .document(cardID)
                 .collection(Constants.Firestore.CollectionName.locations)
                 .document("\(cityName.text!) - \(streetName.text!)")

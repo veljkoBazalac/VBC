@@ -51,9 +51,9 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
-            .collection(user!)
-            .document(Constants.Firestore.CollectionName.multiplePlaces)
-            .collection(Constants.Firestore.CollectionName.cardID)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.multiplePlaces)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
@@ -120,9 +120,9 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if getMultiplePlacesList.count > 1 {
                     db.collection(Constants.Firestore.CollectionName.VBC)
                         .document(Constants.Firestore.CollectionName.companyCards)
-                        .collection(user!)
-                        .document(Constants.Firestore.CollectionName.multiplePlaces)
-                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(user!)
+                        .collection(Constants.Firestore.CollectionName.multiplePlaces)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(documentName)
@@ -134,9 +134,9 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                 } else {
                     db.collection(Constants.Firestore.CollectionName.VBC)
                         .document(Constants.Firestore.CollectionName.companyCards)
-                        .collection(user!)
-                        .document(Constants.Firestore.CollectionName.multiplePlaces)
-                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(user!)
+                        .collection(Constants.Firestore.CollectionName.multiplePlaces)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(documentName)

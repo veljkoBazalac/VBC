@@ -21,6 +21,7 @@ class PAdd3VC: UIViewController {
     @IBOutlet weak var socialProfile: UITextField!
     @IBOutlet weak var addSocial: UIButton!
     @IBOutlet weak var socialList: UIButton!
+    @IBOutlet weak var linkToFinish: UILabel!
     
     // Outlets for Email Address
     @IBOutlet weak var emailAddress: UITextField!
@@ -51,6 +52,7 @@ class PAdd3VC: UIViewController {
     
     // Location Info from 2nd Step
     var personalCardID : String = ""
+    var phoneCodeNumber : String = ""
     
     // Social Networks List Dict
     private var socialMediaList : [SocialMedia] = []
@@ -72,6 +74,11 @@ class PAdd3VC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        imageView.image = personalImage3
+        personalName.text = personalName3
+        personalSector.text = personalSector3
+        personalProductType.text = personalProductType3
+        
         getSocialMediaList()
         
         selectSocial.inputView = pickerView
@@ -87,7 +94,7 @@ class PAdd3VC: UIViewController {
     
     
     func blockSameSocialNetwork(name: String) {
-        // TODO: Zavrsi funkciju da blokira dodavanje iste socijalne mreze
+        
         socialExist = false
         
         if socialMediaNames.contains(name) == true {
@@ -277,8 +284,6 @@ class PAdd3VC: UIViewController {
     
     @IBAction func showSocialList(_ sender: UIButton) {
         performSegue(withIdentifier: Constants.Segue.pSocialList, sender: self)
-        
-        print(socialMediaNames)
     }
     
     
@@ -340,10 +345,12 @@ class PAdd3VC: UIViewController {
         
         if pressed != addSocial {
         // Adding Email and Website Data to Firestore
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
-            .collection(user!)
-            .document(personalCardID)
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.personalCards)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(personalCardID)
             .setData(["\(field)":"\(value)"], merge: true) { error in
                 
                 if error != nil {
@@ -364,7 +371,9 @@ class PAdd3VC: UIViewController {
             // Adding Social Media Data to Firestore
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.personalCards)
-                .collection(user!)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
                 .document(personalCardID)
                 .collection(Constants.Firestore.CollectionName.social)
                 .document(selectSocial.text!)
@@ -381,6 +390,14 @@ class PAdd3VC: UIViewController {
                         self.blinkButton(buttonName: blink)
                     }
                 }
+            
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.personalCards)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(personalCardID)
+                .setData(["Social Media Added" : true], merge: true)
         }
     }
     
@@ -434,6 +451,35 @@ class PAdd3VC: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func changeLinkToFinishLabel() {
+        
+        socialProfile.text = ""
+        socialProfile.placeholder = "Select Social Media"
+        
+        if selectSocial.text == "Facebook" {
+            linkToFinish.text = "facebook.com/"
+            socialProfile.placeholder = "Enter your Facebook Link"
+        } else if selectSocial.text == "Instagram" {
+            linkToFinish.text = "instagram.com/"
+            socialProfile.placeholder = "Enter your Instagram Link"
+        } else if selectSocial.text == "TikTok" || selectSocial.text == "Twitter" || selectSocial.text == "Pinterest" {
+            linkToFinish.text = "Username: @"
+            socialProfile.placeholder = "Enter your Name"
+        } else if selectSocial.text == "Viber" || selectSocial.text == "WhatsApp" {
+            linkToFinish.text = "Phone Number:"
+            socialProfile.text = phoneCodeNumber
+        } else if selectSocial.text == "LinkedIn" {
+            linkToFinish.text = "linkedin.com/in/"
+            socialProfile.placeholder = "Enter your Linked In Link"
+        } else if selectSocial.text == "GitHub" {
+            linkToFinish.text = "github.com/"
+            socialProfile.placeholder = "Enter your GitHub Link"
+        } else if selectSocial.text == "YouTube" {
+            linkToFinish.text = "youtube.com/channel/"
+            socialProfile.placeholder = "Enter your YouTube Link"
+        }
+    }
+    
 }
 
 // MARK: - UIPickerView
@@ -464,6 +510,7 @@ extension PAdd3VC: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if selectSocial.isEditing {
             selectSocial.text = socialMediaList[row].name
+            changeLinkToFinishLabel()
         } else {
             self.popUpWithOk(newTitle: "Error!", newMessage: "There was an Error when selected row. Please try again.")
         }

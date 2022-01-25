@@ -141,6 +141,7 @@ class PAdd2VC: UIViewController {
     
             // Card ID from 2nd Step
             destinationVC.personalCardID = cardID
+            destinationVC.phoneCodeNumber = phoneCode.text!
         }
     }
     
@@ -251,12 +252,25 @@ class PAdd2VC: UIViewController {
         // Uploading Logo image.
         //uploadImage()
         
+        
+        // Adding User ID data to Firestore Database
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.personalCards)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .setData(["User ID" : user!], merge: true)
+            
+        
         // Adding Data to Firestore Database
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.personalCards)
-            .collection(user!)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
-            .setData(["Name": personalName.text!,
+            .setData(["User ID": user!,
+                      "Company Card": false,
+                      "Name": personalName.text!,
                       "Sector": personalSector.text!,
                       "ProductType": personalProductType.text!,
                       "CardID": cardID,
@@ -340,6 +354,13 @@ class PAdd2VC: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - Get Country Code and Show it in Text Field
+    
+    func getCountryCode() {
+        let countryCode = Country().getCountryCode(country: selectCountry.text!)
+        phoneCode.text = "+\(countryCode)"
     }
     
     
@@ -426,6 +447,7 @@ extension PAdd2VC: UIPickerViewDelegate, UIPickerViewDataSource {
         if selectCountry.isEditing {
             selectCountry.text = countryList[row].name
             createCardID()
+            getCountryCode()
         }
         else {
             self.popUpWithOk(newTitle: "Error!", newMessage: "There was an Error when selected row. Please try again.")

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eAN-jW-xtK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eAN-jW-xtK">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -38,8 +38,8 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="g2u-f5-o4a">
                                 <rect key="frame" x="117.66666666666669" y="108" width="155" height="32"/>
                                 <segments>
-                                    <segment title="My Cards"/>
-                                    <segment title="Following"/>
+                                    <segment title="Company"/>
+                                    <segment title="Personal"/>
                                 </segments>
                                 <color key="tintColor" name="Color Dark"/>
                                 <color key="selectedSegmentTintColor" name="Color Yellow"/>
@@ -815,7 +815,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+381" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qdu-c4-hGv">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qdu-c4-hGv">
                                                 <rect key="frame" x="67.333333333333329" y="0.0" width="60" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="NS2-c4-6yn"/>
@@ -1425,7 +1425,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+381" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="olp-bt-r5e">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="olp-bt-r5e">
                                                 <rect key="frame" x="67.333333333333329" y="0.0" width="60" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="COK-Fz-0JY"/>
@@ -1573,14 +1573,14 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hru-48-zkG" userLabel="Name">
                                         <rect key="frame" x="0.0" y="40" width="350" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4Z-AU-jmi">
-                                                <rect key="frame" x="0.0" y="0.0" width="57.666666666666664" height="30"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D4Z-AU-jmi">
+                                                <rect key="frame" x="0.0" y="0.0" width="31.333333333333332" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste Link here..." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MoP-uX-ohg">
-                                                <rect key="frame" x="67.666666666666657" y="0.0" width="282.33333333333337" height="30"/>
+                                                <rect key="frame" x="41.333333333333343" y="0.0" width="308.66666666666663" height="30"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="xzn-uc-73r"/>
@@ -1836,6 +1836,7 @@
                         <outlet property="emailAddress" destination="Vev-N0-ZkB" id="laA-dV-Mjh"/>
                         <outlet property="emailList" destination="KGK-e0-taY" id="QNv-MI-Bea"/>
                         <outlet property="imageView" destination="ISo-6F-2wH" id="pgg-Wm-vYa"/>
+                        <outlet property="linkToFinish" destination="D4Z-AU-jmi" id="hTd-pv-fe7"/>
                         <outlet property="personalName" destination="jWb-kZ-kWe" id="Lfz-NR-fcW"/>
                         <outlet property="personalProductType" destination="5Ng-NJ-sme" id="5XI-Yf-TVc"/>
                         <outlet property="personalSector" destination="bsn-X1-su5" id="Sb8-FZ-Zuu"/>
@@ -2075,8 +2076,8 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="Rhi-bz-xsL" userLabel="Down Stack">
                                         <rect key="frame" x="0.0" y="398.66666666666663" width="390" height="182.33333333333337"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="bDf-jy-9qE" userLabel="Contact Stack">
-                                                <rect key="frame" x="50" y="0.0" width="290" height="92.333333333333329"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="bDf-jy-9qE" userLabel="Contact Stack">
+                                                <rect key="frame" x="10" y="0.0" width="370" height="92.333333333333329"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Call" translatesAutoresizingMaskIntoConstraints="NO" id="9mJ-W3-q4q">
                                                         <rect key="frame" x="0.0" y="21.333333333333371" width="50" height="50"/>
@@ -2116,6 +2117,16 @@
                                                         </constraints>
                                                         <connections>
                                                             <outletCollection property="gestureRecognizers" destination="N5S-GL-doe" appends="YES" id="qWq-Wf-1mY"/>
+                                                        </connections>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile" translatesAutoresizingMaskIntoConstraints="NO" id="Mei-Xu-3Pg">
+                                                        <rect key="frame" x="320" y="21.333333333333371" width="50" height="50"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="50" id="H46-wC-ibs"/>
+                                                            <constraint firstAttribute="width" constant="50" id="PQx-3R-p8O"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <outletCollection property="gestureRecognizers" destination="zVn-ke-akl" appends="YES" id="9YZ-cA-dY5"/>
                                                         </connections>
                                                     </imageView>
                                                 </subviews>
@@ -2185,6 +2196,7 @@
                         <outlet property="productTypeLabel" destination="5QK-QC-MAx" id="xQq-kI-JfK"/>
                         <outlet property="sectorLabel" destination="YC6-lR-XEh" id="j4E-5G-fMc"/>
                         <outlet property="selectLocation" destination="epc-dw-Ieh" id="vbK-r4-jhF"/>
+                        <outlet property="socialButton" destination="Mei-Xu-3Pg" id="ady-dP-S1z"/>
                         <outlet property="websiteButton" destination="lKm-zM-lTU" id="56x-sJ-hrZ"/>
                         <segue destination="0Uk-Wd-oVf" kind="presentation" identifier="CardToAboutSegue" id="q3Z-g4-szO"/>
                         <segue destination="qSh-Qg-BE4" kind="popoverPresentation" identifier="CardToPopUp" popoverAnchorView="aby-Jk-deV" id="cED-wQ-OY8">
@@ -2211,6 +2223,12 @@
                 <tapGestureRecognizer id="N5S-GL-doe">
                     <connections>
                         <action selector="websiteButtonPressed:" destination="LXT-QG-o9w" id="nE6-6W-kZR"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="zVn-ke-akl">
+                    <connections>
+                        <action selector="socialButtonPressed:" destination="LXT-QG-o9w" id="Cli-lx-tRc"/>
+                        <outlet property="delegate" destination="Mei-Xu-3Pg" id="qhI-Ei-XP6"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -3188,11 +3206,11 @@ Metalac inko d.o.o. proizvodi inox i granitne sudopere i Granmatrix kompozitne p
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gVv-jC-U4b"/>
+        <segue reference="1tK-YE-rgx"/>
         <segue reference="BEj-3X-WDA"/>
         <segue reference="Rp6-LF-omk"/>
         <segue reference="tcA-6k-Npe"/>
-        <segue reference="GR6-hE-tZO"/>
+        <segue reference="mp1-Y8-sbT"/>
         <segue reference="0pf-m5-NN7"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -3202,6 +3220,7 @@ Metalac inko d.o.o. proizvodi inox i granitne sudopere i Granmatrix kompozitne p
         <image name="Logo Image" width="512" height="512"/>
         <image name="Mail" width="341.33334350585938" height="341.33334350585938"/>
         <image name="Map" width="341.33334350585938" height="341.33334350585938"/>
+        <image name="Profile" width="447.33334350585938" height="447.33334350585938"/>
         <image name="Test image" width="85.333335876464844" height="85.333335876464844"/>
         <image name="Website" width="341.33334350585938" height="341.33334350585938"/>
         <image name="creditcard" catalog="system" width="128" height="88"/>

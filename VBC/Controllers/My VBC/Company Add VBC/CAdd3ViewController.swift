@@ -119,9 +119,9 @@ class CAdd3ViewController: UIViewController {
         // Getting Single Place location
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
-            .collection(user!)
-            .document(Constants.Firestore.CollectionName.singlePlace)
-            .collection(Constants.Firestore.CollectionName.cardID)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.singlePlace)
             .document(currentCardID)
             .getDocument { document, error in
                 
@@ -153,9 +153,9 @@ class CAdd3ViewController: UIViewController {
         // Getting Multiple Places locations list
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
-            .collection(user!)
-            .document(Constants.Firestore.CollectionName.multiplePlaces)
-            .collection(Constants.Firestore.CollectionName.cardID)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.multiplePlaces)
             .document(currentCardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
@@ -432,9 +432,9 @@ class CAdd3ViewController: UIViewController {
         // Adding Contact Info for Multiple Places
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
-            .collection(user!)
-            .document(Constants.Firestore.CollectionName.multiplePlaces)
-            .collection(Constants.Firestore.CollectionName.cardID)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.multiplePlaces)
             .document(currentCardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
@@ -461,9 +461,9 @@ class CAdd3ViewController: UIViewController {
         // Adding Contact Info for Single Place Location
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.companyCards)
-            .collection(user!)
-            .document(Constants.Firestore.CollectionName.singlePlace)
-            .collection(Constants.Firestore.CollectionName.cardID)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.singlePlace)
             .document(currentCardID)
             .setData(["\(field)":"\(value)"], merge: true) { error in
                 

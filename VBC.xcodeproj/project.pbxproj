@@ -269,8 +269,8 @@
 			children = (
 				D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */,
 				D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */,
-				D02C356A277791F3008E2CA2 /* Personal Add VBC */,
 				D0A7196C27413855000B2E1F /* Company Add VBC */,
+				D02C356A277791F3008E2CA2 /* Personal Add VBC */,
 				D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */,
 			);
 			path = "My VBC";

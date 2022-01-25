@@ -78,6 +78,7 @@ struct Constants {
             static let cardID = "Card ID"
             static let locations = "Locations"
             static let social = "Social Media"
+            static let users = "Users"
         
         }
         
@@ -91,6 +92,8 @@ struct Constants {
             static let country = "Country"
             static let cardID = "CardID"
             static let singlePlace = "Single Place"
+            static let companyCard = "Company Card"
+            static let userID = "User ID"
             
             // Key for Contact Info
             static let phone1 = "Phone 1"
@@ -116,6 +119,7 @@ struct Constants {
             
             // Key for Social Network
             static let link = "link"
+            static let socialAdded = "Social Media Added"
         }
         
         struct Storage {
