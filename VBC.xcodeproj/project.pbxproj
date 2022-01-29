@@ -29,6 +29,7 @@
 		D02C356E2777926E008E2CA2 /* PAdd2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356D2777926E008E2CA2 /* PAdd2VC.swift */; };
 		D02C35702777A0B1008E2CA2 /* PAdd3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */; };
 		D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0317F6127818F9400E67776 /* SocialMedia.swift */; };
+		D05CD5D527A28AD60083F4DF /* SavedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05CD5D427A28AD60083F4DF /* SavedViewController.swift */; };
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
 		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
 		D08E9292275974F700846EA4 /* LogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08E9291275974F700846EA4 /* LogoImage.swift */; };
@@ -95,6 +96,7 @@
 		D02C356D2777926E008E2CA2 /* PAdd2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd2VC.swift; sourceTree = "<group>"; };
 		D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd3VC.swift; sourceTree = "<group>"; };
 		D0317F6127818F9400E67776 /* SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
+		D05CD5D427A28AD60083F4DF /* SavedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewController.swift; sourceTree = "<group>"; };
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
 		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
 		D08E9291275974F700846EA4 /* LogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImage.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				D00F0A62272452F300A6331B /* Login */,
 				D00F0A63272452FD00A6331B /* Home */,
 				D0AB29C1273AFCBA00A43EF2 /* My VBC */,
+				D05CD5D327A28A350083F4DF /* Saved VBC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -241,6 +244,14 @@
 				D0080A9327806C3E005E193B /* PersonalContactListVC.swift */,
 			);
 			path = "Personal Add VBC";
+			sourceTree = "<group>";
+		};
+		D05CD5D327A28A350083F4DF /* Saved VBC */ = {
+			isa = PBXGroup;
+			children = (
+				D05CD5D427A28AD60083F4DF /* SavedViewController.swift */,
+			);
+			path = "Saved VBC";
 			sourceTree = "<group>";
 		};
 		D07BC3642773AA7600711110 /* Card Pop Up Cell */ = {
@@ -525,6 +536,7 @@
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
 				D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */,
 				D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */,
+				D05CD5D527A28AD60083F4DF /* SavedViewController.swift in Sources */,
 				D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */,
 				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,
 				D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */,

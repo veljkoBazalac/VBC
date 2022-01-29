@@ -346,7 +346,7 @@ class PAdd3VC: UIViewController {
         if pressed != addSocial {
         // Adding Email and Website Data to Firestore
             db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.personalCards)
+                .document(Constants.Firestore.CollectionName.data)
                 .collection(Constants.Firestore.CollectionName.users)
                 .document(user!)
                 .collection(Constants.Firestore.CollectionName.cardID)
@@ -370,7 +370,7 @@ class PAdd3VC: UIViewController {
             
             // Adding Social Media Data to Firestore
             db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.personalCards)
+                .document(Constants.Firestore.CollectionName.data)
                 .collection(Constants.Firestore.CollectionName.users)
                 .document(user!)
                 .collection(Constants.Firestore.CollectionName.cardID)
@@ -392,7 +392,7 @@ class PAdd3VC: UIViewController {
                 }
             
             db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.personalCards)
+                .document(Constants.Firestore.CollectionName.data)
                 .collection(Constants.Firestore.CollectionName.users)
                 .document(user!)
                 .collection(Constants.Firestore.CollectionName.cardID)

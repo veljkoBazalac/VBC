@@ -29,6 +29,6 @@ class AboutViewController: UIViewController {
         
     }
     
-
+// TODO: About View Controller da moze da se edituje text.
 
 }

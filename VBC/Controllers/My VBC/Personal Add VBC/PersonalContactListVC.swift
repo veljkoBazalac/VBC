@@ -94,7 +94,7 @@ class PersonalContactListVC: UIViewController {
     func getEWData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(user!)
             .document(cardID)
             .getDocument { document, error in
@@ -164,7 +164,7 @@ class PersonalContactListVC: UIViewController {
     func getSocialData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(user!)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.social)
@@ -236,7 +236,7 @@ extension PersonalContactListVC: DeleteCellDelegate {
             } else if socialListPressed == true {
                 
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.personalCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(user!)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.social)
@@ -258,7 +258,7 @@ extension PersonalContactListVC: DeleteCellDelegate {
             } else if emailListPressed == true  || websiteListPressed == true {
                 
                 db.collection(Constants.Firestore.CollectionName.VBC)
-                    .document(Constants.Firestore.CollectionName.personalCards)
+                    .document(Constants.Firestore.CollectionName.data)
                     .collection(user!)
                     .document(cardID)
                     .updateData(["\(fieldKey!)": FieldValue.delete()])

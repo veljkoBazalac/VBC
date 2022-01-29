@@ -136,18 +136,18 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 
                 if singlePlace == true {
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
-                        .collection(Constants.Firestore.CollectionName.singlePlace)
+                        .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
                         .updateData(["\(fieldKey)": FieldValue.delete()])
                 } else {
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
-                        .collection(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(dataForLocation!)
@@ -169,19 +169,19 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 
                 if singlePlace == true {
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
-                        .collection(Constants.Firestore.CollectionName.singlePlace)
+                        .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
                         .updateData(["\(fieldKey)": FieldValue.delete()])
                 } else {
                     
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
-                        .collection(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(dataForLocation!)
@@ -212,10 +212,10 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     func getMPContactData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
-            .collection(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(dataForLocation!)
@@ -331,10 +331,10 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     func getSPContactData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
-            .collection(Constants.Firestore.CollectionName.singlePlace)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .getDocument { document, error in
                 

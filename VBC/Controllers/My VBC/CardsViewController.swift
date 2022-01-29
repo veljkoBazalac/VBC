@@ -33,8 +33,6 @@ class CardsViewController: UIViewController {
         super.viewDidLoad()
         
         getComapnySPCard()
-        getCompanyMPCard()
-        getPersonalCards()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -55,10 +53,10 @@ class CardsViewController: UIViewController {
     func getComapnySPCard() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
-            .collection(Constants.Firestore.CollectionName.singlePlace)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .addSnapshotListener { snapshot, error in
                 
                 if let e = error {
@@ -71,19 +69,24 @@ class CardsViewController: UIViewController {
                         
                         if diff.type == .added  {
                             
-                            if let companyName = data[Constants.Firestore.Key.Name] as? String {
-                                if let companySector = data[Constants.Firestore.Key.sector] as? String {
-                                    if let companyProductType = data[Constants.Firestore.Key.type] as? String {
-                                        if let companyCountry = data[Constants.Firestore.Key.country] as? String {
-                                            if let companyCardID = data[Constants.Firestore.Key.cardID] as? String {
-                                                if let companySinglePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
+                            if let name = data[Constants.Firestore.Key.Name] as? String {
+                                if let sector = data[Constants.Firestore.Key.sector] as? String {
+                                    if let productType = data[Constants.Firestore.Key.type] as? String {
+                                        if let country = data[Constants.Firestore.Key.country] as? String {
+                                            if let cardID = data[Constants.Firestore.Key.cardID] as? String {
+                                                if let singlePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
                                                     if let companyCard = data[Constants.Firestore.Key.companyCard] as? Bool {
                                                         if let userID = data[Constants.Firestore.Key.userID] as? String {
                                                     
-                                                    let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID, singlePlace: companySinglePlace,companyCard: companyCard, userID: userID)
+                                                            
+                                                    let card = ShowVBC(name: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace,companyCard: companyCard, userID: userID)
                                                     
+                                                            if companyCard == true {
+                                                                self.companyCards.append(card)
+                                                            } else {
+                                                                self.personalCards.append(card)
+                                                            }
                                             
-                                                    self.companyCards.append(card)
                                                     self.tableView.reloadData()
                                                     
                                                         }
@@ -114,135 +117,13 @@ class CardsViewController: UIViewController {
         
     }
     
-    // MARK: - Get Company Cards with Multiple Places
-    
-    func getCompanyMPCard() {
-        
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.multiplePlaces)
-            .addSnapshotListener { snapshot, error in
-                
-                if let e = error {
-                    print ("Error getting Multiple Places Data. \(e)")
-                } else {
-                    
-                    
-                    snapshot?.documentChanges.forEach({ diff in
-                        
-                        let data = diff.document.data()
-                        
-                        if diff.type == .added {
-                            
-                            if let companyName = data[Constants.Firestore.Key.Name] as? String {
-                                if let companySector = data[Constants.Firestore.Key.sector] as? String {
-                                    if let companyProductType = data[Constants.Firestore.Key.type] as? String {
-                                        if let companyCountry = data[Constants.Firestore.Key.country] as? String {
-                                            if let companyCardID = data[Constants.Firestore.Key.cardID] as? String {
-                                                if let companySinglePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
-                                                    if let companyCard = data[Constants.Firestore.Key.companyCard] as? Bool {
-                                                        if let userID = data[Constants.Firestore.Key.userID] as? String {
-                                    
-                                                    let card = ShowVBC(name: companyName, sector: companySector, type: companyProductType, country: companyCountry, cardID: companyCardID, singlePlace: companySinglePlace, companyCard: companyCard, userID: userID)
-                                                    
-                                                    self.companyCards.append(card)
-                                                    self.tableView.reloadData()
-                                                    
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if diff.type == .modified {
-                            //print("Modified")
-                        }
-                        
-                        if diff.type == .removed {
-                            
-                            //print("Removed")
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    })
-                }
-            }
-    }
-    
-    
-    
-    // MARK: - Get Personal Cards
-    
-    func getPersonalCards() {
-        
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .addSnapshotListener { snapshot, error in
-                
-                if let e = error {
-                    print ("Error getting Personal Card Data. \(e)")
-                } else {
-                    
-                    
-                    snapshot?.documentChanges.forEach({ diff in
-                        
-                        let data = diff.document.data()
-                        
-                        if diff.type == .added {
-                            
-                            if let pName = data[Constants.Firestore.Key.Name] as? String {
-                                if let pSector = data[Constants.Firestore.Key.sector] as? String {
-                                    if let pProductType = data[Constants.Firestore.Key.type] as? String {
-                                        if let pCountry = data[Constants.Firestore.Key.country] as? String {
-                                            if let pCardID = data[Constants.Firestore.Key.cardID] as? String {
-                                                if let userID = data[Constants.Firestore.Key.userID] as? String {
-                                                
-                                                
-                                                let card = ShowVBC(name: pName, sector: pSector, type: pProductType, country: pCountry, cardID: pCardID, singlePlace: true, userID: userID)
-                                        
-                                                self.personalCards.append(card)
-                                                self.tableView.reloadData()
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if diff.type == .modified {
-                            //print("Modified")
-                        }
-                        
-                        if diff.type == .removed {
-                            
-                            //print("Removed")
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    })
-                }
-            }
-    }
-    
+// MARK: - Add New Card Button Pressed
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: Constants.Segue.addVBC, sender: self)
         
     }
     
+// MARK: - Segment Company or Personal
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
         
         if segmentControl.selectedSegmentIndex == 0 {
@@ -257,6 +138,7 @@ class CardsViewController: UIViewController {
     
 }
 
+// MARK: - TableView
 extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -299,7 +181,8 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
         
         performSegue(withIdentifier: Constants.Segue.viewCard, sender: self)
     }
-    
+
+// MARK: - Prepare for Segue function
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segue.viewCard {
             

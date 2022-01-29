@@ -255,7 +255,7 @@ class PAdd2VC: UIViewController {
         
         // Adding User ID data to Firestore Database
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .setData(["User ID" : user!], merge: true)
@@ -263,13 +263,14 @@ class PAdd2VC: UIViewController {
         
         // Adding Data to Firestore Database
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .setData(["User ID": user!,
                       "Company Card": false,
+                      "Single Place": true,
                       "Name": personalName.text!,
                       "Sector": personalSector.text!,
                       "ProductType": personalProductType.text!,
@@ -332,7 +333,7 @@ class PAdd2VC: UIViewController {
                 let urlString = url.absoluteString
                 
                 let dataReference = db.collection(Constants.Firestore.CollectionName.VBC)
-                    .document(Constants.Firestore.CollectionName.personalCards)
+                    .document(Constants.Firestore.CollectionName.data)
                     .collection(user!)
                     .document(cardID)
                 

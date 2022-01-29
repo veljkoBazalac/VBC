@@ -25,8 +25,6 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
     var getMultiplePlacesList : [MultiplePlaces] = []
     
     var cardID : String = ""
-    var newSector : String = ""
-    var selectCountry : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,17 +41,16 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillDisappear(true)
         delegate?.getNumberOfPlaces(places: getMultiplePlacesList.count)
     }
-            
     
 // MARK: - Get Multiple Places List
     
     func getMultiplePlaces() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
-            .collection(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
@@ -70,14 +67,12 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                         
                         if let cityName = data[Constants.Firestore.Key.city] as? String {
                             if let cityStreet = data[Constants.Firestore.Key.street] as? String {
-                                if let cityMap = data[Constants.Firestore.Key.gMaps] as? String {
                                     
-                                    let places = MultiplePlaces(city: cityName, street: cityStreet, gMapsLink: cityMap)
+                                    let places = MultiplePlaces(city: cityName, street: cityStreet)
                                  
                                     self.getMultiplePlacesList.append(places)
                                     self.tableView.reloadData()
                                     
-                                }
                             }
                         }
                     }
@@ -119,10 +114,10 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
 
                 if getMultiplePlacesList.count > 1 {
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
-                        .collection(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(documentName)
@@ -133,10 +128,10 @@ class AddListViewController: UIViewController, UITableViewDelegate, UITableViewD
                     
                 } else {
                     db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.companyCards)
+                        .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
-                        .collection(Constants.Firestore.CollectionName.multiplePlaces)
+                        .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(documentName)

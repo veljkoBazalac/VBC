@@ -25,8 +25,10 @@ struct Constants {
         // Home
         static let homeToCard = "HomeToCardSegue"
         static let cardToAbout = "CardToAboutSegue"
+        static let editComCard = "editCompanyCardSegue"
+        static let editPersCard = "editPersonalCardSegue"
         
-        // Cards
+        // My Cards
         static let viewCard = "ViewCardSegue"
         static let cardToPopUp = "CardToPopUp"
         static let addVBC = "addVBCSegue"
@@ -49,6 +51,10 @@ struct Constants {
         static let pEmailList = "pEmailListSegue"
         static let pWebList = "pWebsiteListSegue"
         static let pAddFinish = "PersonalAddVBCFinish"
+        
+        
+        // Saved Cards
+        static let savedToCard = "SavedToCardSegue"
     }
     
     struct Cell {
@@ -69,16 +75,14 @@ struct Constants {
         struct CollectionName {
             
             static let VBC = "VBC"
-            static let companyCards = "Company Cards"
-            static let personalCards = "Personal Cards"
+            static let data = "Data"
             static let sectors = "Sectors"
             static let countries = "Country"
-            static let multiplePlaces = "Multiple Places"
-            static let singlePlace = "Single Place"
             static let cardID = "Card ID"
             static let locations = "Locations"
             static let social = "Social Media"
             static let users = "Users"
+            static let savedVBC = "Saved VBC"
         
         }
         

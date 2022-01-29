@@ -28,6 +28,7 @@ class CardViewController: UIViewController {
     @IBOutlet weak var mapButton: UIImageView!
     @IBOutlet weak var websiteButton: UIImageView!
     @IBOutlet weak var socialButton: UIImageView!
+    @IBOutlet weak var saveButton: UIButton!
     
     // Firebase Firestore Database
     let db = Firestore.firestore()
@@ -90,11 +91,23 @@ class CardViewController: UIViewController {
         super.viewWillAppear(false)
         navigationController?.setNavigationBarHidden(false, animated: true)
         
+        saveOrEditButton()
         callPressed = false
         emailPressed = false
         mapPressed = false
         websitePressed = false
         socialPressed = false
+    }
+    
+    func saveOrEditButton() {
+        
+        if user! != userID {
+            saveButton.titleLabel?.text = "Save"
+        } else if user! == userID {
+            saveButton.titleLabel?.text = "Edit"
+        }
+        
+        
     }
     
     // MARK: - Getting Single Place or Multiple Places Locations
@@ -146,15 +159,17 @@ class CardViewController: UIViewController {
         
     }
     
-    // MARK: - Function that return Single Or Multiple Places
-    func singleOrMultiple() -> String {
-        if singlePlace == true {
-            return Constants.Firestore.CollectionName.singlePlace
-        } else {
-            return Constants.Firestore.CollectionName.multiplePlaces
+    // MARK: - Pop Up With Ok
+        
+        func popUpWithOk(newTitle: String, newMessage: String) {
+            // Pop Up with OK button
+            let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
+            let actionOK = UIAlertAction(title: "OK", style: .default) { action in
+                self.dismiss(animated: true, completion: nil)
+            }
+            alert.addAction(actionOK)
+            self.present(alert, animated: true, completion: nil)
         }
-    }
-    
     
     
     // MARK: - Prepare for PopUp Segue
@@ -189,11 +204,30 @@ class CardViewController: UIViewController {
             websitePressed = false
             socialPressed = false
         }
+        
+        if segue.identifier == Constants.Segue.editComCard {
+            
+            let destinationVC = segue.destination as! CAdd1ViewController
+            
+            destinationVC.editCard = true
+            destinationVC.editCardID = cardID
+            destinationVC.editUserID = userID
+            
+            
+        }
     }
     
-    // MARK: - Contact Buttons
     
-    // Call Button
+// MARK: - Logo Image Pressed - Present About
+    
+    @IBAction func logoPressed(_ sender: UITapGestureRecognizer) {
+        performSegue(withIdentifier: Constants.Segue.cardToAbout, sender: self)
+    }
+    
+    // MARK: - CONTACT BUTTONS
+    
+// MARK: - Call Button
+    
     @IBAction func callButtonPressed(_ sender: UITapGestureRecognizer) {
         callPressed = true
         
@@ -208,7 +242,8 @@ class CardViewController: UIViewController {
         }
     }
     
-    // Email Button
+// MARK: - Email Button
+    
     @IBAction func emailButtonPressed(_ sender: UITapGestureRecognizer) {
         emailPressed = true
         
@@ -223,8 +258,9 @@ class CardViewController: UIViewController {
         }
         
     }
+
+// MARK: - Map Button
     
-    // Map Button
     @IBAction func mapButtonPressed(_ sender: UITapGestureRecognizer) {
         mapPressed = true
         
@@ -240,7 +276,8 @@ class CardViewController: UIViewController {
         
     }
     
-    // Website Button
+// MARK: - Website Button
+    
     @IBAction func websiteButtonPressed(_ sender: UITapGestureRecognizer) {
         websitePressed = true
         
@@ -255,6 +292,7 @@ class CardViewController: UIViewController {
         }
     }
     
+    // MARK: - Social Button Pressed
     
     @IBAction func socialButtonPressed(_ sender: UITapGestureRecognizer) {
         socialPressed = true
@@ -262,16 +300,84 @@ class CardViewController: UIViewController {
         getPersonalCard()
     }
     
-    // MARK: - Buttons
+    // MARK: - SHARE AND SAVE BUTTONS
     
-    // About Button Pressed
-    @IBAction func aboutButtonPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.cardToAbout, sender: self)
+    @IBAction func shareButtonPressed(_ sender: UIButton) {
+        // Action Sheet da kopira Card ID
+        print("Share pressed")
     }
     
     // Save Button Pressed
+    
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         
+        if user! != userID && saveButton.titleLabel?.text == "Save" {
+            saveVBC()
+        } else {
+            
+            let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+            // Basic Info Action
+            let basicInfoAction: UIAlertAction = UIAlertAction(title: "Basic Info", style: .default) { action -> Void in
+
+                print("Basic Info pressed")
+            }
+            // Location Info Action
+            let locInfoAction: UIAlertAction = UIAlertAction(title: "Location Info", style: .default) { action -> Void in
+
+                print("Location Info pressed")
+            }
+            // Contact Info Action
+            let contactInfoAction: UIAlertAction = UIAlertAction(title: "Contact Info", style: .default) { action -> Void in
+
+                print("Contact Info pressed")
+            }
+            // Cancel Action
+            let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
+
+            actionSheetController.addAction(basicInfoAction)
+            actionSheetController.addAction(locInfoAction)
+            actionSheetController.addAction(contactInfoAction)
+            actionSheetController.addAction(cancelAction)
+
+            present(actionSheetController, animated: true, completion: nil)   // doesn't work for iPad
+            
+            
+            
+            
+//            if companyCard == true {
+//                performSegue(withIdentifier: Constants.Segue.editComCard, sender: self)
+//            } else {
+//                performSegue(withIdentifier: Constants.Segue.editPersCard, sender: self)
+//            }
+            
+        }
+        
+    }
+    
+}
+// Probaj da uprostis dole kod posto je promenjeno mesto baze podataka
+// MARK: - Save VBC
+
+extension CardViewController {
+    
+    func saveVBC() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.savedVBC)
+            .document(cardID)
+            .setData(["CardID": cardID, "User ID": userID], merge: true) { error in
+                
+                if let e = error {
+                    print("Error Saving VBC. \(e)")
+                } else {
+                    self.saveButton.titleLabel?.text = "Delete"
+                    self.popUpWithOk(newTitle: "Saved Successfully", newMessage: "This VBC will be shown in your Saved Tab.")
+                }
+            }
         
     }
     
@@ -286,10 +392,10 @@ extension CardViewController {
         
         // Getting Basic Info
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(singleOrMultiple())
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .getDocument { document, error in
                 
@@ -326,10 +432,10 @@ extension CardViewController {
         
         // Getting Single Place location
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(Constants.Firestore.CollectionName.singlePlace)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .getDocument { document, error in
                 
@@ -361,10 +467,10 @@ extension CardViewController {
     func checkCompanyCardDataSP() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(Constants.Firestore.CollectionName.singlePlace)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .getDocument { document, error in
                 
@@ -438,10 +544,10 @@ extension CardViewController {
     func getCompanyCardSP() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(Constants.Firestore.CollectionName.singlePlace)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .getDocument { document, error in
                 
@@ -549,10 +655,10 @@ extension CardViewController {
         
         // Getting Multiple Places locations list
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
@@ -594,10 +700,10 @@ extension CardViewController {
     func checkCompanyCardDataMP() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
@@ -674,10 +780,10 @@ extension CardViewController {
     func getCompanyCardMP() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.companyCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
-            .collection(Constants.Firestore.CollectionName.multiplePlaces)
+            .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
@@ -796,7 +902,7 @@ extension CardViewController {
         
         // Getting Basic Info
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
             .collection(Constants.Firestore.CollectionName.cardID)
@@ -837,7 +943,7 @@ extension CardViewController {
     func getPersonalCard() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
             .collection(Constants.Firestore.CollectionName.cardID)
@@ -935,7 +1041,7 @@ extension CardViewController {
             socialMediaList = []
             
             db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.personalCards)
+                .document(Constants.Firestore.CollectionName.data)
                 .collection(Constants.Firestore.CollectionName.users)
                 .document(userID)
                 .collection(Constants.Firestore.CollectionName.cardID)
@@ -976,7 +1082,7 @@ extension CardViewController {
         
         // Getting Single Place location
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
             .collection(Constants.Firestore.CollectionName.cardID)
@@ -1017,7 +1123,7 @@ extension CardViewController {
     func checkPersonalCardData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.personalCards)
+            .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(userID)
             .collection(Constants.Firestore.CollectionName.cardID)
