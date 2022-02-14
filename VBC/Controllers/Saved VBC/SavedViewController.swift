@@ -35,6 +35,10 @@ class SavedViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        tabBarController?.tabBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        allSavedCardsList.removeAll()
         getSavedVBC()
     }
     
@@ -86,7 +90,7 @@ extension SavedViewController {
                                                     
                                                     let data = document!.data()
                                                     
-                                                    if let name = data![Constants.Firestore.Key.Name] as? String {
+                                                    if let name = data![Constants.Firestore.Key.companyName] as? String {
                                                         if let sector = data![Constants.Firestore.Key.sector] as? String {
                                                             if let productType = data![Constants.Firestore.Key.type] as? String {
                                                                 if let country = data![Constants.Firestore.Key.country] as? String {
@@ -94,12 +98,14 @@ extension SavedViewController {
                                                                         if let singlePlace = data![Constants.Firestore.Key.singlePlace] as? Bool {
                                                                             if let companyCard = data![Constants.Firestore.Key.companyCard] as? Bool {
                                                                                 if let userID = data![Constants.Firestore.Key.userID] as? String {
+                                                                                    if let savedCard = data![Constants.Firestore.Key.cardSaved] as? Bool {
                                                                                     
-                                                                                    let card = ShowVBC(name: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
-                                                                            
-                                                                                    self.allSavedCardsList.append(card)
-                                                                                    self.tableView.reloadData()
+                                                                                        let card = ShowVBC(name: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, cardSaved: savedCard)
+                                                                                        
+                                                                                        self.allSavedCardsList.append(card)
+                                                                                        self.tableView.reloadData()
                                                                                     
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -177,6 +183,7 @@ extension SavedViewController: UITableViewDelegate, UITableViewDataSource {
                 destinationVC.cardID = allSavedCardsList[indexPath.row].cardID
                 destinationVC.singlePlace = allSavedCardsList[indexPath.row].singlePlace
                 destinationVC.companyCard = allSavedCardsList[indexPath.row].companyCard
+                destinationVC.cardSaved = allSavedCardsList[indexPath.row].cardSaved
             }
         }
     }

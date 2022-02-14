@@ -12,15 +12,19 @@ import FirebaseStorage
 class CAdd1ViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var personalName: UITextField!
     @IBOutlet weak var companyName: UITextField!
     @IBOutlet weak var selectSector: UITextField!
     @IBOutlet weak var productType: UITextField!
 
+    @IBOutlet weak var nameStack: UIStackView!
+    
     // Firebase Firestore Database
     let db = Firestore.firestore()
     
     var pickerView = UIPickerView()
     var sectorRow : Int = 0
+    var companyCard : Bool = true
     
     // Sector List Dictionary
     private var sectors : [Sectors] = []
@@ -40,64 +44,47 @@ class CAdd1ViewController: UIViewController {
         
         getSectorsList()
         
+        if companyCard == true {
+            nameStack.isHidden = true
+        }
+        
         if editCard == false {
             productType.isEnabled = false
         } else {
+            navigationItem.rightBarButtonItem?.title = "Save"
+            selectSector.isEnabled = false
             getCardForEdit()
         }
         
     }
     
-// MARK: - Get Company Card for Edit
     
-    func getCardForEdit() {
+// MARK: - Pop Up With Ok
+    
+    func popUpWithOk(newTitle: String, newMessage: String) {
         
-        // Getting Company Card from Firebase Database
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(editUserID)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editCardID)
-            .getDocument { document, error in
-                
-                if let e = error {
-                    print("Error Getting Company Card for Edit. \(e)")
-                } else {
-                    
-                    if document != nil && document!.exists {
-                        
-                        let data = document!.data()
-                        
-                        if let comName = data![Constants.Firestore.Key.Name] as? String {
-                            if let comSector = data![Constants.Firestore.Key.sector] as? String {
-                                if let comProductType = data![Constants.Firestore.Key.type] as? String {
-                                    if let singlePlace = data![Constants.Firestore.Key.singlePlace] as? Bool {
-                                        if let comCountry = data![Constants.Firestore.Key.country] as? String {
-                                    
-                                            self.editSinglePlace = singlePlace
-                                            self.editCardCountry = comCountry
-                                            self.companyName.text = comName
-                                            self.selectSector.text = comSector
-                                            self.productType.text = comProductType
-                                    
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
+        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        
+        alert.addAction(actionOK)
+        present(alert, animated: true, completion: nil)
     }
+
     
 // MARK: - Check if Fields are correct
     
     func validateFields() -> String? {
         
-
-        if companyName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count > 20 {
-            return "Company Name can have Max 20 letters."
+        if personalName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count > 30 && companyCard == false {
+            return "Personal Name can have Max 30 letters."
+        }
+        else if personalName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 3  && companyCard == false {
+            return "Personal Name must have Min 3 letters."
+        }
+        else if companyName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count > 30 {
+            return "Company Name can have Max 30 letters."
         }
         else if companyName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 3 {
             return "Company Name must have Min 3 letters."
@@ -123,32 +110,51 @@ class CAdd1ViewController: UIViewController {
         
         if error != nil {
             // If fields are not correct, show error.
-            popUpWithOk(newTitle: "Basic Company Info missing", newMessage: "\(error!)")
+            self.popUpWithOk(newTitle: "Basic Company Info missing", newMessage: "\(error!)")
         } else {
-            performSegue(withIdentifier: Constants.Segue.cAdd2, sender: self)
+            
+            if editCard == false {
+                performSegue(withIdentifier: Constants.Segue.addNew2, sender: self)
+            } else {
+                
+                // Upload Edit Data to Database
+                db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(editUserID)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(editCardID)
+                    .setData([Constants.Firestore.Key.personalName: personalName.text!,
+                              Constants.Firestore.Key.companyName: companyName.text!,
+                              Constants.Firestore.Key.type: productType.text!], merge: true) { error in
+                        
+                        if let e = error {
+                            self.popUpWithOk(newTitle: "Error Saving New Data", newMessage: "Error Uploading Edit data to Database. \(e)")
+                        } else {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                
+            }
         }
     }
 
 // MARK: - Prepare for Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.Segue.cAdd2 {
+        if segue.identifier == Constants.Segue.addNew2 {
             
             let destinationVC = segue.destination as! CAdd2ViewController
             
-            destinationVC.sectorNumber = sectorRow
-            destinationVC.logoImage = imageView.image
-            destinationVC.newCompanyName = companyName.text
-            destinationVC.newSector = selectSector.text
-            destinationVC.newProductType = productType.text
-            destinationVC.editCard2 = editCard
-            destinationVC.editCardID2 = editCardID
-            destinationVC.editUserID2 = editUserID
-            destinationVC.editSinglePlace2 = editSinglePlace
-            destinationVC.editCardCountry2 = editCardCountry
+            destinationVC.sectorNumber2 = sectorRow
+            destinationVC.logoImage2 = imageView.image
+            destinationVC.companyName2 = companyName.text!
+            destinationVC.sector2 = selectSector.text!
+            destinationVC.productType2 = productType.text!
+            destinationVC.companyCard2 = companyCard
             
-
-            
-           
+            if companyCard == false {
+                destinationVC.personalName2 = personalName.text!
+            }
         }
     }
  
@@ -180,6 +186,52 @@ class CAdd1ViewController: UIViewController {
         }
     }
     
+    
+// MARK: - Get Card for Edit
+    
+    func getCardForEdit() {
+        
+        // Getting Card from Firebase Database
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(editUserID)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(editCardID)
+            .getDocument { document, error in
+                
+                if let e = error {
+                    print("Error Getting Company Card for Edit. \(e)")
+                } else {
+                    
+                    if document != nil && document!.exists {
+                        
+                        let data = document!.data()
+                        // Get Basic Info data
+                        //TODO: ZAVRSI ZA SLIKU DA MOZE DA SE MENJA
+                        if let companyName = data![Constants.Firestore.Key.companyName] as? String {
+                            if let sector = data![Constants.Firestore.Key.sector] as? String {
+                                if let productType = data![Constants.Firestore.Key.type] as? String {
+                                    
+                                    self.companyName.text = companyName
+                                    self.selectSector.text = sector
+                                    self.productType.text = productType
+                                    
+                                    if self.companyCard == false {
+                                        if let personalName = data![Constants.Firestore.Key.personalName] as? String {
+                                            
+                                            self.personalName.text = personalName
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+    
 // MARK: - Add Logo Image Pressed
     
     @IBAction func addLogoTapped(_ sender: UITapGestureRecognizer) {
@@ -195,19 +247,7 @@ class CAdd1ViewController: UIViewController {
         
     }
     
-// MARK: - Pop Up With Ok
-    
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        // Pop Up with OK button
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
-    }
-    
-}
+} //
 
 
 

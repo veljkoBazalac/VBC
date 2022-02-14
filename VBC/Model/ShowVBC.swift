@@ -17,4 +17,5 @@ struct ShowVBC {
     var singlePlace : Bool = true
     var companyCard : Bool = true
     var userID : String = ""
+    var cardSaved : Bool = false
 }

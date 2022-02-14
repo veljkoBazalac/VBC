@@ -25,8 +25,9 @@ struct Constants {
         // Home
         static let homeToCard = "HomeToCardSegue"
         static let cardToAbout = "CardToAboutSegue"
-        static let editComCard = "editCompanyCardSegue"
-        static let editPersCard = "editPersonalCardSegue"
+        static let editStep1 = "EditStep1"
+        static let editStep2 = "EditStep2"
+        static let editStep3 = "EditStep3"
         
         // My Cards
         static let viewCard = "ViewCardSegue"
@@ -34,20 +35,20 @@ struct Constants {
         static let addVBC = "addVBCSegue"
         
             // Company Add VBC
-        static let cAdd1 = "CompanyAddVBC1"
-        static let cAdd2 = "CompanyAddVBC2"
-        static let cAddLocationList = "AddNewLocationList"
-        static let cAdd3 = "CompanyAddVBC3"
-        static let cPhoneListSegue = "CPhoneListSegue"
-        static let cEmailListSegue = "CEmailListSegue"
-        static let cWebsiteListSegue = "CWebsiteListSegue"
-        static let cAddFinish = "CompanyAddVBCFinish"
+        static let addNew1 = "AddNewVBC1"
+        static let addNew2 = "AddNewVBC2"
+        static let newLocationsList = "AddNewLocationList"
+        static let addNew3 = "AddNewVBC3"
+        static let phoneListSegue = "PhoneListSegue"
+        static let emailListSegue = "EmailListSegue"
+        static let websiteListSegue = "WebsiteListSegue"
+        static let addFinish = "AddVBCFinish"
             // Personal Add VBC
         static let pAdd1 = "PersonalAddVBC1"
         static let pAdd2 = "PersonalAddVBC2"
         static let pPhoneListSegue = "PPhoneListSegue"
         static let pAdd3 = "PersonalAddVBC3"
-        static let pSocialList = "pSocialListSegue"
+        static let pSocialList = "SocialListSegue"
         static let pEmailList = "pEmailListSegue"
         static let pWebList = "pWebsiteListSegue"
         static let pAddFinish = "PersonalAddVBCFinish"
@@ -83,13 +84,16 @@ struct Constants {
             static let social = "Social Media"
             static let users = "Users"
             static let savedVBC = "Saved VBC"
+            static let aboutSection = "About Section"
+            static let about = "About"
         
         }
         
         struct Key {
             
             // Key for Basic Info
-            static let Name = "Name"
+            static let personalName = "Personal Name"
+            static let companyName = "Company Name"
             static let name = "name"
             static let sector = "Sector"
             static let type = "ProductType"
@@ -98,6 +102,7 @@ struct Constants {
             static let singlePlace = "Single Place"
             static let companyCard = "Company Card"
             static let userID = "User ID"
+            static let cardSaved = "Card Saved"
             
             // Key for Contact Info
             static let phone1 = "Phone 1"
@@ -124,6 +129,9 @@ struct Constants {
             // Key for Social Network
             static let link = "link"
             static let socialAdded = "Social Media Added"
+            
+            // Ket for About Info
+            static let about = "About"
         }
         
         struct Storage {

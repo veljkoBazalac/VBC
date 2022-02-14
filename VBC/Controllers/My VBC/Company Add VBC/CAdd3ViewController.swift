@@ -12,6 +12,7 @@ class CAdd3ViewController: UIViewController {
     
     // Basic Company Info and Logo image Outlets
     @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var personalName: UILabel!
     @IBOutlet weak var companyName: UILabel!
     @IBOutlet weak var companySector: UILabel!
     @IBOutlet weak var companyProductType: UILabel!
@@ -19,21 +20,29 @@ class CAdd3ViewController: UIViewController {
     // Select Location Outlet
     @IBOutlet weak var selectLocation: UITextField!
     
-    // Phone Number 1
+    // Phone Number Outlets
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var phoneCode: UITextField!
     @IBOutlet weak var phoneNumber: UITextField!
     @IBOutlet weak var phoneListButton: UIButton!
     
-    // Email Address 1
+    // Email Address Outlets
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailAddress: UITextField!
     @IBOutlet weak var emailListButton: UIButton!
     
-    // Website 1
+    // Website Outlets
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var websiteLink: UITextField!
     @IBOutlet weak var websiteListButton: UIButton!
+    @IBOutlet weak var wwwLabel: UILabel!
+    
+    // Social Media Outlets
+    @IBOutlet weak var selectSocial: UITextField!
+    @IBOutlet weak var socialProfile: UITextField!
+    @IBOutlet weak var addSocial: UIButton!
+    @IBOutlet weak var socialList: UIButton!
+    @IBOutlet weak var linkToFinish: UILabel!
     
     // Finish Nav Button
     @IBOutlet weak var finishButton: UIBarButtonItem!
@@ -46,6 +55,7 @@ class CAdd3ViewController: UIViewController {
     var pickerView = UIPickerView()
     // Locations Dict
     var locationsList : [MultiplePlaces] = []
+    var singlePlace : Bool = true
     // Info successfully added
     var infoForPlace = [String:Bool]()
     // Show Pop Up or No
@@ -55,11 +65,25 @@ class CAdd3ViewController: UIViewController {
     var numberOfEmails : Int = 0
     var numberOfWebsite : Int = 0
     
+    // Social Networks List Dict
+    private var socialMediaList : [SocialMedia] = []
+    private var socialMediaNames : [String] = []
+    private var socialExist : Bool = false
+    
+    // Edit Card
+    var editCard3 : Bool = false
+    var editCardID3 : String = ""
+    var editUserID3 : String = ""
+    var editSinglePlace3 : Bool = true
+    var editCardSaved3 : Bool = false
+    
     // Basic Info from 1st Step
-    var selectedNewLogo : UIImage?
-    var selectedNewCompanyName : String = ""
-    var selectedNewSector : String = ""
-    var selectedNewProductType : String = ""
+    var logoImage3 : UIImage?
+    var personalName3 : String = ""
+    var companyName3 : String = ""
+    var sector3 : String = ""
+    var productType3 : String = ""
+    var companyCard3 : Bool = true
     
     // Location Info from 2nd Step
     var selectedNewCountry : String = ""
@@ -67,6 +91,7 @@ class CAdd3ViewController: UIViewController {
     var numberOfPlaces : Int = 0
     
     // Contact Info from 3rd Step
+    var phoneNumberCode : String = ""
     var phone1 : String = ""
     var phone2 : String = ""
     var phone3 : String = ""
@@ -76,24 +101,48 @@ class CAdd3ViewController: UIViewController {
     
     var web1 : String = ""
     var web2 : String = ""
+
+    var social1 : String = ""
+    var social2 : String = ""
+    var social3 : String = ""
+    var social4 : String = ""
+    var social5 : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         finishButton.isEnabled = false
         
+        getBasicCard3()
+        
         getCountryCode()
+        
+        getSocialMediaList()
         
         getData()
         
         selectLocation.inputView = pickerView
+        selectSocial.inputView = pickerView
         pickerView.delegate = self
         pickerView.dataSource = self
         
-        logoImageView.image = selectedNewLogo
-        companyName.text = selectedNewCompanyName
-        companySector.text = selectedNewSector
-        companyProductType.text = selectedNewProductType
+    }
+    
+    // MARK: - Get Card with Basic info from Step 1
+    
+    func getBasicCard3() {
+        
+        if companyCard3 == false {
+            personalName.isHidden = true
+        } else {
+            personalName.text = personalName3
+        }
+            
+        logoImageView.image = logoImage3
+        companyName.text = companyName3
+        companySector.text = sector3
+        companyProductType.text = productType3
+        
     }
     
     // MARK: - Get Data from Firestore Function
@@ -110,7 +159,9 @@ class CAdd3ViewController: UIViewController {
     
     func getCountryCode() {
         let countryCode = Country().getCountryCode(country: selectedNewCountry)
-        phoneCode.text = "+\(countryCode)"
+        phoneNumberCode = countryCode
+        phoneCode.text = "+\(phoneNumberCode)"
+        
     }
     
     // MARK: - Get Single Place
@@ -126,7 +177,7 @@ class CAdd3ViewController: UIViewController {
             .getDocument { document, error in
                 
                 if let e = error {
-                    print("Error getting Singe Place. \(e)")
+                    print("Error getting Single Place. \(e)")
                     
                 } else {
                     
@@ -200,11 +251,11 @@ class CAdd3ViewController: UIViewController {
                 self.popUpWithOk(newTitle: "Contact Info Missing", newMessage: "Press + button to add Contact Info. You must add at least one Contact Info for every Location.")
             }
         } else {
-            performSegue(withIdentifier: Constants.Segue.cAddFinish, sender: self)
+            performSegue(withIdentifier: Constants.Segue.addFinish, sender: self)
         }
     }
     
-    // MARK: - Phone Number Actions
+    // MARK: - Add Phone Number Actions
     
     @IBAction func addPhonePressed(_ sender: UIButton) {
         // Adding Phone Numbers to Firestore
@@ -266,7 +317,7 @@ class CAdd3ViewController: UIViewController {
         }
     }
     
-    // MARK: - Email Number Action
+    // MARK: - Add Email Number Action
     @IBAction func addEmailPressed(_ sender: UIButton) {
         // Adding Emails to Firestore
         if emailAddress.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
@@ -299,7 +350,7 @@ class CAdd3ViewController: UIViewController {
         }
     }
     
-    // MARK: - Website Link Action
+    // MARK: - Add Website Link Action
     
     @IBAction func addWebsitePressed(_ sender: UIButton) {
         // Adding Websites to Firestore
@@ -309,50 +360,187 @@ class CAdd3ViewController: UIViewController {
                     web1 = websiteLink.text!
                     
                     if numberOfPlaces <= 1 {
-                        uploadSPContactData(field: Constants.Firestore.Key.web1, value: web1, button: websiteListButton)
+                        uploadSPContactData(field: Constants.Firestore.Key.web1, value: "\(wwwLabel.text!)\(web1)", button: websiteListButton)
                     } else if numberOfPlaces > 1 {
-                        uploadMPContactData(field: Constants.Firestore.Key.web1, value: web1, button: websiteListButton)
+                        uploadMPContactData(field: Constants.Firestore.Key.web1, value: "\(wwwLabel.text!)\(web1)", button: websiteListButton)
                     }
-                    websiteLink.text = ""
+                    websiteLink.text = .none
                     
                 } else if web2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     web2 = websiteLink.text!
                     
                     if numberOfPlaces <= 1 {
-                        uploadSPContactData(field: Constants.Firestore.Key.web2, value: web2, button: websiteListButton)
+                        uploadSPContactData(field: Constants.Firestore.Key.web2, value: "\(wwwLabel.text!)\(web2)", button: websiteListButton)
                     } else if numberOfPlaces > 1 {
-                        uploadMPContactData(field: Constants.Firestore.Key.web2, value: web2, button: websiteListButton)
+                        uploadMPContactData(field: Constants.Firestore.Key.web2, value: "\(wwwLabel.text!)\(web2)", button: websiteListButton)
                     }
-                    websiteLink.text = ""
-                
-            } else  {
-                popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 2 Website Links yo your VBC.")
-            }
+                    websiteLink.text = .none
+                    
+                } else  {
+                    popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 2 Website Links yo your VBC.")
+                }
         } else {
             popUpWithOk(newTitle: "Missing Website", newMessage: "Please Enter your Website Link.")
         }
     }
+    
+    
+    // MARK: - Add Social Media Action
+    
+    @IBAction func addSocialPressed(_ sender: UIButton) {
+        
+        // Adding Social Media to Firestore
+        if socialProfile.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+            
+            if social1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                social1 = selectSocial.text!
+                blockSameSocialNetwork(name: social1)
+                
+                if socialExist == false {
+                    
+                    showPopUp = false
+                    uploadSocialData(field: Constants.Firestore.Key.name, value: social1, blink: socialList)
+                    
+                    showPopUp = true
+                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    
+                    socialMediaNames.append(social1)
+                    selectSocial.text = .none
+                    socialProfile.text = .none
+                    
+                } else {
+                    popUpWithOk(newTitle: "Social Media exist", newMessage: "You can only add one \(social1) Profile.")
+                    social1 = ""
+                }
+                
+            } else if social2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                social2 = selectSocial.text!
+                blockSameSocialNetwork(name: social2)
+                
+                if socialExist == false {
+                    
+                    showPopUp = false
+                    uploadSocialData(field: Constants.Firestore.Key.name, value: social2, blink: socialList)
+                    
+                    showPopUp = true
+                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    
+                    socialMediaNames.append(social2)
+                    selectSocial.text = .none
+                    socialProfile.text = .none
+                    
+                } else {
+                    popUpWithOk(newTitle: "Social Media exist", newMessage: "You can only add one \(social2) Profile.")
+                    social2 = ""
+                }
+                
+            } else if social3.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                social3 = selectSocial.text!
+                blockSameSocialNetwork(name: social3)
+                
+                if socialExist == false {
+                    
+                    showPopUp = false
+                    uploadSocialData(field: Constants.Firestore.Key.name, value: social3, blink: socialList)
+                    
+                    showPopUp = true
+                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    
+                    socialMediaNames.append(social3)
+                    selectSocial.text = .none
+                    socialProfile.text = .none
+                    
+                } else {
+                    popUpWithOk(newTitle: "Social Media exist", newMessage: "You can only add one \(social3) Profile.")
+                    social3 = ""
+                }
+                
+            } else if social4.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                social4 = selectSocial.text!
+                blockSameSocialNetwork(name: social4)
+                
+                if socialExist == false {
+                    
+                    showPopUp = false
+                    uploadSocialData(field: Constants.Firestore.Key.name, value: social4, blink: socialList)
+                    
+                    showPopUp = true
+                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    
+                    socialMediaNames.append(social4)
+                    selectSocial.text = .none
+                    socialProfile.text = .none
+                    
+                } else {
+                    popUpWithOk(newTitle: "Social Media exist", newMessage: "You can only add one \(social4) Profile.")
+                    social4 = ""
+                }
+                
+            } else if social5.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                social5 = selectSocial.text!
+                blockSameSocialNetwork(name: social5)
+                
+                if socialExist == false {
+                    
+                    showPopUp = false
+                    uploadSocialData(field: Constants.Firestore.Key.name, value: social5, blink: socialList)
+                    
+                    showPopUp = true
+                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    
+                    socialMediaNames.append(social5)
+                    selectSocial.text = .none
+                    socialProfile.text = .none
+                    
+                } else {
+                    popUpWithOk(newTitle: "Social Media exist", newMessage: "You can only add one \(social5) Profile.")
+                    social5 = ""
+                }
+                
+            } else {
+                popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 5 Social Media profiles.")
+            }
+            
+        } else {
+            popUpWithOk(newTitle: "Missing Social Profile", newMessage: "Please Choose your Social Media and Enter your Profile Link.")
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
     // MARK: - Show List of Contact Data Buttons
     
     @IBAction func showPhoneListPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.cPhoneListSegue, sender: self)
+        performSegue(withIdentifier: Constants.Segue.phoneListSegue, sender: self)
     }
     
     
     @IBAction func showEmailPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.cEmailListSegue, sender: self)
+        performSegue(withIdentifier: Constants.Segue.emailListSegue, sender: self)
     }
     
     
     @IBAction func showWebsitePressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.cWebsiteListSegue, sender: self)
+        performSegue(withIdentifier: Constants.Segue.websiteListSegue, sender: self)
+    }
+    
+    @IBAction func showSocialPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: Constants.Segue.pSocialList, sender: self)
     }
     
     // MARK: - Prepare for Segue
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == Constants.Segue.cPhoneListSegue {
+        if segue.identifier == Constants.Segue.phoneListSegue {
             
             let destinationVC = segue.destination as! ContactListVC
             
@@ -360,17 +548,12 @@ class CAdd3ViewController: UIViewController {
             destinationVC.phoneListPressed = true
             destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegate = self
-            
-            if numberOfPlaces <= 1 {
-                destinationVC.singlePlace = true
-            } else if numberOfPlaces > 1 {
-                destinationVC.singlePlace = false
-            }
-            
+            destinationVC.delegateCD = self
+            destinationVC.delegateSL = self
+            destinationVC.singlePlace = singlePlace
         }
         
-        else if segue.identifier == Constants.Segue.cEmailListSegue {
+        else if segue.identifier == Constants.Segue.emailListSegue {
             
             let destinationVC = segue.destination as! ContactListVC
             
@@ -378,16 +561,12 @@ class CAdd3ViewController: UIViewController {
             destinationVC.emailListPressed = true
             destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegate = self
-            
-            if numberOfPlaces <= 1 {
-                destinationVC.singlePlace = true
-            } else if numberOfPlaces > 1 {
-                destinationVC.singlePlace = false
-            }
+            destinationVC.delegateCD = self
+            destinationVC.delegateSL = self
+            destinationVC.singlePlace = singlePlace
         }
         
-        if segue.identifier == Constants.Segue.cWebsiteListSegue {
+        if segue.identifier == Constants.Segue.websiteListSegue {
             
             let destinationVC = segue.destination as! ContactListVC
             
@@ -395,27 +574,41 @@ class CAdd3ViewController: UIViewController {
             destinationVC.websiteListPressed = true
             destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegate = self
-            
-            if numberOfPlaces <= 1 {
-                destinationVC.singlePlace = true
-            } else if numberOfPlaces > 1 {
-                destinationVC.singlePlace = false
-            }
+            destinationVC.delegateCD = self
+            destinationVC.delegateSL = self
+            destinationVC.singlePlace = singlePlace
         }
+        
+        if segue.identifier == Constants.Segue.pSocialList {
+            
+            let destinationVC = segue.destination as! ContactListVC
+        
+            destinationVC.popUpTitle = "Social Media"
+            destinationVC.socialListPressed = true
+            destinationVC.cardID = currentCardID
+            destinationVC.dataForLocation = selectLocation.text!
+            destinationVC.delegateCD = self
+            destinationVC.delegateSL = self
+            destinationVC.singlePlace = singlePlace
+        }
+        
     }
+    
     
     // MARK: - Pop Up With Ok
     
     func popUpWithOk(newTitle: String, newMessage: String) {
-        // Pop Up with OK button
+        
         let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
         let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            self.dismiss(animated: true, completion: nil)
+            alert.dismiss(animated: true, completion: nil)
         }
+        
         alert.addAction(actionOK)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
+
+    
     
     // MARK: - Blink Button Function
     
@@ -425,6 +618,52 @@ class CAdd3ViewController: UIViewController {
             buttonName.tintColor = UIColor(named: "Color Dark")
         }
     }
+  
+    // MARK: - Block User to Add same Social Media
+    
+    func blockSameSocialNetwork(name: String) {
+        
+        socialExist = false
+        
+        if socialMediaNames.contains(name) == true {
+            socialExist = true
+        } else {
+            socialExist = false
+        }
+        
+    }
+
+    // MARK: - Change Link Label Function
+    
+    func changeLinkToFinishLabel() {
+        
+        socialProfile.text = ""
+        socialProfile.placeholder = "Select Social Media"
+        
+        if selectSocial.text == "Facebook" {
+            linkToFinish.text = "facebook.com/"
+            socialProfile.placeholder = "Enter your Facebook Link"
+        } else if selectSocial.text == "Instagram" {
+            linkToFinish.text = "instagram.com/"
+            socialProfile.placeholder = "Enter your Instagram Link"
+        } else if selectSocial.text == "TikTok" || selectSocial.text == "Twitter" || selectSocial.text == "Pinterest" {
+            linkToFinish.text = "Username: @"
+            socialProfile.placeholder = "Enter your Name"
+        } else if selectSocial.text == "Viber" || selectSocial.text == "WhatsApp" {
+            linkToFinish.text = "Phone Number:"
+            socialProfile.text = "+\(phoneNumberCode)"
+        } else if selectSocial.text == "LinkedIn" {
+            linkToFinish.text = "linkedin.com/in/"
+            socialProfile.placeholder = "Enter your Linked In Link"
+        } else if selectSocial.text == "GitHub" {
+            linkToFinish.text = "github.com/"
+            socialProfile.placeholder = "Enter your GitHub Link"
+        } else if selectSocial.text == "YouTube" {
+            linkToFinish.text = "youtube.com/channel/"
+            socialProfile.placeholder = "Enter your YouTube Link"
+        }
+    }
+    
     
     // MARK: - Upload Multiple Places Contact Data
     
@@ -481,6 +720,120 @@ class CAdd3ViewController: UIViewController {
             }
     }
     
+    // MARK: - Upload Social Media
+    
+    func uploadSocialData(field: String, value: String, blink: UIButton) {
+        
+        if singlePlace == false {
+            
+            // Adding Social Media Data for Multiple Places to Firestore
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.data)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(currentCardID)
+                .collection(Constants.Firestore.CollectionName.locations)
+                .document(selectLocation.text!)
+                .collection(Constants.Firestore.CollectionName.social)
+                .document(selectSocial.text!)
+                .setData(["\(field)":"\(value)"], merge: true) { error in
+                    
+                    if error != nil {
+                        self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Social Media Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                    } else {
+                        
+                        self.db.collection(Constants.Firestore.CollectionName.VBC)
+                            .document(Constants.Firestore.CollectionName.data)
+                            .collection(Constants.Firestore.CollectionName.users)
+                            .document(self.user!)
+                            .collection(Constants.Firestore.CollectionName.cardID)
+                            .document(self.currentCardID)
+                            .collection(Constants.Firestore.CollectionName.locations)
+                            .document(self.selectLocation.text!)
+                            .setData(["Social Media Added" : true], merge: true)
+                        
+                        if self.showPopUp == true {
+                            
+                            self.popUpWithOk(newTitle: "Successfully added", newMessage: "Social Media successfully added for \(self.selectLocation.text!)")
+                        }
+                        self.finishButton.isEnabled = true
+                        self.infoForPlace.updateValue(true, forKey: self.selectLocation.text!)
+                        self.blinkButton(buttonName: blink)
+                    }
+                }
+            
+        } else {
+            
+            // Adding Social Media Data for Single Place to Firestore
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.data)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(currentCardID)
+                .collection(Constants.Firestore.CollectionName.social)
+                .document(selectSocial.text!)
+                .setData(["\(field)":"\(value)"], merge: true) { error in
+                    
+                    if error != nil {
+                        self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Social Media Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                    } else {
+                        
+                        self.db.collection(Constants.Firestore.CollectionName.VBC)
+                            .document(Constants.Firestore.CollectionName.data)
+                            .collection(Constants.Firestore.CollectionName.users)
+                            .document(self.user!)
+                            .collection(Constants.Firestore.CollectionName.cardID)
+                            .document(self.currentCardID)
+                            .setData(["Social Media Added" : true], merge: true)
+                        
+                        if self.showPopUp == true {
+                            
+                            self.popUpWithOk(newTitle: "Successfully added", newMessage: "Social Media successfully added.")
+                        }
+                        self.finishButton.isEnabled = true
+                        self.infoForPlace.updateValue(true, forKey: self.selectLocation.text!)
+                        self.blinkButton(buttonName: blink)
+                    }
+                }
+        }
+    }
+    
+    
+}
+
+// MARK: - Get Data From Database
+
+extension CAdd3ViewController {
+    
+    // MARK: - Get Social Network List Function
+    
+    func getSocialMediaList() {
+        
+        db.collection(Constants.Firestore.CollectionName.social).getDocuments { snapshot, error in
+            
+            if let e = error {
+                self.popUpWithOk(newTitle: "Error!", newMessage: "Error Getting data from Database. Please Check your Internet connection and try again. \(e.localizedDescription)")
+            } else {
+                
+                if let snapshotDocuments = snapshot?.documents {
+                    
+                    for documents in snapshotDocuments {
+                        
+                        let data = documents.data()
+                        
+                        if let socialNetworkData = data[Constants.Firestore.Key.name] as? String {
+                            
+                            let socialNetwork = SocialMedia(name: socialNetworkData)
+                            
+                            self.socialMediaList.append(socialNetwork)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
 }
 
@@ -496,8 +849,9 @@ extension CAdd3ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         if selectLocation.isEditing {
             return locationsList.count
-        }
-        else {
+        } else if selectSocial.isEditing {
+            return socialMediaList.count
+        } else {
             return 1
         }
     }
@@ -506,8 +860,9 @@ extension CAdd3ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         
         if selectLocation.isEditing {
             return "\(locationsList[row].city) - \(locationsList[row].street)"
-        }
-        else {
+        } else if selectSocial.isEditing {
+            return socialMediaList[row].name
+        } else {
             return "Error adding Title for Row."
         }
     }
@@ -523,9 +878,17 @@ extension CAdd3ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             email2 = ""
             web1 = ""
             web2 = ""
+            social1 = ""
+            social2 = ""
+            social3 = ""
+            social4 = ""
+            social5 = ""
+        } else if selectSocial.isEditing {
+            selectSocial.text = socialMediaList[row].name
+            changeLinkToFinishLabel()
         }
         else {
-            self.popUpWithOk(newTitle: "Error!", newMessage: "There was an Error when selected row. Please try again.")
+            popUpWithOk(newTitle: "Error!", newMessage: "There was an Error when selected row. Please try again.")
         }
     }
 }
@@ -552,4 +915,28 @@ extension CAdd3ViewController: NumberOfContactDataDelegate {
                 web2 = ""
             }
         }
+}
+
+extension CAdd3ViewController: SocialListDelegate {
+    
+    func newSocialMediaList(list: [String]) {
+        socialMediaNames = list
+    }
+    
+    
+    func deletedSocialMedia(rowTitle: String, atRow: Int) {
+        
+        if rowTitle == social1 {
+            social1 = ""
+        } else if rowTitle == social2 {
+            social2 = ""
+        } else if rowTitle == social3 {
+            social3 = ""
+        } else if rowTitle == social4 {
+            social4 = ""
+        } else if rowTitle == social5 {
+            social5 = ""
+        }
+    }
+    
 }

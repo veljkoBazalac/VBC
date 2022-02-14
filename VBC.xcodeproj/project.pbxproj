@@ -10,7 +10,6 @@
 		07CE09A9C2D8FC6BA5B867E1 /* Pods_VBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6054D27C5A017FA5A794711A /* Pods_VBC.framework */; };
 		D00463F7276BA259005B13F7 /* PopUpCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00463F6276BA258005B13F7 /* PopUpCardViewController.swift */; };
 		D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */; };
-		D0080A9427806C3E005E193B /* PersonalContactListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0080A9327806C3E005E193B /* PersonalContactListVC.swift */; };
 		D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A2E272449EE00A6331B /* AppDelegate.swift */; };
 		D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A30272449EE00A6331B /* SceneDelegate.swift */; };
 		D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A32272449EE00A6331B /* HomeViewController.swift */; };
@@ -25,9 +24,6 @@
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
-		D02C356C2777924B008E2CA2 /* PAdd1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356B2777924B008E2CA2 /* PAdd1VC.swift */; };
-		D02C356E2777926E008E2CA2 /* PAdd2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356D2777926E008E2CA2 /* PAdd2VC.swift */; };
-		D02C35702777A0B1008E2CA2 /* PAdd3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */; };
 		D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0317F6127818F9400E67776 /* SocialMedia.swift */; };
 		D05CD5D527A28AD60083F4DF /* SavedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05CD5D427A28AD60083F4DF /* SavedViewController.swift */; };
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
@@ -73,7 +69,6 @@
 		6054D27C5A017FA5A794711A /* Pods_VBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00463F6276BA258005B13F7 /* PopUpCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpCardViewController.swift; sourceTree = "<group>"; };
 		D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumbers.swift; sourceTree = "<group>"; };
-		D0080A9327806C3E005E193B /* PersonalContactListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalContactListVC.swift; sourceTree = "<group>"; };
 		D00F0A2B272449EE00A6331B /* VBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F0A2E272449EE00A6331B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D00F0A30272449EE00A6331B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,9 +87,6 @@
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
-		D02C356B2777924B008E2CA2 /* PAdd1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd1VC.swift; sourceTree = "<group>"; };
-		D02C356D2777926E008E2CA2 /* PAdd2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd2VC.swift; sourceTree = "<group>"; };
-		D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAdd3VC.swift; sourceTree = "<group>"; };
 		D0317F6127818F9400E67776 /* SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
 		D05CD5D427A28AD60083F4DF /* SavedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewController.swift; sourceTree = "<group>"; };
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
@@ -235,17 +227,6 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		D02C356A277791F3008E2CA2 /* Personal Add VBC */ = {
-			isa = PBXGroup;
-			children = (
-				D02C356B2777924B008E2CA2 /* PAdd1VC.swift */,
-				D02C356D2777926E008E2CA2 /* PAdd2VC.swift */,
-				D02C356F2777A0B1008E2CA2 /* PAdd3VC.swift */,
-				D0080A9327806C3E005E193B /* PersonalContactListVC.swift */,
-			);
-			path = "Personal Add VBC";
-			sourceTree = "<group>";
-		};
 		D05CD5D327A28A350083F4DF /* Saved VBC */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,7 +262,6 @@
 				D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */,
 				D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */,
 				D0A7196C27413855000B2E1F /* Company Add VBC */,
-				D02C356A277791F3008E2CA2 /* Personal Add VBC */,
 				D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */,
 			);
 			path = "My VBC";
@@ -519,20 +499,16 @@
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
 				D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */,
-				D02C35702777A0B1008E2CA2 /* PAdd3VC.swift in Sources */,
 				D013C646277A421E0017F26F /* ContactListVC.swift in Sources */,
-				D02C356E2777926E008E2CA2 /* PAdd2VC.swift in Sources */,
 				D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */,
 				D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */,
 				D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */,
 				D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */,
-				D02C356C2777924B008E2CA2 /* PAdd1VC.swift in Sources */,
 				D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
 				D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */,
-				D0080A9427806C3E005E193B /* PersonalContactListVC.swift in Sources */,
 				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
 				D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */,
 				D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */,

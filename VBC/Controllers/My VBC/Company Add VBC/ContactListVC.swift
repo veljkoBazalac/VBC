@@ -12,6 +12,11 @@ protocol NumberOfContactDataDelegate: AnyObject {
     func keyForContactData(key: String)
 }
 
+protocol SocialListDelegate: AnyObject {
+    func deletedSocialMedia(rowTitle: String, atRow: Int)
+    func newSocialMediaList(list: [String])
+}
+
 class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DeleteCellDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -29,9 +34,10 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     var phoneListPressed : Bool = false
     var emailListPressed : Bool = false
     var websiteListPressed : Bool = false
+    var socialListPressed : Bool = false
     // Delegate for Protocol
-    weak var delegate : NumberOfContactDataDelegate?
-    
+    weak var delegateCD : NumberOfContactDataDelegate?
+    weak var delegateSL : SocialListDelegate?
     // Pop Up Title
     var popUpTitle : String?
     // Data For Selected Location from Previous View Controller
@@ -48,6 +54,10 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     var websiteList : [String] = []
     // Array of Keys for Website Links
     var keyWebsiteList : [String] = []
+    // Social Media List
+    var socialMediaList : [SocialMedia] = []
+    // Array of Keys for Social Media
+    var keySocialMedia : [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,21 +67,27 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.delegate = self
         tableView.dataSource = self
         
+        getData()
+        
         tableView.register(UINib(nibName: Constants.Nib.addLocList, bundle: nil), forCellReuseIdentifier: Constants.Cell.addLocListCell)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        getData()
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        delegateSL?.newSocialMediaList(list: keySocialMedia)
     }
     
     // MARK: - Get Data Function
     
     func getData() {
-        if singlePlace == true {
+        if singlePlace == true && socialListPressed == false {
             getSPContactData()
-        } else if singlePlace == false {
+        } else if singlePlace == false && socialListPressed == false {
             getMPContactData()
+        } else if singlePlace == true && socialListPressed == true {
+            getSocialDataSP()
+        } else if singlePlace == false && socialListPressed == true {
+            getSocialDataMP()
         }
     }
     
@@ -83,8 +99,10 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             return phoneNumbersList.count
         } else if emailListPressed == true {
             return emailAddressList.count
-        } else {
+        } else if websiteListPressed == true {
             return websiteList.count
+        } else {
+            return socialMediaList.count
         }
     }
     
@@ -96,8 +114,10 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             cell.configure(with: "\(phoneNumbersList[indexPath.row].code)\(phoneNumbersList[indexPath.row].number)", row: indexPath.row)
         } else if emailListPressed == true {
             cell.configure(with: emailAddressList[indexPath.row], row: indexPath.row)
-        } else {
+        } else if websiteListPressed == true {
             cell.configure(with: websiteList[indexPath.row], row: indexPath.row)
+        } else {
+            cell.configure(with: socialMediaList[indexPath.row].name, row: indexPath.row)
         }
         
         cell.delegate = self
@@ -113,12 +133,14 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             return keyNumbersList[rowNumber]
         } else if emailListPressed == true {
             return keyEmailList[rowNumber]
-        } else {
+        } else if websiteListPressed == true {
             return keyWebsiteList[rowNumber]
+        } else {
+            return keySocialMedia[rowNumber]
         }
         
     }
-    
+ 
     // MARK: - Delete Cell Button Pressed
     
     func deleteButtonPressed(with title: String, row: Int) {
@@ -132,7 +154,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             
             let fieldKey = getKey(rowNumber: row)
             
-            if phoneNumbersList.count > 1 || emailAddressList.count > 1 || websiteList.count > 1 {
+            if phoneListPressed == true || emailListPressed == true || websiteListPressed || true {
                 
                 if singlePlace == true {
                     db.collection(Constants.Firestore.CollectionName.VBC)
@@ -155,26 +177,50 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 }
                 
                 if phoneListPressed == true {
-                    phoneNumbersList = []
+                    
+                    if phoneNumbersList.count == 1 {
+                        phoneNumbersList.removeAll()
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    
+                    phoneNumbersList.removeAll()
                     getData()
                 } else if emailListPressed == true {
-                    emailAddressList = []
+                    
+                    if emailAddressList.count == 1 {
+                        emailAddressList.removeAll()
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    
+                    emailAddressList.removeAll()
                     getData()
                 } else {
-                    websiteList = []
+                    
+                    if websiteList.count == 1 {
+                        websiteList.removeAll()
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    
+                    websiteList.removeAll()
                     getData()
                 }
-                delegate?.keyForContactData(key: fieldKey)
-            } else {
+            }
+            
+            if socialListPressed == true {
+                
+                let documentName = title
                 
                 if singlePlace == true {
+                    
                     db.collection(Constants.Firestore.CollectionName.VBC)
                         .document(Constants.Firestore.CollectionName.data)
                         .collection(Constants.Firestore.CollectionName.users)
                         .document(user!)
                         .collection(Constants.Firestore.CollectionName.cardID)
                         .document(cardID)
-                        .updateData(["\(fieldKey)": FieldValue.delete()])
+                        .collection(Constants.Firestore.CollectionName.social)
+                        .document(documentName)
+                        .delete()
                 } else {
                     
                     db.collection(Constants.Firestore.CollectionName.VBC)
@@ -185,20 +231,23 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         .document(cardID)
                         .collection(Constants.Firestore.CollectionName.locations)
                         .document(dataForLocation!)
-                        .updateData(["\(fieldKey)": FieldValue.delete()])
+                        .collection(Constants.Firestore.CollectionName.social)
+                        .document(documentName)
+                        .delete()
                 }
                 
-                if phoneListPressed == true {
-                    phoneNumbersList = []
-                } else if emailListPressed == true {
-                    emailAddressList = []
-                } else {
-                    websiteList = []
+                if socialMediaList.count == 1 {
+                    socialMediaList.removeAll()
+                    self.dismiss(animated: true, completion: nil)
                 }
-                delegate?.keyForContactData(key: fieldKey)
-                self.dismiss(animated: true, completion: nil)
+                
+                socialMediaList.removeAll()
+                keySocialMedia.removeAll()
+                getData()
+                
+                delegateSL?.deletedSocialMedia(rowTitle: title, atRow: row)
             }
-            
+            delegateCD?.keyForContactData(key: fieldKey)
         }
         
         alert.addAction(actionDELETE)
@@ -206,6 +255,11 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         self.present(alert, animated: true, completion: nil)
     }
+}
+
+// MARK: - Getting Contact Data from Firebase
+
+extension ContactListVC {
     
     // MARK: - Get Multiple Places Contact Data
     
@@ -229,10 +283,9 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         
                         let data = document!.data()
                         
-                        
                         if self.phoneListPressed == true {
                             
-                            self.phoneNumbersList = []
+                            self.phoneNumbersList.removeAll()
                             
                             // Phone Contact Info
                             if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
@@ -277,7 +330,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         
                         if self.emailListPressed == true {
                             
-                            self.emailAddressList = []
+                            self.emailAddressList.removeAll()
                             
                             // Email Contact Info
                             if let email1 = data![Constants.Firestore.Key.email1] as? String {
@@ -300,7 +353,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         
                         if self.websiteListPressed == true {
                             
-                            self.websiteList = []
+                            self.websiteList.removeAll()
                             
                             // Website Contact Info
                             if let web1 = data![Constants.Firestore.Key.web1] as? String {
@@ -348,7 +401,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         
                         if self.phoneListPressed == true {
                             
-                            self.phoneNumbersList = []
+                            self.phoneNumbersList.removeAll()
                             
                             // Phone Contact Info
                             if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
@@ -393,7 +446,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         
                         if self.emailListPressed == true {
                             
-                            self.emailAddressList = []
+                            self.emailAddressList.removeAll()
                             
                             // Email Contact Info
                             if let email1 = data![Constants.Firestore.Key.email1] as? String {
@@ -416,7 +469,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                         
                         if self.websiteListPressed == true {
                             
-                            self.websiteList = []
+                            self.websiteList.removeAll()
                             
                             // Website Contact Info
                             if let web1 = data![Constants.Firestore.Key.web1] as? String {
@@ -437,6 +490,95 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                             }
                         }
                         
+                    }
+                }
+            }
+    }
+    
+}
+
+// MARK: - Getting Data for Social Media from Firebase
+
+extension ContactListVC {
+    
+    // MARK: - Get Data for Social Media Single Place
+    
+    func getSocialDataSP() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(cardID)
+            .collection(Constants.Firestore.CollectionName.social)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print ("Error getting Social Media List. \(e)")
+                } else {
+                    self.socialMediaList.removeAll()
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let socialName = data[Constants.Firestore.Key.name] as? String {
+                                
+                                let social = SocialMedia(name: socialName)
+                                let key = social.name
+                                
+                                self.keySocialMedia.append(key)
+                                self.socialMediaList.append(social)
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        
+    }
+    
+    
+    // MARK: - Get Data for Social Media Multiple Places
+    
+    func getSocialDataMP() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(cardID)
+            .collection(Constants.Firestore.CollectionName.locations)
+            .document(dataForLocation!)
+            .collection(Constants.Firestore.CollectionName.social)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print ("Error getting Social Media List. \(e)")
+                } else {
+                    
+                    self.socialMediaList.removeAll()
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let socialName = data[Constants.Firestore.Key.name] as? String {
+                                
+                                let social = SocialMedia(name: socialName)
+                                let key = social.name
+                                
+                                self.keySocialMedia.append(key)
+                                self.socialMediaList.append(social)
+                                self.tableView.reloadData()
+                            }
+                        }
                     }
                 }
             }

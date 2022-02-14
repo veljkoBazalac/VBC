@@ -32,25 +32,23 @@ class CardsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getComapnySPCard()
-        
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        
+        getCards()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
-        
     }
-    
     
     // MARK: - Get Company Cards with Single Place
     
-    func getComapnySPCard() {
+    func getCards() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -69,7 +67,7 @@ class CardsViewController: UIViewController {
                         
                         if diff.type == .added  {
                             
-                            if let name = data[Constants.Firestore.Key.Name] as? String {
+                            if let name = data[Constants.Firestore.Key.companyName] as? String {
                                 if let sector = data[Constants.Firestore.Key.sector] as? String {
                                     if let productType = data[Constants.Firestore.Key.type] as? String {
                                         if let country = data[Constants.Firestore.Key.country] as? String {
@@ -77,18 +75,18 @@ class CardsViewController: UIViewController {
                                                 if let singlePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
                                                     if let companyCard = data[Constants.Firestore.Key.companyCard] as? Bool {
                                                         if let userID = data[Constants.Firestore.Key.userID] as? String {
-                                                    
                                                             
-                                                    let card = ShowVBC(name: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace,companyCard: companyCard, userID: userID)
-                                                    
+                                                            
+                                                            let card = ShowVBC(name: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
+                                                            
                                                             if companyCard == true {
                                                                 self.companyCards.append(card)
                                                             } else {
                                                                 self.personalCards.append(card)
                                                             }
-                                            
-                                                    self.tableView.reloadData()
-                                                    
+                                                            
+                                                            self.tableView.reloadData()
+                                                            
                                                         }
                                                     }
                                                 }
@@ -117,13 +115,13 @@ class CardsViewController: UIViewController {
         
     }
     
-// MARK: - Add New Card Button Pressed
+    // MARK: - Add New Card Button Pressed
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: Constants.Segue.addVBC, sender: self)
         
     }
     
-// MARK: - Segment Company or Personal
+    // MARK: - Segment Company or Personal
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
         
         if segmentControl.selectedSegmentIndex == 0 {
@@ -181,8 +179,8 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
         
         performSegue(withIdentifier: Constants.Segue.viewCard, sender: self)
     }
-
-// MARK: - Prepare for Segue function
+    
+    // MARK: - Prepare for Segue function
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segue.viewCard {
             
@@ -198,8 +196,8 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     destinationVC.userID = personalCards[indexPath.row].userID
                     destinationVC.cardID = personalCards[indexPath.row].cardID
-                    destinationVC.singlePlace = true
-                    destinationVC.companyCard = false
+                    destinationVC.singlePlace = personalCards[indexPath.row].singlePlace
+                    destinationVC.companyCard = personalCards[indexPath.row].companyCard
                 }
             }
         }

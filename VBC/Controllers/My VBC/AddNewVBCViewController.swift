@@ -9,18 +9,32 @@ import UIKit
 
 class AddNewVBCViewController: UIViewController {
     
+    var createCompanyCard : Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.isHidden = true
     }
     
     @IBAction func createCompanyVBCPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.cAdd1, sender: self)
+        createCompanyCard = true
+        performSegue(withIdentifier: Constants.Segue.addNew1, sender: self)
     }
     
     
     @IBAction func CreatePersonalVBCPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.pAdd1, sender: self)
+        createCompanyCard = false
+        performSegue(withIdentifier: Constants.Segue.addNew1, sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == Constants.Segue.addNew1 {
+            
+            let destinationVC = segue.destination as! CAdd1ViewController
+            
+            destinationVC.companyCard = createCompanyCard
+        }
     }
     
 }
