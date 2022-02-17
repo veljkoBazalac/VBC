@@ -55,6 +55,7 @@ class CardViewController: UIViewController {
     var cardEdited : Bool = false
     var cityNameForEdit : String = ""
     var streetNameForEdit : String = ""
+    var locationForEdit : String = ""
     
     var phoneNumbersList : [PhoneNumber] = []
     var emailAddressList : [String] = []
@@ -200,10 +201,14 @@ class CardViewController: UIViewController {
             
             let destinationVC = segue.destination as! CAdd1ViewController
             
+            cardEdited = true
+            self.selectLocation.text = self.locationForEdit
+            
             destinationVC.editCard = true
             destinationVC.editCardID = cardID
             destinationVC.editUserID = userID
             destinationVC.companyCard = companyCard
+            destinationVC.NavBarTitle = "Edit VBC - Step 1/3"
             
         }
         
@@ -212,6 +217,7 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd2ViewController
             
             cardEdited = true
+            self.selectLocation.text = self.locationForEdit
             
             destinationVC.editCard2 = true
             destinationVC.editCardID2 = cardID
@@ -237,6 +243,30 @@ class CardViewController: UIViewController {
         }
         
         if segue.identifier == Constants.Segue.editStep3 {
+            
+            let destinationVC = segue.destination as! CAdd3ViewController
+            
+            cardEdited = true
+            self.selectLocation.text = self.locationForEdit
+            
+            destinationVC.editCard3 = true
+            destinationVC.editCardID3 = cardID
+            destinationVC.editUserID3 = userID
+            destinationVC.editCardSaved3 = cardSaved
+            destinationVC.singlePlace = singlePlace
+            destinationVC.companyCard3 = companyCard
+            destinationVC.editCardLocation = self.selectLocation.text!
+            
+            if companyCard == false {
+                destinationVC.personalName3 = personalNameLabel.text!
+            }
+            
+            destinationVC.logoImage3 = logoImage.image!
+            destinationVC.companyName3 = companyNameLabel.text!
+            destinationVC.sector3 = sectorLabel.text!
+            destinationVC.productType3 = productTypeLabel.text!
+            destinationVC.selectedNewCountry = countryLabel.text!
+            
             
         }
         
@@ -337,7 +367,7 @@ class CardViewController: UIViewController {
     // MARK: - SHARE AND SAVE BUTTONS
     
     @IBAction func shareButtonPressed(_ sender: UIButton) {
-        
+        print(locationForEdit)
         // Action Sheet da kopira Card ID
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -368,7 +398,7 @@ class CardViewController: UIViewController {
             deleteVBC()
         }
         else {
-            // TODO: ZAVRSI EDITOVANJE 
+            
             let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
             // Basic Info Action
@@ -929,8 +959,12 @@ extension CardViewController {
                                         self.locationsList.append(places)
                                         
                                         if self.cardEdited == false {
-                                        self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
+                                            self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
+                                            self.locationForEdit = self.selectLocation.text!
+                                        } else {
+                                            self.selectLocation.text = self.locationForEdit
                                         }
+                                        
                                     }
                                 }
                             }
@@ -1196,6 +1230,8 @@ extension CardViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         self.selectLocation.text = "\(self.locationsList[row].city) - \(self.locationsList[row].street)"
+        
+        self.locationForEdit = "\(self.locationsList[row].city) - \(self.locationsList[row].street)"
         
         callButton.isHidden = true
         mailButton.isHidden = true

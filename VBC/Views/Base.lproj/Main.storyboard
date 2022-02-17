@@ -372,7 +372,7 @@
                             <constraint firstItem="WQw-4q-R5c" firstAttribute="trailing" secondItem="zbk-oZ-a9T" secondAttribute="trailing" id="sH1-jX-1Br"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add New VBC - Step 1/3" largeTitleDisplayMode="always" id="Tey-1F-K8J">
+                    <navigationItem key="navigationItem" title="Add New VBC - Step 1/3" largeTitleDisplayMode="never" id="Tey-1F-K8J">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="6pf-0a-xga">
                             <connections>
                                 <action selector="nextButtonPressed:" destination="OnW-fW-MtW" id="Z68-QW-Tv4"/>
@@ -631,7 +631,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste your Google Maps Link" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j5c-LY-EsB">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Paste your Google Maps Link" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="j5c-LY-EsB">
                                         <rect key="frame" x="0.0" y="35" width="350" height="30"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -691,7 +691,7 @@
                             <constraint firstItem="qre-9g-3bW" firstAttribute="top" secondItem="2WO-VM-XqH" secondAttribute="bottom" constant="20" id="ypO-l5-O8t"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add New VBC - Step 2/3" id="7Iy-7U-E6C">
+                    <navigationItem key="navigationItem" title="Add New VBC - Step 2/3" largeTitleDisplayMode="never" id="7Iy-7U-E6C">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="j9Q-vj-ICC">
                             <connections>
                                 <action selector="nextButtonPressed:" destination="VZB-T1-8BV" id="4kT-fN-0zX"/>
@@ -1162,7 +1162,7 @@
                             <constraint firstItem="IVO-WB-FL8" firstAttribute="leading" secondItem="ma1-uU-PB8" secondAttribute="leading" constant="20" id="tIR-Cu-TCD"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Add New VBC - Step 3/3" id="c2p-LS-I6s">
+                    <navigationItem key="navigationItem" title="Add New VBC - Step 3/3" largeTitleDisplayMode="never" id="c2p-LS-I6s">
                         <barButtonItem key="rightBarButtonItem" title="Finish" id="eAU-cS-GbX">
                             <connections>
                                 <action selector="finishButtonPressed:" destination="y1A-XJ-Bcv" id="mqD-Y0-UEm"/>
@@ -1455,6 +1455,7 @@
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose Company Locations" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="epc-dw-Ieh">
                                                         <rect key="frame" x="0.0" y="40" width="350" height="30"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="ktV-Nf-iCw"/>
                                                         </constraints>
@@ -2581,7 +2582,7 @@
         <segue reference="tcA-6k-Npe"/>
         <segue reference="snw-yy-LqL"/>
         <segue reference="sh2-4g-cyr"/>
-        <segue reference="aJC-5I-9Wg"/>
+        <segue reference="20g-WO-MrN"/>
         <segue reference="hh6-KM-p1z"/>
     </inferredMetricsTieBreakers>
     <resources>

@@ -69,7 +69,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         getData()
         
-        tableView.register(UINib(nibName: Constants.Nib.addLocList, bundle: nil), forCellReuseIdentifier: Constants.Cell.addLocListCell)
+        tableView.register(UINib(nibName: Constants.Nib.contactListCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.contactListCell)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,16 +108,16 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.addLocListCell, for: indexPath) as! AddLocListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.contactListCell, for: indexPath) as! ContactListCell
         
         if phoneListPressed == true {
-            cell.configure(with: "\(phoneNumbersList[indexPath.row].code)\(phoneNumbersList[indexPath.row].number)", row: indexPath.row)
+            cell.configure(title: "\(phoneNumbersList[indexPath.row].code)\(phoneNumbersList[indexPath.row].number)", row: indexPath.row)
         } else if emailListPressed == true {
-            cell.configure(with: emailAddressList[indexPath.row], row: indexPath.row)
+            cell.configure(title: emailAddressList[indexPath.row], row: indexPath.row)
         } else if websiteListPressed == true {
-            cell.configure(with: websiteList[indexPath.row], row: indexPath.row)
+            cell.configure(title: websiteList[indexPath.row], row: indexPath.row)
         } else {
-            cell.configure(with: socialMediaList[indexPath.row].name, row: indexPath.row)
+            cell.configure(title: socialMediaList[indexPath.row].name, row: indexPath.row)
         }
         
         cell.delegate = self

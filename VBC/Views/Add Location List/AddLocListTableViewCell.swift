@@ -11,24 +11,45 @@ protocol DeleteCellDelegate: AnyObject {
     func deleteButtonPressed(with title: String, row: Int)
 }
 
-class AddLocListTableViewCell: UITableViewCell {
+protocol EditCellDelegate: AnyObject {
+    func editButtonPressed(city: String, street: String, map: String)
+}
 
-    weak var delegate: DeleteCellDelegate?
-    private var rowTitle: String = ""
-    private var rowNumber: Int = 0
-    var documentName: String = ""
+class AddLocListTableViewCell: UITableViewCell {
     
     @IBOutlet weak var cellTextLabel: UILabel!
-    @IBOutlet weak var xButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var mapIcon: UIImageView!
+    
+    weak var delegate: DeleteCellDelegate?
+    weak var delegate2: EditCellDelegate?
+    private var rowTitle: String = ""
+    private var rowNumber: Int = 0
+    private var cityName: String = ""
+    private var streetName: String = ""
+    private var gMapsLink: String = ""
+    var documentName: String = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func configure(with title: String, row: Int) {
-        self.rowTitle = title
+    func configure(city: String, street: String, map: String, row: Int) {
+        self.rowTitle = "\(city) - \(street)"
         self.rowNumber = row
-        cellTextLabel.text = title
+        self.cityName = city
+        self.streetName = street
+        self.gMapsLink = map
+        cellTextLabel.text = "\(city) - \(street)"
+        
+        if map == "" {
+            mapIcon.isHidden = true
+        }
+    }
+    
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+        delegate2?.editButtonPressed(city: cityName, street: streetName, map: gMapsLink)
     }
     
     @IBAction func deleteButtonPressed(_ sender: UIButton) {

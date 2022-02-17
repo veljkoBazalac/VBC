@@ -31,6 +31,8 @@ class SavedViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        
+        getSavedVBC()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,8 +40,6 @@ class SavedViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
         navigationController?.setNavigationBarHidden(false, animated: true)
         
-        allSavedCardsList.removeAll()
-        getSavedVBC()
     }
     
     // MARK: - Search Bar

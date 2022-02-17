@@ -25,6 +25,8 @@
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
 		D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0317F6127818F9400E67776 /* SocialMedia.swift */; };
+		D059CA6427BD11AF0006A6E7 /* ContactListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059CA6227BD11AF0006A6E7 /* ContactListCell.swift */; };
+		D059CA6527BD11AF0006A6E7 /* ContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D059CA6327BD11AF0006A6E7 /* ContactListCell.xib */; };
 		D05CD5D527A28AD60083F4DF /* SavedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05CD5D427A28AD60083F4DF /* SavedViewController.swift */; };
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
 		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
@@ -88,6 +90,8 @@
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
 		D0317F6127818F9400E67776 /* SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
+		D059CA6227BD11AF0006A6E7 /* ContactListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListCell.swift; sourceTree = "<group>"; };
+		D059CA6327BD11AF0006A6E7 /* ContactListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactListCell.xib; sourceTree = "<group>"; };
 		D05CD5D427A28AD60083F4DF /* SavedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewController.swift; sourceTree = "<group>"; };
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
 		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
 				D0E77543272DDA25001FB9F8 /* Home View Cell */,
 				D0D6A58127431B6F00773C52 /* Add Location List */,
+				D059CA6127BD11830006A6E7 /* Contact List Cell */,
 				D07BC3642773AA7600711110 /* Card Pop Up Cell */,
 			);
 			path = Views;
@@ -225,6 +230,15 @@
 				D0E7753D272D7321001FB9F8 /* AboutViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D059CA6127BD11830006A6E7 /* Contact List Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D059CA6227BD11AF0006A6E7 /* ContactListCell.swift */,
+				D059CA6327BD11AF0006A6E7 /* ContactListCell.xib */,
+			);
+			path = "Contact List Cell";
 			sourceTree = "<group>";
 		};
 		D05CD5D327A28A350083F4DF /* Saved VBC */ = {
@@ -417,6 +431,7 @@
 				D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
+				D059CA6527BD11AF0006A6E7 /* ContactListCell.xib in Resources */,
 				D00F0A38272449F400A6331B /* Assets.xcassets in Resources */,
 				D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */,
 				D00F0A36272449EE00A6331B /* Main.storyboard in Resources */,
@@ -492,6 +507,7 @@
 				D00463F7276BA259005B13F7 /* PopUpCardViewController.swift in Sources */,
 				D0D6A5782743104700773C52 /* MultiplePlaces.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
+				D059CA6427BD11AF0006A6E7 /* ContactListCell.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
 				D08E9292275974F700846EA4 /* LogoImage.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,

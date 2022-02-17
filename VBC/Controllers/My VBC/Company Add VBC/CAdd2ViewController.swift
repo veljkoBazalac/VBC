@@ -485,6 +485,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
             }
             
             destinationVC.delegate = self
+            destinationVC.delegateEdit = self
     
         }
         
@@ -631,3 +632,19 @@ extension CAdd2ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
+extension CAdd2ViewController: EditSelectedLocation {
+    
+    func getEditLocation(city: String, street: String, map: String) {
+        
+        cityName.text = city
+        streetName.text = street
+        
+        if map != "" {
+            googleMapsLink.text = map
+        }
+        
+    }
+    
+    
+    
+}

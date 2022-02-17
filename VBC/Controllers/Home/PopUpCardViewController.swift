@@ -79,6 +79,7 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.cellTextLabel.text = websiteList[indexPath.row]
         } else {
             cell.cellTextLabel.text = socialMediaList[indexPath.row].name
+            cell.copyButton.isHidden = true
         }
         
         return cell

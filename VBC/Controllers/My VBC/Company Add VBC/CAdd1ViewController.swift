@@ -34,6 +34,7 @@ class CAdd1ViewController: UIViewController {
     var editUserID : String = ""
     var editSinglePlace : Bool = true
     var editCardCountry : String = ""
+    var NavBarTitle : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,7 @@ class CAdd1ViewController: UIViewController {
             productType.isEnabled = false
         } else {
             navigationItem.rightBarButtonItem?.title = "Save"
+            navigationItem.title = NavBarTitle
             selectSector.isEnabled = false
             getCardForEdit()
         }

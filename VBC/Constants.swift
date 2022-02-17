@@ -62,6 +62,7 @@ struct Constants {
         static let homeCell = "homeCell"
         static let addLocListCell = "addLocListCell"
         static let popUpCell = "CardPopUpCell"
+        static let contactListCell = "ContactListCell"
     
     }
     
@@ -69,6 +70,7 @@ struct Constants {
         static let homeViewCell = "HomeViewCell"
         static let addLocList = "AddLocListTableViewCell"
         static let popUpCell = "CardPopUpCell"
+        static let contactListCell = "ContactListCell"
     }
     
     struct Firestore {
@@ -105,16 +107,31 @@ struct Constants {
             static let cardSaved = "Card Saved"
             
             // Key for Contact Info
+            
+              // Phone Number
             static let phone1 = "Phone 1"
             static let phone2 = "Phone 2"
             static let phone3 = "Phone 3"
             static let phone1code = "Phone1Code"
             static let phone2code = "Phone2Code"
             static let phone3code = "Phone3Code"
+            static let phone1Exist = "Phone1Exist"
+            static let phone2Exist = "Phone2Exist"
+            static let phone3Exist = "Phone3Exist"
+            
+              // Email Address
             static let email1 = "Email 1"
             static let email2 = "Email 2"
+            static let email1Exist = "Email1Exist"
+            static let email2Exist = "Email2Exist"
+            
+              // Website Link
             static let web1 = "Website 1"
             static let web2 = "Website 2"
+            static let web1Exist = "Web1Exist"
+            static let web2Exist = "Web2Exist"
+            
+              // Social Media
             static let social1 = "Social Network 1"
             static let social2 = "Social Network 2"
             static let social3 = "Social Network 3"
