@@ -11,6 +11,10 @@ import FirebaseStorage
 import MessageUI
 import SafariServices
 
+protocol EditedCardDelegate : AnyObject {
+    func getEditedCardID(cardRow : Int, companyCard: Bool)
+}
+
 class CardViewController: UIViewController {
     
     // Logo and Text Outlets
@@ -56,6 +60,10 @@ class CardViewController: UIViewController {
     var cityNameForEdit : String = ""
     var streetNameForEdit : String = ""
     var locationForEdit : String = ""
+    var cardIDForEdit : String = ""
+    var cardRowForEdit : Int?
+    var cardRowForRemove : Int?
+    weak var delegate : EditedCardDelegate?
     
     var phoneNumbersList : [PhoneNumber] = []
     var emailAddressList : [String] = []
@@ -125,7 +133,7 @@ class CardViewController: UIViewController {
             DispatchQueue.main.async {
                 self.saveButton.setTitle("Remove", for: .normal)
             }
-        } else if user! == userID {
+        } else if userID == user! {
             DispatchQueue.main.async {
                 self.saveButton.setTitle("Edit", for: .normal)
             }
@@ -202,13 +210,22 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd1ViewController
             
             cardEdited = true
+            
+            if cardRowForEdit != nil {
+                if companyCard == true {
+                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: true)
+                } else {
+                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: false)
+                }
+                
+            }
             self.selectLocation.text = self.locationForEdit
             
             destinationVC.editCard = true
             destinationVC.editCardID = cardID
             destinationVC.editUserID = userID
             destinationVC.companyCard = companyCard
-            destinationVC.NavBarTitle = "Edit VBC - Step 1/3"
+            destinationVC.NavBarTitle1 = "Edit VBC - Step 1/3"
             
         }
         
@@ -217,6 +234,15 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd2ViewController
             
             cardEdited = true
+            
+            if cardRowForEdit != nil {
+                if companyCard == true {
+                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: true)
+                } else {
+                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: false)
+                }
+                
+            }
             self.selectLocation.text = self.locationForEdit
             
             destinationVC.editCard2 = true
@@ -236,6 +262,7 @@ class CardViewController: UIViewController {
             destinationVC.companyName2 = companyNameLabel.text!
             destinationVC.sector2 = sectorLabel.text!
             destinationVC.productType2 = productTypeLabel.text!
+            destinationVC.NavBarTitle2 = "Edit VBC - Step 2/3"
             
             if companyCard == false {
                 destinationVC.personalName2 = personalNameLabel.text!
@@ -247,6 +274,14 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd3ViewController
             
             cardEdited = true
+            if cardRowForEdit != nil {
+                if companyCard == true {
+                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: true)
+                } else {
+                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: false)
+                }
+                
+            }
             self.selectLocation.text = self.locationForEdit
             
             destinationVC.editCard3 = true
@@ -266,6 +301,7 @@ class CardViewController: UIViewController {
             destinationVC.sector3 = sectorLabel.text!
             destinationVC.productType3 = productTypeLabel.text!
             destinationVC.selectedNewCountry = countryLabel.text!
+            destinationVC.NavBarTitle3 = "Edit VBC - Step 3/3"
             
             
         }
@@ -333,11 +369,6 @@ class CardViewController: UIViewController {
         } else {
             getCardMP()
         }
-        
-        if let gMap = URL(string:"\(self.mapLink)"), UIApplication.shared.canOpenURL(gMap) {
-            UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
-        }
-        
     }
     
 // MARK: - Website Button
@@ -395,9 +426,12 @@ class CardViewController: UIViewController {
         if user! != userID && saveButton.titleLabel?.text == "Save" {
             saveVBC()
         } else  if user! != userID && saveButton.titleLabel?.text == "Remove" {
-            deleteVBC()
+            DispatchQueue.main.async {
+                self.deleteVBC()
+            }
+            
         }
-        else {
+        else if user! == userID && saveButton.titleLabel?.text == "Edit" {
             
             let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
@@ -426,7 +460,7 @@ class CardViewController: UIViewController {
 
             present(actionSheetController, animated: true, completion: nil)
             
-        }
+        } 
     }
     
     
@@ -449,6 +483,7 @@ extension CardViewController {
     
     func getSaveStatus() {
         
+        if user! != userID {
         // Getting Save Status Info
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -456,6 +491,8 @@ extension CardViewController {
             .document(userID)
             .collection(Constants.Firestore.CollectionName.cardID)
             .document(cardID)
+            .collection(Constants.Firestore.CollectionName.savedForUsers)
+            .document(user!)
             .getDocument { document, error in
                 
                 if let e = error {
@@ -463,18 +500,20 @@ extension CardViewController {
                 } else {
                     
                     if document != nil && document!.exists {
-                        
+                       
                         let data = document!.data()
                         
                         if let savedCard = data![Constants.Firestore.Key.cardSaved] as? Bool {
-                            
+                           
                             self.cardSaved = savedCard
                             self.saveOrEditButton()
-                        
                         }
                     }
                 }
             }
+        } else {
+            self.saveOrEditButton()
+        }
     }
     
     // MARK: - Save Card to Saved Tab
@@ -498,7 +537,9 @@ extension CardViewController {
                         .document(self.userID)
                         .collection(Constants.Firestore.CollectionName.cardID)
                         .document(self.cardID)
-                        .updateData(["\(Constants.Firestore.Key.cardSaved)": true])
+                        .collection(Constants.Firestore.CollectionName.savedForUsers)
+                        .document(self.user!)
+                        .setData(["\(Constants.Firestore.Key.cardSaved)": true, "\(Constants.Firestore.Key.userID)": self.user!])
                     
                     self.cardSaved = true
                     
@@ -522,7 +563,7 @@ extension CardViewController {
             .document(user!)
             .collection(Constants.Firestore.CollectionName.savedVBC)
             .document(cardID)
-            .updateData(["CardID": FieldValue.delete(), "User ID": FieldValue.delete()]) { error in
+            .delete (completion: { error in
                 
                 if let e = error {
                     print("Error Deleting VBC. \(e)")
@@ -534,7 +575,13 @@ extension CardViewController {
                         .document(self.userID)
                         .collection(Constants.Firestore.CollectionName.cardID)
                         .document(self.cardID)
-                        .updateData(["\(Constants.Firestore.Key.cardSaved)": false])
+                        .collection(Constants.Firestore.CollectionName.savedForUsers)
+                        .document(self.user!)
+                        .delete()
+                    
+                    let notName = Notification.Name(rawValue: Constants.NotificationKey.cardRemoved)
+                    
+                    NotificationCenter.default.post(name: notName, object: self.cardID)
                     
                     self.cardSaved = false
                     
@@ -544,7 +591,7 @@ extension CardViewController {
                     
                     self.popUpWithOk(newTitle: "Deleted Successfully", newMessage: "This VBC has been removed from your Saved Tab.")
                 }
-            }
+            })
         
     }
     
@@ -778,7 +825,7 @@ extension CardViewController {
         // Get Social Media for Single Place
         if socialPressed == true {
             
-            socialMediaList = []
+            socialMediaList.removeAll()
             
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.data)
@@ -833,7 +880,7 @@ extension CardViewController {
                             
                             if self.callPressed == true {
                                 
-                                self.phoneNumbersList = []
+                                self.phoneNumbersList.removeAll()
                                 
                                 // Add Phone Contact Info
                                 if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
@@ -870,7 +917,7 @@ extension CardViewController {
                             // Add Email Info
                             if self.emailPressed == true {
                                 
-                                self.emailAddressList = []
+                                self.emailAddressList.removeAll()
                                 
                                 // Email Contact Info
                                 if let email1 = data![Constants.Firestore.Key.email1] as? String {
@@ -894,13 +941,22 @@ extension CardViewController {
                                 if let map = data![Constants.Firestore.Key.gMaps] as? String {
                                     if map != "" {
                                         self.mapLink = map
+                                        
+                                        DispatchQueue.main.async {
+                                            if let gMap = URL(string:"\(self.mapLink)"), UIApplication.shared.canOpenURL(gMap) {
+                                                UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
+                                            } else {
+                                                print("URL NOT WORKING")
+                                            }
+                                        }
+                                        
                                     }
                                 }
                             }
                             // Add Website Info
                             if self.websitePressed == true {
                                 
-                                self.websiteList = []
+                                self.websiteList.removeAll()
                                 
                                 // Website Contact Info
                                 if let web1 = data![Constants.Firestore.Key.web1] as? String {
@@ -1182,6 +1238,14 @@ extension CardViewController {
                                 if let map = data![Constants.Firestore.Key.gMaps] as? String {
                                     if map != "" {
                                         self.mapLink = map
+                                        
+                                        DispatchQueue.main.async {
+                                            if let gMap = URL(string:"\(self.mapLink)"), UIApplication.shared.canOpenURL(gMap) {
+                                                UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
+                                            } else {
+                                                self.popUpWithOk(newTitle: "Invalid Map Link", newMessage: "Map Link for this location is invalid.")
+                                            }
+                                        }
                                     }
                                 }
                             }

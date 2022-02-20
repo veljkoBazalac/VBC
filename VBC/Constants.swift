@@ -24,6 +24,8 @@ struct Constants {
         
         // Home
         static let homeToCard = "HomeToCardSegue"
+        static let homeToSearch = "HomeToSearchSegue"
+        static let searchToCard = "SearchToCardSegue"
         static let cardToAbout = "CardToAboutSegue"
         static let editStep1 = "EditStep1"
         static let editStep2 = "EditStep2"
@@ -73,6 +75,11 @@ struct Constants {
         static let contactListCell = "ContactListCell"
     }
     
+    struct NotificationKey {
+        static let cardRemoved = "solosoft.VBC.cardRemoved"
+        
+    }
+    
     struct Firestore {
         
         struct CollectionName {
@@ -88,6 +95,8 @@ struct Constants {
             static let savedVBC = "Saved VBC"
             static let aboutSection = "About Section"
             static let about = "About"
+            static let searchBy = "SearchBy"
+            static let savedForUsers = "Saved For Users"
         
         }
         
@@ -147,8 +156,11 @@ struct Constants {
             static let link = "link"
             static let socialAdded = "Social Media Added"
             
-            // Ket for About Info
+            // Key for About Info
             static let about = "About"
+            
+            // Key for Search By
+            static let parameter = "parameter"
         }
         
         struct Storage {

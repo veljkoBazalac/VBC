@@ -62,6 +62,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
     var editCardCity2 : String = ""
     var editCardStreet2 : String = ""
     var editCardMap2 : String = ""
+    var NavBarTitle2 : String = ""
     
     // Picker View
     var pickerView = UIPickerView()
@@ -88,6 +89,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         
         if editCard2 == true {
             navigationItem.rightBarButtonItem?.title = "Save"
+            navigationItem.title = NavBarTitle2
             cardID = editCardID2
             selectCountry.text = editCardCountry2
             selectCountry.isEnabled = false

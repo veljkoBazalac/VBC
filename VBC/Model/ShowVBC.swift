@@ -9,7 +9,8 @@ import Foundation
 
 struct ShowVBC {
     
-    var name : String = ""
+    var personalName : String = ""
+    var companyName : String = ""
     var sector : String = ""
     var type : String = ""
     var country : String = ""

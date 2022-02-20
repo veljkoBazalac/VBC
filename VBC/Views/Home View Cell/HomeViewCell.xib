@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,41 +31,63 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwA-7u-p5U">
                                 <rect key="frame" x="105" y="5" width="288" height="100"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vYE-md-pvh" userLabel="Text Stack">
-                                        <rect key="frame" x="95" y="13" width="98.5" height="74.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vYE-md-pvh" userLabel="Text Stack">
+                                        <rect key="frame" x="10" y="5" width="238" height="90"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4E-lm-xGa">
-                                                <rect key="frame" x="26.5" y="0.0" width="45" height="20.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upe-XO-6Vt">
+                                                <rect key="frame" x="61.5" y="0.0" width="115" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" name="Color SDS"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kind of work" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4B-KO-4cC">
-                                                <rect key="frame" x="6" y="20.5" width="86" height="18"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4E-lm-xGa">
+                                                <rect key="frame" x="64.5" y="22.5" width="109.5" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" name="Color SDS"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kind of work 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICl-GJ-EBA">
-                                                <rect key="frame" x="0.0" y="38.5" width="98.5" height="18"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sector" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4B-KO-4cC">
+                                                <rect key="frame" x="96.5" y="45" width="45.5" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" name="Color SDS"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nKe-OW-504">
-                                                <rect key="frame" x="35.5" y="56.5" width="27.5" height="18"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICl-GJ-EBA">
+                                                <rect key="frame" x="73" y="67.5" width="92" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" name="Color SDS"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
                                     </stackView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Srbija" translatesAutoresizingMaskIntoConstraints="NO" id="bwA-o8-JZK">
+                                        <rect key="frame" x="258" y="5" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="2qS-t0-IpG"/>
+                                            <constraint firstAttribute="height" constant="20" id="VkI-cP-bMB"/>
+                                            <constraint firstAttribute="width" secondItem="bwA-o8-JZK" secondAttribute="height" multiplier="1:1" id="yxf-YK-zbi"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Company" translatesAutoresizingMaskIntoConstraints="NO" id="SuX-Nt-NJd">
+                                        <rect key="frame" x="258" y="75" width="20" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="52c-Zv-RW2"/>
+                                            <constraint firstAttribute="width" constant="20" id="d41-b3-cou"/>
+                                            <constraint firstAttribute="width" secondItem="SuX-Nt-NJd" secondAttribute="height" multiplier="1:1" id="kyA-o3-nXL"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="vYE-md-pvh" firstAttribute="centerY" secondItem="bwA-7u-p5U" secondAttribute="centerY" id="8T5-bJ-LV8"/>
                                     <constraint firstAttribute="height" constant="100" id="D0b-Gm-O2j"/>
-                                    <constraint firstItem="vYE-md-pvh" firstAttribute="centerX" secondItem="bwA-7u-p5U" secondAttribute="centerX" id="mF9-JG-EVy"/>
+                                    <constraint firstAttribute="trailing" secondItem="bwA-o8-JZK" secondAttribute="trailing" constant="10" id="Hrx-wY-psN"/>
+                                    <constraint firstAttribute="bottom" secondItem="SuX-Nt-NJd" secondAttribute="bottom" constant="5" id="STJ-dV-gsg"/>
+                                    <constraint firstItem="vYE-md-pvh" firstAttribute="top" secondItem="bwA-7u-p5U" secondAttribute="top" constant="5" id="bi0-Ko-vON"/>
+                                    <constraint firstItem="vYE-md-pvh" firstAttribute="leading" secondItem="bwA-7u-p5U" secondAttribute="leading" constant="10" id="eZo-gO-qi1"/>
+                                    <constraint firstItem="bwA-o8-JZK" firstAttribute="top" secondItem="bwA-7u-p5U" secondAttribute="top" constant="5" id="i9g-aw-Uf2"/>
+                                    <constraint firstItem="bwA-o8-JZK" firstAttribute="leading" secondItem="vYE-md-pvh" secondAttribute="trailing" constant="10" id="pM0-PD-7d9"/>
+                                    <constraint firstAttribute="bottom" secondItem="vYE-md-pvh" secondAttribute="bottom" constant="5" id="sz2-AY-S66"/>
+                                    <constraint firstAttribute="trailing" secondItem="SuX-Nt-NJd" secondAttribute="trailing" constant="10" id="vgE-jj-j4u"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -88,9 +110,11 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" name="Background Color"/>
             <connections>
-                <outlet property="countryLabel" destination="nKe-OW-504" id="0nn-Be-cVI"/>
+                <outlet property="companyNameLabel" destination="e4E-lm-xGa" id="RhW-Oo-4q9"/>
+                <outlet property="companyOrPersonalIcon" destination="SuX-Nt-NJd" id="PGf-pr-thP"/>
+                <outlet property="countryFlag" destination="bwA-o8-JZK" id="uAd-yP-l9f"/>
                 <outlet property="logoImageView" destination="p2G-OT-fcv" id="5Ls-lW-PsQ"/>
-                <outlet property="nameLabel" destination="e4E-lm-xGa" id="RhW-Oo-4q9"/>
+                <outlet property="personalName" destination="Upe-XO-6Vt" id="A8I-WX-JZc"/>
                 <outlet property="productTypeLabel" destination="ICl-GJ-EBA" id="m3y-dl-7y8"/>
                 <outlet property="sectorLabel" destination="A4B-KO-4cC" id="zur-Fo-u27"/>
             </connections>
@@ -98,6 +122,8 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="Company" width="326.5" height="259"/>
+        <image name="Srbija" width="85" height="85"/>
         <image name="Test image" width="85" height="85"/>
         <namedColor name="Background Color">
             <color red="0.84700000286102295" green="0.88999998569488525" blue="0.90600001811981201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

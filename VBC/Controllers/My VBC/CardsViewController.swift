@@ -26,6 +26,9 @@ class CardsViewController: UIViewController {
     // Personal Cards Dictionary
     var personalCards : [ShowVBC] = []
     
+    var editedCardID : String = ""
+    var editedCardRow : Int?
+    
     var singlePlace : [Bool] = []
     var currentSegment0 : Bool = true
     
@@ -58,7 +61,7 @@ class CardsViewController: UIViewController {
             .addSnapshotListener { snapshot, error in
                 
                 if let e = error {
-                    print ("Error getting Single Places Data. \(e)")
+                    print ("Error getting Cards Data. \(e)")
                 } else {
                     
                     snapshot?.documentChanges.forEach({ diff in
@@ -76,13 +79,18 @@ class CardsViewController: UIViewController {
                                                     if let companyCard = data[Constants.Firestore.Key.companyCard] as? Bool {
                                                         if let userID = data[Constants.Firestore.Key.userID] as? String {
                                                             
-                                                            
-                                                            let card = ShowVBC(name: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
-                                                            
-                                                            if companyCard == true {
-                                                                self.companyCards.append(card)
+                                                            if companyCard == false {
+                                                                if let personalName = data[Constants.Firestore.Key.personalName] as? String {
+                                                                    
+                                                                    let card = ShowVBC(personalName: personalName, companyName: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
+                                                                    
+                                                                    self.personalCards.append(card)
+                                                                }
                                                             } else {
-                                                                self.personalCards.append(card)
+                                                                
+                                                                let card = ShowVBC(companyName: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
+                                                                
+                                                                self.companyCards.append(card)
                                                             }
                                                             
                                                             self.tableView.reloadData()
@@ -98,7 +106,45 @@ class CardsViewController: UIViewController {
                         }
                         
                         if diff.type == .modified {
-                            //print("Modified")
+                            
+                            if let name = data[Constants.Firestore.Key.companyName] as? String {
+                                if let sector = data[Constants.Firestore.Key.sector] as? String {
+                                    if let productType = data[Constants.Firestore.Key.type] as? String {
+                                        if let country = data[Constants.Firestore.Key.country] as? String {
+                                            if let cardID = data[Constants.Firestore.Key.cardID] as? String {
+                                                if let singlePlace = data[Constants.Firestore.Key.singlePlace] as? Bool {
+                                                    if let companyCard = data[Constants.Firestore.Key.companyCard] as? Bool {
+                                                        if let userID = data[Constants.Firestore.Key.userID] as? String {
+                                                            
+                                                            if companyCard == false {
+                                                                if let personalName = data[Constants.Firestore.Key.personalName] as? String {
+                                                                    
+                                                                    let card = ShowVBC(personalName: personalName, companyName: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
+                                                                    
+                                                                    if self.editedCardRow != nil {
+                                                                        self.personalCards.insert(card, at: self.editedCardRow!)
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                
+                                                                let card = ShowVBC(companyName: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID)
+                                                                
+                                                                if self.editedCardRow != nil {
+                                                                    self.companyCards.insert(card, at: self.editedCardRow!)
+                                                                }
+                                                            }
+                                                            
+                                                            self.tableView.reloadData()
+                                                            
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
                         }
                         
                         if diff.type == .removed {
@@ -118,7 +164,6 @@ class CardsViewController: UIViewController {
     // MARK: - Add New Card Button Pressed
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: Constants.Segue.addVBC, sender: self)
-        
     }
     
     // MARK: - Segment Company or Personal
@@ -136,6 +181,28 @@ class CardsViewController: UIViewController {
     
 }
 
+// MARK: - Edit Card Delegate from Card View Controller
+
+extension CardsViewController: EditedCardDelegate {
+    
+    func getEditedCardID(cardRow: Int, companyCard: Bool) {
+        
+        editedCardRow = cardRow
+        if companyCard == true {
+            self.companyCards.remove(at: cardRow)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        } else {
+            self.personalCards.remove(at: cardRow)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+    }
+}
+
 // MARK: - TableView
 extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -146,7 +213,6 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             return personalCards.count
         }
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -157,26 +223,30 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
             
             let companyCardRow = companyCards[indexPath.row]
             
-            cell.nameLabel.text = companyCardRow.name
+            cell.personalName.isHidden = true
+            cell.companyNameLabel.text = companyCardRow.companyName
             cell.sectorLabel.text = companyCardRow.sector
             cell.productTypeLabel.text = companyCardRow.type
-            cell.countryLabel.text = companyCardRow.country
+            cell.countryFlag.image = UIImage(named: companyCardRow.country)
+            cell.companyOrPersonalIcon.image = UIImage(named: "Company")
             
         } else {
             
             let personalCardRow = personalCards[indexPath.row]
             
-            cell.nameLabel.text = personalCardRow.name
+            cell.personalName.isHidden = false
+            cell.personalName.text = personalCardRow.personalName
+            cell.companyNameLabel.text = personalCardRow.companyName
             cell.sectorLabel.text = personalCardRow.sector
             cell.productTypeLabel.text = personalCardRow.type
-            cell.countryLabel.text = personalCardRow.country
+            cell.countryFlag.image = UIImage(named: personalCardRow.country)
+            cell.companyOrPersonalIcon.image = UIImage(named: "Personal")
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         performSegue(withIdentifier: Constants.Segue.viewCard, sender: self)
     }
     
@@ -186,14 +256,18 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
             
             let destinationVC = segue.destination as! CardViewController
             
+            destinationVC.delegate = self
+            
             if let indexPath = tableView.indexPathForSelectedRow {
                 
                 if currentSegment0 == true {
+                    destinationVC.cardRowForEdit = indexPath.row
                     destinationVC.userID = companyCards[indexPath.row].userID
                     destinationVC.cardID = companyCards[indexPath.row].cardID
                     destinationVC.singlePlace = companyCards[indexPath.row].singlePlace
                     destinationVC.companyCard = companyCards[indexPath.row].companyCard
                 } else {
+                    destinationVC.cardRowForEdit = indexPath.row
                     destinationVC.userID = personalCards[indexPath.row].userID
                     destinationVC.cardID = personalCards[indexPath.row].cardID
                     destinationVC.singlePlace = personalCards[indexPath.row].singlePlace

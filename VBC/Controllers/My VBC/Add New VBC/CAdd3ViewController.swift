@@ -78,6 +78,7 @@ class CAdd3ViewController: UIViewController {
     var editCardSaved3 : Bool = false
     var editCardCountry3 : String = ""
     var editCardLocation : String = ""
+    var NavBarTitle3 : String = ""
     
     // Basic Info from 1st Step
     var logoImage3 : UIImage?
@@ -112,8 +113,6 @@ class CAdd3ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(editCardLocation)
-        finishButton.isEnabled = false
         
         getBasicCard3()
         
@@ -134,10 +133,14 @@ class CAdd3ViewController: UIViewController {
     
     func getBasicCard3() {
         
-        if companyCard3 == false {
+        if companyCard3 == true {
             personalName.isHidden = true
         } else {
             personalName.text = personalName3
+        }
+        
+        if editCard3 == true {
+            navigationItem.title = NavBarTitle3
         }
             
         logoImageView.image = logoImage3
