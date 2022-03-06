@@ -10,6 +10,7 @@ import Firebase
 import FirebaseStorage
 import MessageUI
 import SafariServices
+import FirebaseStorageUI
 
 protocol EditedCardDelegate : AnyObject {
     func getEditedCardID(cardRow : Int, companyCard: Bool)
@@ -59,6 +60,7 @@ class CardViewController: UIViewController {
     var cardEdited : Bool = false
     var cityNameForEdit : String = ""
     var streetNameForEdit : String = ""
+    var mapForEdit : String = ""
     var locationForEdit : String = ""
     var cardIDForEdit : String = ""
     var cardRowForEdit : Int?
@@ -90,6 +92,10 @@ class CardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        DispatchQueue.main.async {
+            self.getImage()
+        }
+        
         if companyCard == true {
             personalNameLabel.isHidden = true
         }
@@ -106,20 +112,81 @@ class CardViewController: UIViewController {
         pickerView.dataSource = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        
+        if cardEdited == true {
+            DispatchQueue.main.async {
+                self.getImage()
+                self.cardEdited = false
+            }
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         navigationController?.setNavigationBarHidden(false, animated: true)
         tabBarController?.tabBar.isHidden = true
         
         getCardBasicInfo()
-        
+
         callPressed = false
         emailPressed = false
         mapPressed = false
         websitePressed = false
         socialPressed = false
         getSaveStatus()
+    }
+    
+    // MARK: - Get Image from Storage
+    func getImage() {
         
+        let imagePath = db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(self.userID)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(self.cardID)
+        
+        imagePath.getDocument { document, error in
+            
+            if let e = error {
+                print("Error Geting URL from Firestore Database. \(e)")
+            } else {
+                
+                if document != nil && document!.exists {
+                    
+                    let data = document!.data()
+                    
+                    if let imageURL = data![Constants.Firestore.Key.imageURL] as? String {
+                        
+                        if imageURL != "" {
+                           
+                            if let url = URL(string: imageURL) {
+                               
+                                DispatchQueue.main.async {
+                                    self.logoImage.sd_setImage(with: url, completed: nil)
+                                }
+                                    
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.logoImage.image = UIImage(named: "LogoImage")
+                                }
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.logoImage.image = UIImage(named: "LogoImage")
+                            }
+                        }
+                    } else {
+                        
+                        DispatchQueue.main.async {
+                            self.logoImage.image = UIImage(named: "LogoImage")
+                        }
+                    }
+                }
+            }
+        }
     }
    
     // MARK: - Change Button Title Based on userID and Save Status
@@ -137,16 +204,6 @@ class CardViewController: UIViewController {
             DispatchQueue.main.async {
                 self.saveButton.setTitle("Edit", for: .normal)
             }
-        }
-    }
-    
-    // MARK: - Getting Single Place or Multiple Places Locations
-    func getLocationsList() {
-        
-        if singlePlace == true {
-            getSinglePlaceList()
-        } else if singlePlace == false {
-            getMultiplePlacesList()
         }
     }
     
@@ -210,23 +267,18 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd1ViewController
             
             cardEdited = true
-            
-            if cardRowForEdit != nil {
-                if companyCard == true {
-                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: true)
-                } else {
-                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: false)
-                }
-                
-            }
             self.selectLocation.text = self.locationForEdit
+            
+            // Card Edit Notification
+            let notName = Notification.Name(rawValue: Constants.NotificationKey.cardEdited)
+            NotificationCenter.default.post(name: notName, object: self.cardID)
             
             destinationVC.editCard = true
             destinationVC.editCardID = cardID
             destinationVC.editUserID = userID
             destinationVC.companyCard = companyCard
+            destinationVC.editImage = logoImage.image
             destinationVC.NavBarTitle1 = "Edit VBC - Step 1/3"
-            
         }
         
         if segue.identifier == Constants.Segue.editStep2 {
@@ -234,16 +286,11 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd2ViewController
             
             cardEdited = true
-            
-            if cardRowForEdit != nil {
-                if companyCard == true {
-                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: true)
-                } else {
-                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: false)
-                }
-                
-            }
             self.selectLocation.text = self.locationForEdit
+            
+            // Card Edit Notification
+            let notName = Notification.Name(rawValue: Constants.NotificationKey.cardEdited)
+            NotificationCenter.default.post(name: notName, object: self.cardID)
             
             destinationVC.editCard2 = true
             destinationVC.editCardID2 = cardID
@@ -251,11 +298,12 @@ class CardViewController: UIViewController {
             destinationVC.editCardSaved2 = cardSaved
             destinationVC.editCardCountry2 = countryLabel.text!
             destinationVC.editSinglePlace2 = singlePlace
+            destinationVC.numberOfPlaces = locationsList.count
             
             if singlePlace == true {
                 destinationVC.editCardCity2 = cityNameForEdit
                 destinationVC.editCardStreet2 = streetNameForEdit
-                destinationVC.editCardMap2 = mapLink
+                destinationVC.editCardMap2 = mapForEdit
             }
             
             destinationVC.logoImage2 = logoImage.image!
@@ -274,18 +322,14 @@ class CardViewController: UIViewController {
             let destinationVC = segue.destination as! CAdd3ViewController
             
             cardEdited = true
-            if cardRowForEdit != nil {
-                if companyCard == true {
-                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: true)
-                } else {
-                    delegate?.getEditedCardID(cardRow: cardRowForEdit!, companyCard: false)
-                }
-                
-            }
             self.selectLocation.text = self.locationForEdit
             
+            // Card Edit Notification
+            let notName = Notification.Name(rawValue: Constants.NotificationKey.cardEdited)
+            NotificationCenter.default.post(name: notName, object: self.cardID)
+            
             destinationVC.editCard3 = true
-            destinationVC.editCardID3 = cardID
+            destinationVC.currentCardID = cardID
             destinationVC.editUserID3 = userID
             destinationVC.editCardSaved3 = cardSaved
             destinationVC.singlePlace = singlePlace
@@ -315,20 +359,20 @@ class CardViewController: UIViewController {
                 destinationVC.aboutTitle = "About Me"
             }
             
+            destinationVC.image = logoImage.image
             destinationVC.companyName = companyNameLabel.text!
             destinationVC.sector = sectorLabel.text!
             destinationVC.productType = productTypeLabel.text!
             destinationVC.companyCard = companyCard
             destinationVC.cardID = cardID
             destinationVC.userID = userID
-            
         }
     }
-    
     
 // MARK: - Logo Image Pressed - Present About
     
     @IBAction func logoPressed(_ sender: UITapGestureRecognizer) {
+        // Show Card About
         performSegue(withIdentifier: Constants.Segue.cardToAbout, sender: self)
     }
     
@@ -338,72 +382,46 @@ class CardViewController: UIViewController {
     
     @IBAction func callButtonPressed(_ sender: UITapGestureRecognizer) {
         callPressed = true
-        
-        if singlePlace == true {
-            getCardSP()
-        } else {
-            getCardMP()
-        }
+        getCard()
     }
     
 // MARK: - Email Button
     
     @IBAction func emailButtonPressed(_ sender: UITapGestureRecognizer) {
         emailPressed = true
-        
-        if singlePlace == true {
-            getCardSP()
-        } else {
-            getCardMP()
-        }
-        
+        getCard()
     }
 
 // MARK: - Map Button
     
     @IBAction func mapButtonPressed(_ sender: UITapGestureRecognizer) {
         mapPressed = true
-        
-        if singlePlace == true {
-            getCardSP()
-        } else {
-            getCardMP()
-        }
+        getCard()
     }
     
-// MARK: - Website Button
+    // MARK: - Website Button
     
     @IBAction func websiteButtonPressed(_ sender: UITapGestureRecognizer) {
         websitePressed = true
-        
-        if singlePlace == true {
-            getCardSP()
-        } else {
-            getCardMP()
-        }
+        getCard()
     }
     
     // MARK: - Social Button Pressed
     
     @IBAction func socialButtonPressed(_ sender: UITapGestureRecognizer) {
         socialPressed = true
-        
-        if singlePlace == true {
-            getCardSP()
-        } else {
-            getCardMP()
-        }
+        getCard()
     }
     
     // MARK: - SHARE AND SAVE BUTTONS
     
     @IBAction func shareButtonPressed(_ sender: UIButton) {
-        print(locationForEdit)
+        
         // Action Sheet da kopira Card ID
         let actionSheetController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         // Basic Info Action
-        let copyCardIDAction: UIAlertAction = UIAlertAction(title: "Copy Card ID", style: .default) { action -> Void in
+        let copyCardIDAction: UIAlertAction = UIAlertAction(title: "Copy Card ID: \(self.cardID)", style: .default) { action -> Void in
 
             UIPasteboard.general.string = self.cardID
             
@@ -427,7 +445,7 @@ class CardViewController: UIViewController {
             saveVBC()
         } else  if user! != userID && saveButton.titleLabel?.text == "Remove" {
             DispatchQueue.main.async {
-                self.deleteVBC()
+                self.removeVBC()
             }
             
         }
@@ -450,12 +468,73 @@ class CardViewController: UIViewController {
 
                 self.performSegue(withIdentifier: Constants.Segue.editStep3, sender: self)
             }
+            
+            // Delete VBC
+            let deleteCard: UIAlertAction = UIAlertAction(title: "Delete Card", style: .destructive) { action -> Void in
+
+                let alert = UIAlertController(title: "Delete this Card?", message: "If you Delete this Card, all data will be lost for ever.", preferredStyle: .alert)
+                
+                let actionDelete = UIAlertAction(title: "Delete", style: .destructive) { action in
+                    
+                    // Delete Locations Subcollection
+                    self.deleteLocations()
+                    // Delete SavedForUser Subcollection
+                    self.deleteSavedForUser()
+                    // Delete About Subcollection
+                    self.db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.data)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(self.userID)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(self.cardID)
+                        .collection(Constants.Firestore.CollectionName.aboutSection)
+                        .document(Constants.Firestore.CollectionName.about)
+                        .delete()
+                    // Delete Card Document and Image from Storage
+                    self.db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.data)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(self.userID)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(self.cardID)
+                        .delete { error in
+                            
+                            if let e = error {
+                                print("Error Deleting VBC. \(e)")
+                            } else {
+                                
+                                self.storage
+                                    .child(Constants.Firestore.Storage.logoImage)
+                                    .child("Img.\(self.cardID)")
+                                    .delete()
+                                
+                                // Notification name
+                                let NotNameDeletedCard = Notification.Name(rawValue: Constants.NotificationKey.cardDeleted)
+                                
+                                NotificationCenter.default.post(name: NotNameDeletedCard, object: self.cardID)
+                                
+                                self.navigationController?.popToRootViewController(animated: true)
+                            }
+                        }
+                }
+                
+                let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
+                    alert.dismiss(animated: true, completion: nil)
+                }
+                
+                alert.addAction(actionDelete)
+                alert.addAction(actionCancel)
+                self.present(alert, animated: true, completion: nil)
+                
+            }
+            
             // Cancel Action
             let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
 
             actionSheetController.addAction(basicInfoAction)
             actionSheetController.addAction(locInfoAction)
             actionSheetController.addAction(contactInfoAction)
+            actionSheetController.addAction(deleteCard)
             actionSheetController.addAction(cancelAction)
 
             present(actionSheetController, animated: true, completion: nil)
@@ -463,6 +542,144 @@ class CardViewController: UIViewController {
         } 
     }
     
+    // MARK: - Delete Saved For User Subcollection
+    func deleteSavedForUser() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(userID)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(cardID)
+            .collection(Constants.Firestore.CollectionName.savedForUsers)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print("Error Deleting Saved For User. \(e)")
+                } else {
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let saverUserID = data[Constants.Firestore.Key.userID] as? String {
+                                if let saverCardID = data[Constants.Firestore.Key.cardID] as? String {
+                                
+                                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                    .document(Constants.Firestore.CollectionName.data)
+                                    .collection(Constants.Firestore.CollectionName.users)
+                                    .document(saverUserID)
+                                    .collection(Constants.Firestore.CollectionName.savedVBC)
+                                    .document(saverCardID)
+                                    .delete()
+                                
+                                
+                                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                    .document(Constants.Firestore.CollectionName.data)
+                                    .collection(Constants.Firestore.CollectionName.users)
+                                    .document(self.userID)
+                                    .collection(Constants.Firestore.CollectionName.cardID)
+                                    .document(self.cardID)
+                                    .collection(Constants.Firestore.CollectionName.savedForUsers)
+                                    .document(saverUserID)
+                                    .delete()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    
+    // MARK: - Delete Locations Subcollection
+    func deleteLocations() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(userID)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(cardID)
+            .collection(Constants.Firestore.CollectionName.locations)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print("Error Getting Locations for Delete. \(e)")
+                } else {
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let cityName = data[Constants.Firestore.Key.city] as? String {
+                                if let streetName = data[Constants.Firestore.Key.street] as? String {
+                                    
+                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                        .document(Constants.Firestore.CollectionName.data)
+                                        .collection(Constants.Firestore.CollectionName.users)
+                                        .document(self.userID)
+                                        .collection(Constants.Firestore.CollectionName.cardID)
+                                        .document(self.cardID)
+                                        .collection(Constants.Firestore.CollectionName.locations)
+                                        .document("\(cityName) - \(streetName)")
+                                        .delete { error in
+                                            
+                                            if let e = error {
+                                                print("Error Deleting Location. \(e)")
+                                            } else {
+                                                
+                                                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                                    .document(Constants.Firestore.CollectionName.data)
+                                                    .collection(Constants.Firestore.CollectionName.users)
+                                                    .document(self.userID)
+                                                    .collection(Constants.Firestore.CollectionName.cardID)
+                                                    .document(self.cardID)
+                                                    .collection(Constants.Firestore.CollectionName.locations)
+                                                    .document("\(cityName) - \(streetName)")
+                                                    .collection(Constants.Firestore.CollectionName.social)
+                                                    .getDocuments { snapshot, error in
+                                                        
+                                                        if let e = error {
+                                                            print("Error Deleting Social Media. \(e)")
+                                                        } else {
+                                                            
+                                                            if let snapshotDocuments = snapshot?.documents {
+                                                                
+                                                                for documents in snapshotDocuments {
+                                                                    
+                                                                    let data = documents.data()
+                                                                    
+                                                                    if let socialName = data[Constants.Firestore.Key.name] as? String {
+                                                                        
+                                                                        self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                                                            .document(Constants.Firestore.CollectionName.data)
+                                                                            .collection(Constants.Firestore.CollectionName.users)
+                                                                            .document(self.userID)
+                                                                            .collection(Constants.Firestore.CollectionName.cardID)
+                                                                            .document(self.cardID)
+                                                                            .collection(Constants.Firestore.CollectionName.locations)
+                                                                            .document("\(cityName) - \(streetName)")
+                                                                            .collection(Constants.Firestore.CollectionName.social)
+                                                                            .document(socialName)
+                                                                            .delete()
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
     
     // MARK: - Pop Up With Ok
         
@@ -539,7 +756,9 @@ extension CardViewController {
                         .document(self.cardID)
                         .collection(Constants.Firestore.CollectionName.savedForUsers)
                         .document(self.user!)
-                        .setData(["\(Constants.Firestore.Key.cardSaved)": true, "\(Constants.Firestore.Key.userID)": self.user!])
+                        .setData([Constants.Firestore.Key.cardSaved : true,
+                                  Constants.Firestore.Key.userID : self.user!,
+                                  Constants.Firestore.Key.cardID : self.cardID])
                     
                     self.cardSaved = true
                     
@@ -553,9 +772,9 @@ extension CardViewController {
         
     }
     
-    // MARK: - Remove Card from Saved
+    // MARK: - Remove Card from Wallet
     
-    func deleteVBC() {
+    func removeVBC() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -566,7 +785,7 @@ extension CardViewController {
             .delete (completion: { error in
                 
                 if let e = error {
-                    print("Error Deleting VBC. \(e)")
+                    print("Error Removing VBC from Wallet. \(e)")
                 } else {
                     
                     self.db.collection(Constants.Firestore.CollectionName.VBC)
@@ -651,7 +870,6 @@ extension CardViewController {
                     if document != nil && document!.exists {
                         
                         let data = document!.data()
-                        
                         if let companyName = data![Constants.Firestore.Key.companyName] as? String {
                             if let companySector = data![Constants.Firestore.Key.sector] as? String {
                                 if let companyProductType = data![Constants.Firestore.Key.type] as? String {
@@ -660,8 +878,8 @@ extension CardViewController {
                                             
                                             self.singlePlace = checkSinglePlace
                                             
-                                            if checkSinglePlace == false {
-                                                self.selectLocation.isEnabled = true
+                                            if self.singlePlace == true {
+                                                self.selectLocation.isEnabled = false
                                             }
                                             
                                             // Basic Card Info
@@ -675,7 +893,7 @@ extension CardViewController {
                                                     self.personalNameLabel.text = personalName
                                                 }
                                             }
-                                            self.getLocationsList()
+                                            self.getLocationList()
                                         }
                                     }
                                 }
@@ -688,302 +906,13 @@ extension CardViewController {
     
 }
 
-// MARK: - SINGLE PLACE CARDS
+// MARK: - GET CARDS
 
 extension CardViewController {
     
-    // MARK: - Get Single Place Location
-    func getSinglePlaceList() {
+    func getLocationList() {
         
-        // Getting Single Place location
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(userID)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(cardID)
-            .getDocument { document, error in
-                
-                if let e = error {
-                    print("Error getting Singe Place location. \(e)")
-                    
-                } else {
-                    
-                    if document != nil && document!.exists {
-                        
-                        let documentData = document!.data()
-                        
-                        if let cityName = documentData![Constants.Firestore.Key.city] as? String {
-                            if let streetName = documentData![Constants.Firestore.Key.street] as? String {
-                                
-                                if cityName.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                                    self.selectLocation.text = "City not specified"
-                                } else if cityName.trimmingCharacters(in: .whitespacesAndNewlines) != "" && streetName.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-                                    self.selectLocation.text = "\(cityName) - \(streetName)"
-                                } else if streetName.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                                    self.selectLocation.text = "\(cityName)"
-                                }
-                                self.selectLocation.isEnabled = false
-                                self.cityNameForEdit = cityName
-                                self.streetNameForEdit = streetName
-                            }
-                        }
-                    }
-                    self.checkCardDataSP()
-                }
-            }
-    }
-    
-    // MARK: - Check Card Data for Single Place Location
-    
-    func checkCardDataSP() {
-        
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(userID)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(cardID)
-            .getDocument { document, error in
-                
-                if let e = error {
-                    print ("Error Checking Single Place Data. \(e)")
-                } else {
-                    
-                    if document != nil && document!.exists {
-                        
-                        let data = document!.data()
-                        
-                        self.companyHasPhone = false
-                        self.companyHasEmail = false
-                        self.companyHasMap = false
-                        self.companyHasWebsite = false
-                        
-                        // Phone Check
-                        if data![Constants.Firestore.Key.phone1] != nil {
-                            if (data![Constants.Firestore.Key.phone1] as? String) != "" {
-                                self.companyHasPhone = true
-                                
-                                if (data![Constants.Firestore.Key.phone2] as? String) != "" {
-                                    self.companyHasPhone = true
-                                    
-                                    if (data![Constants.Firestore.Key.phone3] as? String) != "" {
-                                        self.companyHasPhone = true
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // Email Check
-                        if data![Constants.Firestore.Key.email1] != nil {
-                            if (data![Constants.Firestore.Key.email1] as? String) != "" {
-                                self.companyHasEmail = true
-                                
-                                if (data![Constants.Firestore.Key.email2] as? String) != "" {
-                                    self.companyHasEmail = true
-                                }
-                            }
-                        }
-                        
-                        // Map Check
-                        if data![Constants.Firestore.Key.gMaps] != nil {
-                            if (data![Constants.Firestore.Key.gMaps] as? String) != "" {
-                                self.companyHasMap = true
-                            }
-                        }
-                        
-                        // Website Check
-                        if data![Constants.Firestore.Key.web1] != nil {
-                            if (data![Constants.Firestore.Key.web1] as? String) != "" {
-                                self.companyHasWebsite = true
-                                
-                                if (data![Constants.Firestore.Key.web2] as? String) != "" {
-                                    self.companyHasWebsite = true
-                                }
-                            }
-                        }
-                        
-                        // Social Media Check
-                        if data![Constants.Firestore.Key.socialAdded] != nil {
-                            if (data![Constants.Firestore.Key.socialAdded] as? Bool) != false {
-                                self.personHasSocial = true
-                            }
-                        }
-                    }
-                    DispatchQueue.main.async {
-                        self.showButtons()
-                    }
-                }
-            }
-    }
-    
-    
-    // MARK: - Get Card Data for Single Place
-    
-    func getCardSP() {
-        
-        // Get Social Media for Single Place
-        if socialPressed == true {
-            
-            socialMediaList.removeAll()
-            
-            db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.data)
-                .collection(Constants.Firestore.CollectionName.users)
-                .document(userID)
-                .collection(Constants.Firestore.CollectionName.cardID)
-                .document(cardID)
-                .collection(Constants.Firestore.CollectionName.social)
-                .getDocuments { snapshot, error in
-                    
-                    if let e = error {
-                        print ("Error getting Social Media List. \(e)")
-                    } else {
-                        
-                        if let snapshotDocuments = snapshot?.documents {
-                            
-                            for documents in snapshotDocuments {
-                                
-                                let data = documents.data()
-                                
-                                if let socialName = data[Constants.Firestore.Key.name] as? String {
-                                    if let socialLink = data[Constants.Firestore.Key.link] as? String {
-                                        
-                                        let social = SocialMedia(name: socialName, link: socialLink)
-                                        
-                                        self.socialMediaList.append(social)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    self.performSegue(withIdentifier: Constants.Segue.cardToPopUp, sender: self)
-                }
-        }
-        else {
-            // Get Data for Phone Number, Email, Map and Website
-            db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.data)
-                .collection(Constants.Firestore.CollectionName.users)
-                .document(userID)
-                .collection(Constants.Firestore.CollectionName.cardID)
-                .document(cardID)
-                .getDocument { document, error in
-                    
-                    if let e = error {
-                        print ("Error getting Multiple Places List. \(e)")
-                    } else {
-                        
-                        if document != nil && document!.exists {
-                            
-                            let data = document!.data()
-                            
-                            if self.callPressed == true {
-                                
-                                self.phoneNumbersList.removeAll()
-                                
-                                // Add Phone Contact Info
-                                if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
-                                    if let phone1 = data![Constants.Firestore.Key.phone1] as? String {
-                                        
-                                        if phone1 != "" {
-                                            let number = PhoneNumber(code: phoneCode1, number: phone1)
-                                            self.phoneNumbersList.append(number)
-                                        }
-                                    }
-                                }
-                                
-                                if let phoneCode2 = data![Constants.Firestore.Key.phone2code] as? String {
-                                    if let phone2 = data![Constants.Firestore.Key.phone2] as? String {
-                                        
-                                        if phone2 != "" {
-                                            let number = PhoneNumber(code: phoneCode2, number: phone2)
-                                            self.phoneNumbersList.append(number)
-                                        }
-                                    }
-                                }
-                                
-                                if let phoneCode3 = data![Constants.Firestore.Key.phone3code] as? String {
-                                    if let phone3 = data![Constants.Firestore.Key.phone3] as? String {
-                                        
-                                        if phone3 != "" {
-                                            let number = PhoneNumber(code: phoneCode3, number: phone3)
-                                            self.phoneNumbersList.append(number)
-                                        }
-                                    }
-                                }
-                                self.performSegue(withIdentifier: Constants.Segue.cardToPopUp, sender: self)
-                            }
-                            // Add Email Info
-                            if self.emailPressed == true {
-                                
-                                self.emailAddressList.removeAll()
-                                
-                                // Email Contact Info
-                                if let email1 = data![Constants.Firestore.Key.email1] as? String {
-                                    if email1 != "" {
-                                        self.emailAddressList.append(email1)
-                                    }
-                                }
-                                if let email2 = data![Constants.Firestore.Key.email2] as? String {
-                                    if email2 != "" {
-                                        self.emailAddressList.append(email2)
-                                    }
-                                }
-                                self.performSegue(withIdentifier: Constants.Segue.cardToPopUp, sender: self)
-                            }
-                            // Add Map Info
-                            if self.mapPressed == true {
-                                
-                                self.mapLink = ""
-                                
-                                // Map Contact Info
-                                if let map = data![Constants.Firestore.Key.gMaps] as? String {
-                                    if map != "" {
-                                        self.mapLink = map
-                                        
-                                        DispatchQueue.main.async {
-                                            if let gMap = URL(string:"\(self.mapLink)"), UIApplication.shared.canOpenURL(gMap) {
-                                                UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
-                                            } else {
-                                                print("URL NOT WORKING")
-                                            }
-                                        }
-                                        
-                                    }
-                                }
-                            }
-                            // Add Website Info
-                            if self.websitePressed == true {
-                                
-                                self.websiteList.removeAll()
-                                
-                                // Website Contact Info
-                                if let web1 = data![Constants.Firestore.Key.web1] as? String {
-                                    if web1 != "" {
-                                        self.websiteList.append(web1)
-                                    }
-                                }
-                                if let web2 = data![Constants.Firestore.Key.web2] as? String {
-                                    if web2 != "" {
-                                        self.websiteList.append(web2)
-                                    }
-                                }
-                                self.performSegue(withIdentifier: Constants.Segue.cardToPopUp, sender: self)
-                            }
-                            
-                        }
-                    }
-                }
-        }
-        
-    }
-    
-    // MARK: - MULTIPLE PLACES CARDS
-    
-    func getMultiplePlacesList() {
-        
-        // Get Multiple Places locations list
+        // Get locations list
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
@@ -998,7 +927,7 @@ extension CardViewController {
                 } else {
                     
                     self.locationsList.removeAll()
-                    
+                
                     if let snapshotDocuments = snapshot?.documents {
                         
                         for documents in snapshotDocuments {
@@ -1014,6 +943,10 @@ extension CardViewController {
                                         
                                         self.locationsList.append(places)
                                         
+                                        self.cityNameForEdit = cityName
+                                        self.streetNameForEdit = cityStreet
+                                        self.mapForEdit = cityMap
+                                        
                                         if self.cardEdited == false {
                                             self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
                                             self.locationForEdit = self.selectLocation.text!
@@ -1025,15 +958,21 @@ extension CardViewController {
                                 }
                             }
                         }
+                        
+                        if self.locationsList.count <= 1 {
+                            self.selectLocation.isEnabled = false
+                        } else {
+                            self.selectLocation.isEnabled = true
+                        }
                     }
-                    self.checkCardDataMP()
+                    self.checkCardData()
                 }
             }
     }
     
     // MARK: - Check Card for Multiple Places Location
     
-    func checkCardDataMP() {
+    func checkCardData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -1113,11 +1052,11 @@ extension CardViewController {
     
     // MARK: - Get Card for selected Multiple Places location
     
-    func getCardMP() {
+    func getCard() {
         
         if socialPressed == true {
             
-            socialMediaList = []
+            socialMediaList.removeAll()
             
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.data)
@@ -1239,11 +1178,16 @@ extension CardViewController {
                                     if map != "" {
                                         self.mapLink = map
                                         
-                                        DispatchQueue.main.async {
-                                            if let gMap = URL(string:"\(self.mapLink)"), UIApplication.shared.canOpenURL(gMap) {
-                                                UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
-                                            } else {
-                                                self.popUpWithOk(newTitle: "Invalid Map Link", newMessage: "Map Link for this location is invalid.")
+                                        if let index = (self.mapLink.range(of: "http")?.lowerBound) {
+                                            
+                                            let newCleanLink = String(self.mapLink.suffix(from: index))
+                                            
+                                            DispatchQueue.main.async {
+                                                if let gMap = URL(string: newCleanLink), UIApplication.shared.canOpenURL(gMap) {
+                                                    UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
+                                                } else {
+                                                    self.popUpWithOk(newTitle: "Invalid Map Link", newMessage: "Map Link for this location is invalid.")
+                                                }
                                             }
                                         }
                                     }
@@ -1304,6 +1248,6 @@ extension CardViewController: UIPickerViewDelegate, UIPickerViewDataSource {
         socialButton.isHidden = true
         
         self.checkSocialData()
-        self.checkCardDataMP()
+        self.checkCardData()
     }
 }

@@ -17,7 +17,7 @@
 		<string>comgooglemaps</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need permision to access your Photo Library. Then you can choose your Logo Image.</string>
+	<string>VBC need permision to access your Photo Library. Then you can choose your Logo Image.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

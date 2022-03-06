@@ -14,7 +14,6 @@
 		D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A30272449EE00A6331B /* SceneDelegate.swift */; };
 		D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A32272449EE00A6331B /* HomeViewController.swift */; };
 		D00F0A36272449EE00A6331B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A34272449EE00A6331B /* Main.storyboard */; };
-		D00F0A38272449F400A6331B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A37272449F400A6331B /* Assets.xcassets */; };
 		D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A39272449F400A6331B /* LaunchScreen.storyboard */; };
 		D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A60272452D300A6331B /* LoginViewController.swift */; };
 		D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterViewController.swift */; };
@@ -32,8 +31,8 @@
 		D0611E3827BFBE7300434AD8 /* SearchBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0611E3727BFBE7300434AD8 /* SearchBy.swift */; };
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
 		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
-		D08E9292275974F700846EA4 /* LogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08E9291275974F700846EA4 /* LogoImage.swift */; };
 		D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0955D232767BCF7009E9CA7 /* ShowVBC.swift */; };
+		D0A4360A27CD549C00017DF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A37272449F400A6331B /* Assets.xcassets */; };
 		D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */; };
 		D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */; };
 		D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197127413922000B2E1F /* CAdd3ViewController.swift */; };
@@ -99,7 +98,6 @@
 		D0611E3727BFBE7300434AD8 /* SearchBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBy.swift; sourceTree = "<group>"; };
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
 		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
-		D08E9291275974F700846EA4 /* LogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImage.swift; sourceTree = "<group>"; };
 		D0955D232767BCF7009E9CA7 /* ShowVBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowVBC.swift; sourceTree = "<group>"; };
 		D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVBCViewController.swift; sourceTree = "<group>"; };
 		D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd2ViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +196,7 @@
 				D00F0A63272452FD00A6331B /* Home */,
 				D0AB29C1273AFCBA00A43EF2 /* My VBC */,
 				D05CD5D327A28A350083F4DF /* Saved VBC */,
+				D03A325D27D22FD900A4F776 /* Settings */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -235,6 +234,13 @@
 				D0611E3527BFB8A400434AD8 /* SearchViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		D03A325D27D22FD900A4F776 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		D059CA6127BD11830006A6E7 /* Contact List Cell */ = {
@@ -292,7 +298,6 @@
 				D0CF1CD2273DB51900599EF5 /* Sectors.swift */,
 				D0E8BD482742BE0600B0AB0D /* Country.swift */,
 				D0D6A5772743104700773C52 /* MultiplePlaces.swift */,
-				D08E9291275974F700846EA4 /* LogoImage.swift */,
 				D0955D232767BCF7009E9CA7 /* ShowVBC.swift */,
 				D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */,
 				D0317F6127818F9400E67776 /* SocialMedia.swift */,
@@ -438,8 +443,8 @@
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */,
 				D059CA6527BD11AF0006A6E7 /* ContactListCell.xib in Resources */,
-				D00F0A38272449F400A6331B /* Assets.xcassets in Resources */,
 				D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */,
+				D0A4360A27CD549C00017DF0 /* Assets.xcassets in Resources */,
 				D00F0A36272449EE00A6331B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,7 +520,6 @@
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D059CA6427BD11AF0006A6E7 /* ContactListCell.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
-				D08E9292275974F700846EA4 /* LogoImage.swift in Sources */,
 				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
 				D0611E3627BFB8A400434AD8 /* SearchViewController.swift in Sources */,
 				D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */,

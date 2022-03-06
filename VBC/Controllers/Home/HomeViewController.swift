@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    
     // Firebase Firestore Database
     let db = Firestore.firestore()
     // Firebase Storage
@@ -22,6 +23,7 @@ class HomeViewController: UIViewController {
     var cardID : String = ""
     // List of All Cards in Database
     var allCardsList : [ShowVBC] = []
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +33,9 @@ class HomeViewController: UIViewController {
         
         tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
         
+        refreshControl.addTarget(self, action: #selector(refreshData(send:)), for: UIControl.Event.valueChanged)
+        tableView.addSubview(refreshControl)
+        
         getCards()
     }
     
@@ -38,6 +43,13 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(true)
         
         tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc func refreshData(send: UIRefreshControl) {
+        
+        DispatchQueue.main.async {
+            self.getCards()
+        }
     }
     
     // MARK: - Search Button
@@ -63,6 +75,9 @@ class HomeViewController: UIViewController {
     
     func getCards() {
         
+        allCardsList.removeAll()
+        self.tableView.reloadData()
+        
         // Getting Users ID
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -70,14 +85,14 @@ class HomeViewController: UIViewController {
             .getDocuments { snapshot, error in
                 
                 if let e = error {
-                    print ("Error getting Users UID. \(e)")
+                    print ("Error getting User UID. \(e)")
                 } else {
                     
-                    snapshot?.documentChanges.forEach({ diff in
+                    if let snapshotDocuments = snapshot?.documents {
                         
-                        let data = diff.document.data()
-                        
-                        if diff.type == .added {
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
                             
                             if let userID = data[Constants.Firestore.Key.userID] as? String {
                                 
@@ -93,11 +108,11 @@ class HomeViewController: UIViewController {
                                             print ("Error getting Card for this UserID. \(e)")
                                         } else {
                                             
-                                            snapshot?.documentChanges.forEach({ diff in
+                                            if let snapshotDocuments = snapshot?.documents {
                                                 
-                                                let data = diff.document.data()
-                                                
-                                                if diff.type == .added {
+                                                for documents in snapshotDocuments {
+                                                    
+                                                    let data = documents.data()
                                                     
                                                     if let personalName = data[Constants.Firestore.Key.personalName] as? String {
                                                         if let companyName = data[Constants.Firestore.Key.companyName] as? String {
@@ -109,25 +124,18 @@ class HomeViewController: UIViewController {
                                                                                 if let companyCard = data[Constants.Firestore.Key.companyCard] as? Bool {
                                                                                     if let userID = data[Constants.Firestore.Key.userID] as? String {
                                                                                         if let cardSaved = data[Constants.Firestore.Key.cardSaved] as? Bool {
-                                                                                            
-                                                                                            //                                                                                        if companyCard == false {
-                                                                                            
-                                                                                            
-                                                                                            let card = ShowVBC(personalName: personalName, companyName: companyName, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, cardSaved: cardSaved)
-                                                                                            
-                                                                                            self.allCardsList.append(card)
+                                                                                            if let imageURL = data[Constants.Firestore.Key.imageURL] as? String {
+                                                                                                
+                                                                                                let card = ShowVBC(personalName: personalName, companyName: companyName, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, cardSaved: cardSaved, imageURL: imageURL)
+                                                                                                
+                                                                                                self.allCardsList.append(card)
+                                                                                                
+                                                                                                DispatchQueue.main.async {
+                                                                                                    self.tableView.reloadData()
+                                                                                                }
+                                                                                                
+                                                                                            }
                                                                                         }
-                                                                                        //                                                                                        } else {
-                                                                                        //
-                                                                                        //                                                                                            let card = ShowVBC(companyName: companyName, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, cardSaved: cardSaved)
-                                                                                        //
-                                                                                        //
-                                                                                        //                                                                                        self.allCardsList.append(card)
-                                                                                        //                                                                                        }
-                                                                                        
-                                                                                        
-                                                                                        self.tableView.reloadData()
-                                                                                        
                                                                                     }
                                                                                 }
                                                                             }
@@ -138,43 +146,20 @@ class HomeViewController: UIViewController {
                                                         }
                                                     }
                                                 }
-                                                
-                                                if diff.type == .modified {
-                                                    //print("Modified")
-                                                }
-                                                
-                                                if diff.type == .removed {
-                                                    
-                                                    //print("Removed")
-                                                }
-                                                
-                                                DispatchQueue.main.async {
-                                                    self.tableView.reloadData()
-                                                }
-                                            })
+                                            }
                                         }
                                     }
                             }
                         }
-                        
-                        if diff.type == .modified {
-                            //print("Modified")
-                        }
-                        
-                        if diff.type == .removed {
-                            
-                            //print("Removed")
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    })
+                    }
                 }
             }
+        if refreshControl.isRefreshing {
+            self.refreshControl.endRefreshing()
+        }
     }
     
-}
+} //
 
 // MARK: - TableView
 
@@ -189,6 +174,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
         
         let cardsRow = allCardsList[indexPath.row]
+        
+        DispatchQueue.main.async {
+            if cardsRow.imageURL != "" {
+                cell.logoImageView.sd_setImage(with: URL(string: cardsRow.imageURL), completed: nil)
+            } else {
+                cell.logoImageView.image = UIImage(named: "LogoImage")
+            }
+        }
         
         if cardsRow.companyCard == false {
             cell.personalName.isHidden = false
@@ -218,8 +211,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == Constants.Segue.homeToCard {
             
             let destinationVC = segue.destination as! CardViewController
-        
-            
             
             if let indexPath = tableView.indexPathForSelectedRow {
                 

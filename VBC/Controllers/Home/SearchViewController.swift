@@ -135,6 +135,51 @@ extension SearchViewController {
                                                                                     if let userID = data[Constants.Firestore.Key.userID] as? String {
                                                                                         if let cardSaved = data[Constants.Firestore.Key.cardSaved] as? Bool {
                                                                                             
+                                                                                            if let imageURL = data[Constants.Firestore.Key.imageURL] as? String {
+                                                                                                
+                                                                                                let card = ShowVBC(personalName: personalName, companyName: companyName, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, cardSaved: cardSaved, imageURL: imageURL)
+                                                                                                
+                                                                                                if parameter == Constants.Firestore.Key.cardID {
+                                                                                                    if  cardID.uppercased().contains(search.uppercased()) {
+                                                                                                        self.searchResult.append(card)
+                                                                                                    }
+                                                                                                }
+                                                                                                
+                                                                                                if parameter == Constants.Firestore.Key.companyName {
+                                                                                                    if companyName.lowercased().contains(search.lowercased()) {
+                                                                                                        self.searchResult.append(card)
+                                                                                                    }
+                                                                                                    
+                                                                                                }
+                                                                                                
+                                                                                                if parameter == Constants.Firestore.Key.personalName {
+                                                                                                    if personalName.lowercased().contains(search.lowercased()) {
+                                                                                                        self.searchResult.append(card)
+                                                                                                    }
+                                                                                                    
+                                                                                                }
+                                                                                                
+                                                                                                if parameter == Constants.Firestore.Key.country {
+                                                                                                    if country.lowercased().contains(search.lowercased()){
+                                                                                                        self.searchResult.append(card)
+                                                                                                    }
+                                                                                                    
+                                                                                                }
+                                                                                                
+                                                                                                if parameter == Constants.Firestore.Key.sector {
+                                                                                                    if sector.lowercased().contains(search.lowercased()) {
+                                                                                                        self.searchResult.append(card)
+                                                                                                    }
+                                                                                                    
+                                                                                                }
+                                                                                                
+                                                                                                if parameter == Constants.Firestore.Key.type {
+                                                                                                    if productType.lowercased().contains(search.lowercased()) {
+                                                                                                        self.searchResult.append(card)
+                                                                                                    }
+                                                                                                }
+                                                                                            } else {
+                                                                                            
                                                                                             let card = ShowVBC(personalName: personalName, companyName: companyName, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, cardSaved: cardSaved)
                                                                                             
                                                                                             if parameter == Constants.Firestore.Key.cardID {
@@ -177,7 +222,7 @@ extension SearchViewController {
                                                                                                 }
                                                                                             }
                                                                                         }
-                                                                                        
+                                                                                    }
                                                                                     self.tableView.reloadData()
                                                                                     
                                                                                     }
@@ -250,6 +295,14 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
         
         let cardsRow = searchResult[indexPath.row]
+        
+        DispatchQueue.main.async {
+            if cardsRow.imageURL != "" {
+                cell.logoImageView.sd_setImage(with: URL(string: cardsRow.imageURL), completed: nil)
+            } else {
+                cell.logoImageView.image = UIImage(named: "LogoImage")
+            }
+        }
         
         if cardsRow.companyCard == false {
             cell.personalName.isHidden = false

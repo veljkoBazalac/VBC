@@ -77,7 +77,8 @@ struct Constants {
     
     struct NotificationKey {
         static let cardRemoved = "solosoft.VBC.cardRemoved"
-        
+        static let cardDeleted = "solosoft.VBC.cardDeleted"
+        static let cardEdited = "solosoft.VBC.cardEdited"
     }
     
     struct Firestore {
@@ -114,6 +115,8 @@ struct Constants {
             static let companyCard = "Company Card"
             static let userID = "User ID"
             static let cardSaved = "Card Saved"
+            static let imageURL = "imageURL"
+            static let locationAdded = "Added New Location"
             
             // Key for Contact Info
             
@@ -165,8 +168,8 @@ struct Constants {
         
         struct Storage {
             
-            static let companyLogo = "Company Logo Folder"
-            static let personalImage = "Personal Image Folder"
+            static let logoImage = "Logo Image"
+            static let imageURL = "imageURL"
         }
         
     }

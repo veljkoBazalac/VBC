@@ -19,8 +19,18 @@ class CAdd1ViewController: UIViewController {
 
     @IBOutlet weak var nameStack: UIStackView!
     
+    @IBOutlet var blurEffect: UIVisualEffectView!
+    @IBOutlet var popUpView: UIView!
+    @IBOutlet var spinner: UIActivityIndicatorView!
+    
+    @IBOutlet weak var removeImageButton: UIButton!
+    
     // Firebase Firestore Database
     let db = Firestore.firestore()
+    // Firebase Storage
+    let storage = Storage.storage().reference()
+    // Firebase Auth Current User
+    let user = Auth.auth().currentUser?.uid
     
     var pickerView = UIPickerView()
     var sectorRow : Int = 0
@@ -34,6 +44,7 @@ class CAdd1ViewController: UIViewController {
     var editUserID : String = ""
     var editSinglePlace : Bool = true
     var editCardCountry : String = ""
+    var editImage : UIImage?
     var NavBarTitle1 : String = ""
     
     override func viewDidLoad() {
@@ -51,14 +62,125 @@ class CAdd1ViewController: UIViewController {
         
         if editCard == false {
             productType.isEnabled = false
+            removeImageButton.isHidden = true
         } else {
             navigationItem.rightBarButtonItem?.title = "Save"
+            navigationItem.hidesBackButton = true
             navigationItem.title = NavBarTitle1
             selectSector.isEnabled = false
+            
+            if editImage == UIImage(named: "LogoImage") {
+                DispatchQueue.main.async {
+                    self.imageView.image = nil
+                    self.removeImageButton.isHidden = true
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.imageView.image = self.editImage
+                    self.removeImageButton.isHidden = false
+                }
+            }
             getCardForEdit()
+        }
+    }
+    
+    func spinnerWithBlur() {
+        
+        // Set the Size of the Blur View to be = to all screen
+        blurEffect.bounds = self.view.bounds
+        
+        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
+        
+        animateIn(forView: blurEffect)
+        animateIn(forView: popUpView)
+        
+        spinner.startAnimating()
+    }
+    
+    func animateIn(forView: UIView) {
+        let backgroundView = self.view!
+        
+        backgroundView.addSubview(forView)
+        
+        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        forView.alpha = 0
+        forView.center = backgroundView.center
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            forView.alpha = 1
+        })
+        
+    }
+    
+    func animateOut(forView: UIView) {
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            forView.alpha = 0
+        }) { _ in
+            forView.removeFromSuperview()
         }
         
     }
+    
+    // MARK: - Upload Company Logo Image
+        
+        func uploadImage() {
+            
+            spinnerWithBlur()
+            
+            guard let image = imageView.image, let data = image.jpegData(compressionQuality: 0.5) else {
+                popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
+                return
+            }
+            
+            let imageName = "Img.\(editCardID)"
+            let imageReference = storage.child(Constants.Firestore.Storage.logoImage).child(imageName)
+        
+            let uploadTask = imageReference.putData(data, metadata: nil) { mData, error in
+                if let e = error {
+                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Image data to Storage. Please Check your Internet connection and try again. \(e.localizedDescription)")
+                    return
+                }
+                
+                    imageReference.downloadURL { url, error in
+                        if let e = error {
+                            self.popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading URL. \(e.localizedDescription)")
+                        } else {
+                        
+                        guard let url = url else {
+                            self.popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
+                            return
+                        }
+                            
+                            let urlString = url.absoluteString
+
+                            self.db.collection(Constants.Firestore.CollectionName.VBC)
+                            .document(Constants.Firestore.CollectionName.data)
+                            .collection(Constants.Firestore.CollectionName.users)
+                            .document(self.user!)
+                            .collection(Constants.Firestore.CollectionName.cardID)
+                            .document(self.editCardID)
+                            .setData(["\(Constants.Firestore.Storage.imageURL)" : "\(urlString)"], merge: true) { error in
+
+                                if let error = error {
+                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)")
+                                    return
+                                }
+                            }
+                        }
+                    }
+            }
+            
+            uploadTask.observe(.success) { snapshot in
+                self.spinner.stopAnimating()
+                
+                if self.spinner.isAnimating == false {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
     
     
 // MARK: - Pop Up With Ok
@@ -133,10 +255,36 @@ class CAdd1ViewController: UIViewController {
                         if let e = error {
                             self.popUpWithOk(newTitle: "Error Saving New Data", newMessage: "Error Uploading Edit data to Database. \(e)")
                         } else {
-                            self.navigationController?.popViewController(animated: true)
+                            if self.imageView.image != nil {
+                                self.uploadImage()
+                            } else {
+                                
+                                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                .document(Constants.Firestore.CollectionName.data)
+                                .collection(Constants.Firestore.CollectionName.users)
+                                .document(self.user!)
+                                .collection(Constants.Firestore.CollectionName.cardID)
+                                .document(self.editCardID)
+                                .setData(["Card Edited" : false], merge: true)
+                                
+                                self.storage
+                                    .child(Constants.Firestore.Storage.logoImage)
+                                    .child("Img.\(self.editCardID)")
+                                    .delete()
+                                
+                                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                .document(Constants.Firestore.CollectionName.data)
+                                .collection(Constants.Firestore.CollectionName.users)
+                                .document(self.user!)
+                                .collection(Constants.Firestore.CollectionName.cardID)
+                                .document(self.editCardID)
+                                .setData([Constants.Firestore.Key.imageURL : "",
+                                          "Card Edited" : true], merge: true)
+                                
+                                self.navigationController?.popViewController(animated: true)
+                            }
                         }
                     }
-                
             }
         }
     }
@@ -210,7 +358,7 @@ class CAdd1ViewController: UIViewController {
                         
                         let data = document!.data()
                         // Get Basic Info data
-                        //TODO: ZAVRSI ZA SLIKU DA MOZE DA SE MENJA
+                        
                         if let companyName = data![Constants.Firestore.Key.companyName] as? String {
                             if let sector = data![Constants.Firestore.Key.sector] as? String {
                                 if let productType = data![Constants.Firestore.Key.type] as? String {
@@ -233,20 +381,26 @@ class CAdd1ViewController: UIViewController {
             }
     }
 
+    // MARK: - Remove Logo Image Pressed
+    @IBAction func removeImagePressed(_ sender: UIButton) {
+        DispatchQueue.main.async {
+            self.imageView.image = nil
+            self.removeImageButton.isHidden = true
+        }
+    }
     
-// MARK: - Add Logo Image Pressed
+    // MARK: - Add Logo Image Pressed
     
-    @IBAction func addLogoTapped(_ sender: UITapGestureRecognizer) {
-        
-        let vc = UIImagePickerController()
-        vc.sourceType = .photoLibrary
-        vc.delegate = self
-        vc.allowsEditing = true
+    @IBAction func addImagePressed(_ sender: UIButton) {
         
         DispatchQueue.main.async {
+            let vc = UIImagePickerController()
+            vc.sourceType = .photoLibrary
+            vc.delegate = self
+            vc.allowsEditing = true
+            
             self.present(vc, animated: true)
         }
-        
     }
     
 } //
@@ -259,9 +413,13 @@ extension CAdd1ViewController: UIImagePickerControllerDelegate, UINavigationCont
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        picker.dismiss(animated: true, completion: nil)
+        
         if let logoImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
             imageView.image = logoImage
+            removeImageButton.isHidden = false
         }
+        
         picker.dismiss(animated: true, completion: nil)
     }
     

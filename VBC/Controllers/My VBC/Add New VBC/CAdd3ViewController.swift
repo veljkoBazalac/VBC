@@ -140,7 +140,9 @@ class CAdd3ViewController: UIViewController {
         }
         
         if editCard3 == true {
+            navigationItem.rightBarButtonItem?.title = "Save"
             navigationItem.title = NavBarTitle3
+            navigationItem.hidesBackButton = true
         }
             
         logoImageView.image = logoImage3
@@ -150,19 +152,15 @@ class CAdd3ViewController: UIViewController {
     }
     
     // MARK: - Get Data from Firestore Function
-    
     func getData() {
-        if singlePlace == true {
-            getSinglePlace()
-            if editCard3 == true {
-                getSPContactData()
-            }
-        } else {
-            getMultiplePlaces()
-            if editCard3 == true {
-                self.selectLocation.text = self.editCardLocation
-                getMPContactData()
-            }
+        
+        DispatchQueue.main.async {
+            self.getLocationList()
+        }
+        
+        if editCard3 == true {
+            self.selectLocation.text = self.editCardLocation
+            getContactData()
         }
     }
     
@@ -175,68 +173,16 @@ class CAdd3ViewController: UIViewController {
         
     }
     
-    // MARK: - Edit or New Functions for Card ID and User ID
-        
-        func editOrNewUserID() -> String {
-            if editCard3 == true {
-                return editUserID3
-            } else {
-                return user!
-            }
-        }
-        
-        func editOrNewCardID() -> String {
-            if editCard3 == true {
-                return editCardID3
-            } else {
-                return currentCardID
-            }
-        }
+    // MARK: - Get List of Location(s)
     
-    // MARK: - Get Single Place
-    
-    func getSinglePlace() {
-        // Getting Single Place location
+    func getLocationList() {
+        // Getting location list
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editOrNewCardID())
-            .getDocument { document, error in
-                
-                if let e = error {
-                    print("Error getting Single Place. \(e)")
-                    
-                } else {
-                    
-                    if document != nil && document!.exists {
-                        
-                        let documentData = document!.data()
-                        
-                        if let cityName = documentData![Constants.Firestore.Key.city] as? String {
-                            if let streetName = documentData![Constants.Firestore.Key.street] as? String {
-                                
-                                self.selectLocation.text = "\(cityName) - \(streetName)"
-                                self.selectLocation.isEnabled = false
-                                self.infoForPlace.updateValue(false, forKey: "\(cityName) - \(streetName)")
-                            }
-                        }
-                    }
-                }
-            }
-    }
-    
-    // MARK: - Get Multiple Places List
-    
-    func getMultiplePlaces() {
-        // Getting Multiple Places locations list
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editOrNewCardID())
+            .document(currentCardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
                 
@@ -245,7 +191,7 @@ class CAdd3ViewController: UIViewController {
                 } else {
                     
                     if let snapshotDocuments = snapshot?.documents {
-                        
+                      
                         for documents in snapshotDocuments {
                             
                             let data = documents.data()
@@ -259,9 +205,15 @@ class CAdd3ViewController: UIViewController {
                                         self.locationsList.append(places)
                                         self.infoForPlace.updateValue(false, forKey: "\(places.city) - \(places.street)")
                                         
-                                        if self.editCard3 == false {
                                         
-                                            self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
+                                        if self.editCard3 == false {
+                                            
+                                            if self.singlePlace == true {
+                                                self.selectLocation.isEnabled = false
+                                                self.selectLocation.text = "\(cityName) - \(cityStreet)"
+                                            } else {
+                                                self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
+                                            }
                                         }
                                     }
                                 }
@@ -289,6 +241,36 @@ class CAdd3ViewController: UIViewController {
             if editCard3 == false {
                 performSegue(withIdentifier: Constants.Segue.addFinish, sender: self)
             } else {
+                
+                db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(currentCardID)
+                    .setData(["Contact Info Added" : false], merge: true) { error in
+                        
+                        if let e = error {
+                            print("Contact Info Added Failed. \(e)")
+                        } else {
+                            
+                            self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                .document(Constants.Firestore.CollectionName.data)
+                                .collection(Constants.Firestore.CollectionName.users)
+                                .document(self.user!)
+                                .collection(Constants.Firestore.CollectionName.cardID)
+                                .document(self.currentCardID)
+                                .setData(["Contact Info Edited" : false], merge: true)
+                            
+                            self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                .document(Constants.Firestore.CollectionName.data)
+                                .collection(Constants.Firestore.CollectionName.users)
+                                .document(self.user!)
+                                .collection(Constants.Firestore.CollectionName.cardID)
+                                .document(self.currentCardID)
+                                .setData(["Contact Info Edited" : true], merge: true)
+                        }
+                    }
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -300,55 +282,37 @@ class CAdd3ViewController: UIViewController {
         // Adding Phone Numbers to Firestore
         if phoneNumber.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-                if phone1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    phone1 = phoneNumber.text!
-                    
-                    if singlePlace == true {
-                        showPopUp = false
-                        uploadSPContactData(field: Constants.Firestore.Key.phone1code, value: phoneCode.text!, button: phoneListButton)
-                        showPopUp = true
-                        uploadSPContactData(field: Constants.Firestore.Key.phone1, value: phone1, button: phoneListButton)
-                    } else {
-                        showPopUp = false
-                        uploadMPContactData(field: Constants.Firestore.Key.phone1code, value: phoneCode.text!, button: phoneListButton)
-                        showPopUp = true
-                        uploadMPContactData(field: Constants.Firestore.Key.phone1, value: phone1, button: phoneListButton)
-                    }
-                    phoneNumber.text = ""
+            if phone1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                phone1 = phoneNumber.text!
+                
+                showPopUp = false
+                uploadContactData(field: Constants.Firestore.Key.phone1code, value: phoneCode.text!, button: phoneListButton)
+                showPopUp = true
+                uploadContactData(field: Constants.Firestore.Key.phone1, value: phone1, button: phoneListButton)
+                
+                phoneNumber.text = ""
                     
                 } else if phone2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     phone2 = phoneNumber.text!
                     
-                    if singlePlace == true {
-                        showPopUp = false
-                        uploadSPContactData(field: Constants.Firestore.Key.phone2code, value: phoneCode.text!, button: phoneListButton)
-                        showPopUp = true
-                        uploadSPContactData(field: Constants.Firestore.Key.phone2, value: phone2, button: phoneListButton)
-                    } else {
-                        showPopUp = false
-                        uploadMPContactData(field: Constants.Firestore.Key.phone2code, value: phoneCode.text!, button: phoneListButton)
-                        showPopUp = true
-                        uploadMPContactData(field: Constants.Firestore.Key.phone2, value: phone2, button: phoneListButton)
-                    }
+                    showPopUp = false
+                    uploadContactData(field: Constants.Firestore.Key.phone2code, value: phoneCode.text!, button: phoneListButton)
+                    showPopUp = true
+                    uploadContactData(field: Constants.Firestore.Key.phone2, value: phone2, button: phoneListButton)
+                    
                     phoneNumber.text = ""
                     
                 } else if phone3.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     phone3 = phoneNumber.text!
                     
-                    if singlePlace == true {
-                        showPopUp = false
-                        uploadSPContactData(field: Constants.Firestore.Key.phone3code, value: phoneCode.text!, button: phoneListButton)
-                        showPopUp = true
-                        uploadSPContactData(field: Constants.Firestore.Key.phone3, value: phone3, button: phoneListButton)
-                    } else {
-                        showPopUp = false
-                        uploadMPContactData(field: Constants.Firestore.Key.phone3code, value: phoneCode.text!, button: phoneListButton)
-                        showPopUp = true
-                        uploadMPContactData(field: Constants.Firestore.Key.phone3, value: phone3, button: phoneListButton)
-                    }
+                    showPopUp = false
+                    uploadContactData(field: Constants.Firestore.Key.phone3code, value: phoneCode.text!, button: phoneListButton)
+                    showPopUp = true
+                    uploadContactData(field: Constants.Firestore.Key.phone3, value: phone3, button: phoneListButton)
+                    
                     phoneNumber.text = ""
-                
-            } else {
+                    
+                } else {
                 popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 3 Numbers for \(self.selectLocation.text!).")
             }
         } else {
@@ -360,26 +324,20 @@ class CAdd3ViewController: UIViewController {
     @IBAction func addEmailPressed(_ sender: UIButton) {
         // Adding Emails to Firestore
         if emailAddress.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-    
+            
             if email1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    email1 = emailAddress.text!
-                    
-                    if singlePlace == true {
-                        uploadSPContactData(field: Constants.Firestore.Key.email1, value: email1, button: emailListButton)
-                    } else {
-                        uploadMPContactData(field: Constants.Firestore.Key.email1, value: email1, button: emailListButton)
-                    }
-                    emailAddress.text = ""
-                    
+                email1 = emailAddress.text!
+                
+                uploadContactData(field: Constants.Firestore.Key.email1, value: email1, button: emailListButton)
+                
+                emailAddress.text = ""
+                
             } else if email2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    email2 = emailAddress.text!
-                    
-                    if singlePlace == true {
-                        uploadSPContactData(field: Constants.Firestore.Key.email2, value: email2, button: emailListButton)
-                    } else {
-                        uploadMPContactData(field: Constants.Firestore.Key.email2, value: email2, button: emailListButton)
-                    }
-                    emailAddress.text = ""
+                email2 = emailAddress.text!
+                
+                uploadContactData(field: Constants.Firestore.Key.email2, value: email2, button: emailListButton)
+                
+                emailAddress.text = ""
                 
             } else {
                 popUpWithOk(newTitle: "Maximum reached", newMessage: "You can add Maximum 2 Email Addresses for \(self.selectLocation.text!).")
@@ -398,21 +356,15 @@ class CAdd3ViewController: UIViewController {
                 if web1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     web1 = websiteLink.text!
                     
-                    if singlePlace == true {
-                        uploadSPContactData(field: Constants.Firestore.Key.web1, value: "\(wwwLabel.text!)\(web1)", button: websiteListButton)
-                    } else {
-                        uploadMPContactData(field: Constants.Firestore.Key.web1, value: "\(wwwLabel.text!)\(web1)", button: websiteListButton)
-                    }
+                    uploadContactData(field: Constants.Firestore.Key.web1, value: "\(wwwLabel.text!)\(web1)", button: websiteListButton)
+                    
                     websiteLink.text = .none
                     
                 } else if web2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                     web2 = websiteLink.text!
                     
-                    if singlePlace == true {
-                        uploadSPContactData(field: Constants.Firestore.Key.web2, value: "\(wwwLabel.text!)\(web2)", button: websiteListButton)
-                    } else {
-                        uploadMPContactData(field: Constants.Firestore.Key.web2, value: "\(wwwLabel.text!)\(web2)", button: websiteListButton)
-                    }
+                    uploadContactData(field: Constants.Firestore.Key.web2, value: "\(wwwLabel.text!)\(web2)", button: websiteListButton)
+                    
                     websiteLink.text = .none
                     
                 } else  {
@@ -576,7 +528,7 @@ class CAdd3ViewController: UIViewController {
             
             destinationVC.popUpTitle = "Phone Number List"
             destinationVC.phoneListPressed = true
-            destinationVC.cardID = editOrNewCardID()
+            destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
             destinationVC.delegateCD = self
             destinationVC.delegateSL = self
@@ -589,7 +541,7 @@ class CAdd3ViewController: UIViewController {
             
             destinationVC.popUpTitle = "Email List"
             destinationVC.emailListPressed = true
-            destinationVC.cardID = editOrNewCardID()
+            destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
             destinationVC.delegateCD = self
             destinationVC.delegateSL = self
@@ -602,7 +554,7 @@ class CAdd3ViewController: UIViewController {
             
             destinationVC.popUpTitle = "Website List"
             destinationVC.websiteListPressed = true
-            destinationVC.cardID = editOrNewCardID()
+            destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
             destinationVC.delegateCD = self
             destinationVC.delegateSL = self
@@ -615,7 +567,7 @@ class CAdd3ViewController: UIViewController {
         
             destinationVC.popUpTitle = "Social Media"
             destinationVC.socialListPressed = true
-            destinationVC.cardID = editOrNewCardID()
+            destinationVC.cardID = currentCardID
             destinationVC.dataForLocation = selectLocation.text!
             destinationVC.delegateCD = self
             destinationVC.delegateSL = self
@@ -695,16 +647,16 @@ class CAdd3ViewController: UIViewController {
     }
     
     
-    // MARK: - Upload Multiple Places Contact Data
+    // MARK: - Upload Contact Data
     
-    func uploadMPContactData(field: String, value: String, button: UIButton) {
+    func uploadContactData(field: String, value: String, button: UIButton) {
         // Adding Contact Info for Multiple Places
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editOrNewCardID())
+            .document(currentCardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
             .setData(["\(field)":"\(value)"], merge: true) { error in
@@ -724,45 +676,17 @@ class CAdd3ViewController: UIViewController {
         
     }
     
-    // MARK: - Upload Single Place Contact Data
-    
-    func uploadSPContactData(field: String, value: String, button: UIButton) {
-        // Adding Contact Info for Single Place Location
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editOrNewCardID())
-            .setData(["\(field)":"\(value)"], merge: true) { error in
-                
-                if error != nil {
-                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Contact Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
-                } else {
-                    if self.showPopUp == true {
-                        self.popUpWithOk(newTitle: "Contact Info successfully added", newMessage: "Contact Info for \(self.selectLocation.text!) successfully added.")
-                    }
-                    
-                    self.blinkButton(buttonName: button)
-                    self.finishButton.isEnabled = true
-                    self.infoForPlace.updateValue(true, forKey: self.selectLocation.text!)
-                }
-            }
-    }
-    
     // MARK: - Upload Social Media
     
     func uploadSocialData(field: String, value: String, blink: UIButton) {
         
-        if singlePlace == false {
-            
             // Adding Social Media Data for Multiple Places to Firestore
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.data)
                 .collection(Constants.Firestore.CollectionName.users)
                 .document(user!)
                 .collection(Constants.Firestore.CollectionName.cardID)
-                .document(editOrNewCardID())
+                .document(currentCardID)
                 .collection(Constants.Firestore.CollectionName.locations)
                 .document(selectLocation.text!)
                 .collection(Constants.Firestore.CollectionName.social)
@@ -778,7 +702,7 @@ class CAdd3ViewController: UIViewController {
                             .collection(Constants.Firestore.CollectionName.users)
                             .document(self.user!)
                             .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(self.editOrNewCardID())
+                            .document(self.currentCardID)
                             .collection(Constants.Firestore.CollectionName.locations)
                             .document(self.selectLocation.text!)
                             .setData(["Social Media Added" : true], merge: true)
@@ -793,41 +717,7 @@ class CAdd3ViewController: UIViewController {
                     }
                 }
             
-        } else {
-            
-            // Adding Social Media Data for Single Place to Firestore
-            db.collection(Constants.Firestore.CollectionName.VBC)
-                .document(Constants.Firestore.CollectionName.data)
-                .collection(Constants.Firestore.CollectionName.users)
-                .document(user!)
-                .collection(Constants.Firestore.CollectionName.cardID)
-                .document(editOrNewCardID())
-                .collection(Constants.Firestore.CollectionName.social)
-                .document(selectSocial.text!)
-                .setData(["\(field)":"\(value)"], merge: true) { error in
-                    
-                    if error != nil {
-                        self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Social Media Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
-                    } else {
-                        
-                        self.db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(self.user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(self.editOrNewCardID())
-                            .setData(["Social Media Added" : true], merge: true)
-                        
-                        if self.showPopUp == true {
-                            
-                            self.popUpWithOk(newTitle: "Successfully added", newMessage: "Social Media successfully added.")
-                        }
-                        self.finishButton.isEnabled = true
-                        self.infoForPlace.updateValue(true, forKey: self.selectLocation.text!)
-                        self.blinkButton(buttonName: blink)
-                    }
-                }
-        }
+    
     }
     
     
@@ -836,8 +726,6 @@ class CAdd3ViewController: UIViewController {
 // MARK: - Get Data From Database
 
 extension CAdd3ViewController {
-    
-    // MARK: - Get Social Network List Function
     
     func getSocialMediaList() {
         
@@ -865,92 +753,15 @@ extension CAdd3ViewController {
         }
     }
     
-    // MARK: - Get Single Place Contact Data
-    
-    func getSPContactData() {
+    // MARK: - Get Contact Data
+    func getContactData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editOrNewCardID())
-            .getDocument { document, error in
-                
-                if let e = error {
-                    print ("Error getting Multiple Places Info. \(e)")
-                } else {
-                    
-                    if document != nil && document!.exists {
-                        
-                        let data = document!.data()
-                            
-                            // Phone Contact Info
-                            if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
-                                if let phone1Number = data![Constants.Firestore.Key.phone1] as? String {
-                                    
-                                    if phone1Number != "" {
-                                        self.phone1 = "\(phoneCode1)\(phone1Number)"
-                                    }
-                                }
-                            }
-                            
-                            if let phoneCode2 = data![Constants.Firestore.Key.phone2code] as? String {
-                                if let phone2Number = data![Constants.Firestore.Key.phone2] as? String {
-                                    
-                                    if phone2Number != "" {
-                                        self.phone2 = "\(phoneCode2)\(phone2Number)"
-                                    }
-                                }
-                            }
-                            
-                            if let phoneCode3 = data![Constants.Firestore.Key.phone3code] as? String {
-                                if let phone3Number = data![Constants.Firestore.Key.phone3] as? String {
-                                    
-                                    if phone3Number != "" {
-                                        self.phone3 = "\(phoneCode3)\(phone3Number)"
-                                    }
-                                }
-                            }
-                            
-                            // Email Contact Info
-                            if let email1Address = data![Constants.Firestore.Key.email1] as? String {
-                                if email1Address != "" {
-                                    self.email1 = email1Address
-                                }
-                            }
-                            if let email2Address = data![Constants.Firestore.Key.email2] as? String {
-                                if email2Address != "" {
-                                    self.email2 = email2Address
-                                }
-                            }
-                            
-                            // Website Contact Info
-                            if let web1Link = data![Constants.Firestore.Key.web1] as? String {
-                                if web1Link != "" {
-                                    self.web1 = web1Link
-                                }
-                            }
-                            if let web2Link = data![Constants.Firestore.Key.web2] as? String {
-                                if web2Link != "" {
-                                    self.web2 = web2Link
-                                }
-                            }
-                    }
-                }
-            }
-    }
-    
-    // MARK: - Get Multiple Places Contact Data
-    
-    func getMPContactData() {
-        
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(editOrNewCardID())
+            .document(currentCardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
             .getDocument { document, error in
@@ -1069,7 +880,7 @@ extension CAdd3ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             social5 = ""
             
             if editCard3 == true {
-                getMPContactData()
+                getContactData()
             }
             
         } else if selectSocial.isEditing {

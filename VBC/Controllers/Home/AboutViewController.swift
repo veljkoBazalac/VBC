@@ -11,6 +11,7 @@ import Firebase
 class AboutViewController: UIViewController {
 
     // Text Outlets
+    @IBOutlet weak var logoImage: UIImageView!
     @IBOutlet weak var personalNameLabel: UILabel!
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var sectorLabel: UILabel!
@@ -32,6 +33,7 @@ class AboutViewController: UIViewController {
     // User ID
     var userID : String = ""
     
+    var image : UIImage?
     var personalName : String = ""
     var companyName : String = ""
     var sector : String = ""
@@ -48,6 +50,7 @@ class AboutViewController: UIViewController {
             personalNameLabel.text = personalName
         }
         
+        logoImage.image = image
         companyNameLabel.text = companyName
         sectorLabel.text = sector
         productTypeLabel.text = productType

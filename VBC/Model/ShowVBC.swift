@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ShowVBC {
     
@@ -19,4 +20,5 @@ struct ShowVBC {
     var companyCard : Bool = true
     var userID : String = ""
     var cardSaved : Bool = false
+    var imageURL : String = ""
 }

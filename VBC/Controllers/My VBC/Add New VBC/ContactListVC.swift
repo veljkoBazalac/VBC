@@ -78,16 +78,12 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     // MARK: - Get Data Function
-    
     func getData() {
-        if singlePlace == true && socialListPressed == false {
-            getSPContactData()
-        } else if singlePlace == false && socialListPressed == false {
-            getMPContactData()
-        } else if singlePlace == true && socialListPressed == true {
-            getSocialDataSP()
-        } else if singlePlace == false && socialListPressed == true {
-            getSocialDataMP()
+        
+        if socialListPressed == false {
+            getContactData()
+        } else {
+            getSocialData()
         }
     }
     
@@ -156,25 +152,15 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
             
             if phoneListPressed == true || emailListPressed == true || websiteListPressed || true {
                 
-                if singlePlace == true {
-                    db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.data)
-                        .collection(Constants.Firestore.CollectionName.users)
-                        .document(user!)
-                        .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(cardID)
-                        .updateData(["\(fieldKey)": FieldValue.delete()])
-                } else {
-                    db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.data)
-                        .collection(Constants.Firestore.CollectionName.users)
-                        .document(user!)
-                        .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(cardID)
-                        .collection(Constants.Firestore.CollectionName.locations)
-                        .document(dataForLocation!)
-                        .updateData(["\(fieldKey)": FieldValue.delete()])
-                }
+                db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(cardID)
+                    .collection(Constants.Firestore.CollectionName.locations)
+                    .document(dataForLocation!)
+                    .updateData(["\(fieldKey)": FieldValue.delete()])
                 
                 if phoneListPressed == true {
                     
@@ -210,31 +196,17 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 
                 let documentName = title
                 
-                if singlePlace == true {
-                    
-                    db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.data)
-                        .collection(Constants.Firestore.CollectionName.users)
-                        .document(user!)
-                        .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(cardID)
-                        .collection(Constants.Firestore.CollectionName.social)
-                        .document(documentName)
-                        .delete()
-                } else {
-                    
-                    db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.data)
-                        .collection(Constants.Firestore.CollectionName.users)
-                        .document(user!)
-                        .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(cardID)
-                        .collection(Constants.Firestore.CollectionName.locations)
-                        .document(dataForLocation!)
-                        .collection(Constants.Firestore.CollectionName.social)
-                        .document(documentName)
-                        .delete()
-                }
+                db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(cardID)
+                    .collection(Constants.Firestore.CollectionName.locations)
+                    .document(dataForLocation!)
+                    .collection(Constants.Firestore.CollectionName.social)
+                    .document(documentName)
+                    .delete()
                 
                 if socialMediaList.count == 1 {
                     socialMediaList.removeAll()
@@ -261,9 +233,7 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
 
 extension ContactListVC {
     
-    // MARK: - Get Multiple Places Contact Data
-    
-    func getMPContactData() {
+    func getContactData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -378,173 +348,13 @@ extension ContactListVC {
                 }
             }
     }
-    
-    // MARK: - Get Single Place Contact Data
-    
-    func getSPContactData() {
-        
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(cardID)
-            .getDocument { document, error in
-                
-                if let e = error {
-                    print ("Error getting Multiple Places Info. \(e)")
-                } else {
-                    
-                    if document != nil && document!.exists {
-                        
-                        let data = document!.data()
-                        
-                        if self.phoneListPressed == true {
-                            
-                            self.phoneNumbersList.removeAll()
-                            
-                            // Phone Contact Info
-                            if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
-                                if let phone1 = data![Constants.Firestore.Key.phone1] as? String {
-                                    
-                                    if phone1 != "" {
-                                        let number = PhoneNumber(code: phoneCode1, number: phone1)
-                                        let key = Constants.Firestore.Key.phone1
-                                        self.phoneNumbersList.append(number)
-                                        self.keyNumbersList.append(key)
-                                        self.tableView.reloadData()
-                                    }
-                                }
-                            }
-                            
-                            if let phoneCode2 = data![Constants.Firestore.Key.phone2code] as? String {
-                                if let phone2 = data![Constants.Firestore.Key.phone2] as? String {
-                                    
-                                    if phone2 != "" {
-                                        let number = PhoneNumber(code: phoneCode2, number: phone2)
-                                        let key = Constants.Firestore.Key.phone2
-                                        self.phoneNumbersList.append(number)
-                                        self.keyNumbersList.append(key)
-                                        self.tableView.reloadData()
-                                    }
-                                }
-                            }
-                            
-                            if let phoneCode3 = data![Constants.Firestore.Key.phone3code] as? String {
-                                if let phone3 = data![Constants.Firestore.Key.phone3] as? String {
-                                    
-                                    if phone3 != "" {
-                                        let number = PhoneNumber(code: phoneCode3, number: phone3)
-                                        let key = Constants.Firestore.Key.phone3
-                                        self.phoneNumbersList.append(number)
-                                        self.keyNumbersList.append(key)
-                                        self.tableView.reloadData()
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if self.emailListPressed == true {
-                            
-                            self.emailAddressList.removeAll()
-                            
-                            // Email Contact Info
-                            if let email1 = data![Constants.Firestore.Key.email1] as? String {
-                                if email1 != "" {
-                                    let key = Constants.Firestore.Key.email1
-                                    self.keyEmailList.append(key)
-                                    self.emailAddressList.append(email1)
-                                    self.tableView.reloadData()
-                                }
-                            }
-                            if let email2 = data![Constants.Firestore.Key.email2] as? String {
-                                if email2 != "" {
-                                    let key = Constants.Firestore.Key.email2
-                                    self.keyEmailList.append(key)
-                                    self.emailAddressList.append(email2)
-                                    self.tableView.reloadData()
-                                }
-                            }
-                        }
-                        
-                        if self.websiteListPressed == true {
-                            
-                            self.websiteList.removeAll()
-                            
-                            // Website Contact Info
-                            if let web1 = data![Constants.Firestore.Key.web1] as? String {
-                                if web1 != "" {
-                                    let key = Constants.Firestore.Key.web1
-                                    self.keyWebsiteList.append(key)
-                                    self.websiteList.append(web1)
-                                    self.tableView.reloadData()
-                                }
-                            }
-                            if let web2 = data![Constants.Firestore.Key.web2] as? String {
-                                if web2 != "" {
-                                    let key = Constants.Firestore.Key.web2
-                                    self.keyWebsiteList.append(key)
-                                    self.websiteList.append(web2)
-                                    self.tableView.reloadData()
-                                }
-                            }
-                        }
-                        
-                    }
-                }
-            }
-    }
-    
 }
 
 // MARK: - Getting Data for Social Media from Firebase
 
 extension ContactListVC {
     
-    // MARK: - Get Data for Social Media Single Place
-    
-    func getSocialDataSP() {
-        
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(cardID)
-            .collection(Constants.Firestore.CollectionName.social)
-            .getDocuments { snapshot, error in
-                
-                if let e = error {
-                    print ("Error getting Social Media List. \(e)")
-                } else {
-                    self.socialMediaList.removeAll()
-                    
-                    if let snapshotDocuments = snapshot?.documents {
-                        
-                        for documents in snapshotDocuments {
-                            
-                            let data = documents.data()
-                            
-                            if let socialName = data[Constants.Firestore.Key.name] as? String {
-                                
-                                let social = SocialMedia(name: socialName)
-                                let key = social.name
-                                
-                                self.keySocialMedia.append(key)
-                                self.socialMediaList.append(social)
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
-                }
-            }
-        
-    }
-    
-    
-    // MARK: - Get Data for Social Media Multiple Places
-    
-    func getSocialDataMP() {
+    func getSocialData() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -583,5 +393,4 @@ extension ContactListVC {
                 }
             }
     }
-    
 }
