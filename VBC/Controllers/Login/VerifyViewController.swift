@@ -9,6 +9,8 @@ import UIKit
 import Firebase
 
 class VerifyViewController: UIViewController {
+    
+    let user = Auth.auth().currentUser
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +24,7 @@ class VerifyViewController: UIViewController {
     }
     
     // Email Verification
-    
     func sendVerificationMail() {
-        
-        let user = Auth.auth().currentUser
         
         if user != nil && user!.isEmailVerified == false {
             user?.sendEmailVerification(completion: { (error) in
@@ -33,7 +32,7 @@ class VerifyViewController: UIViewController {
                 if error != nil {
                     // Error sending Email verification
                     let alert = UIAlertController(title: "Verification failed", message: "Email verification error. Check your internet connection and try again.", preferredStyle: .alert)
-            
+                    
                     self.present(alert, animated: true, completion: nil)
                     
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -43,7 +42,6 @@ class VerifyViewController: UIViewController {
                 } else {
                     
                     // Email verification sent again
-                    
                     let alert = UIAlertController(title: "Email Verification has been sent", message: "Please check your Email address.", preferredStyle: .alert)
             
                     self.present(alert, animated: true, completion: nil)
@@ -58,18 +56,15 @@ class VerifyViewController: UIViewController {
     
 
     @IBAction func sendAgainButtonPressed(_ sender: UIButton) {
-        
         sendVerificationMail()
     }
     
     
     @IBAction func continueButtonPressed(_ sender: UIButton) {
         
-        let user = Auth.auth().currentUser
-        
         user?.reload(completion: { error in
             
-            if user?.isEmailVerified == false {
+            if self.user?.isEmailVerified == false {
                 
                 // Error sending Email verification
                 let alert = UIAlertController(title: "Email is NOT verified.", message: "Check your Email and then try again.", preferredStyle: .alert)

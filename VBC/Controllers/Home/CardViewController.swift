@@ -505,6 +505,7 @@ class CardViewController: UIViewController {
                                 
                                 self.storage
                                     .child(Constants.Firestore.Storage.logoImage)
+                                    .child(self.userID)
                                     .child("Img.\(self.cardID)")
                                     .delete()
                                 

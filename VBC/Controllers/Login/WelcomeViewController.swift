@@ -10,18 +10,20 @@ import Firebase
 
 class WelcomeViewController: UIViewController {
 
+    
+    let user = Auth.auth().currentUser
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
-            if Auth.auth().currentUser != nil {
+        super.viewDidAppear(true)
+        if user != nil && user!.isEmailVerified {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarVC")
                 self.view.window!.rootViewController = initialViewController
             } else {
-                
                 print("User not logged In.")
             }
         }

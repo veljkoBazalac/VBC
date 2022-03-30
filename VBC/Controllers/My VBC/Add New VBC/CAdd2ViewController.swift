@@ -205,7 +205,10 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         }
         
         let imageName = "Img.\(cardID)"
-        let imageReference = storage.child(Constants.Firestore.Storage.logoImage).child(imageName)
+        let imageReference = storage
+            .child(Constants.Firestore.Storage.logoImage)
+            .child(user!)
+            .child(imageName)
     
         imageReference.putData(data, metadata: nil) { mData, error in
             if let e = error {
@@ -220,7 +223,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                     return
                 }
                 
-                imageReference.downloadURL { url, error in
+                imageReference.downloadURL { [self] url, error in
                     if let e = error {
                         popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading URL. \(e.localizedDescription)")
                     } else {
@@ -265,7 +268,7 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                                         
                                         self.spinner.stopAnimating()
                                         
-                                        if spinner.isAnimating == false {
+                                        if self.spinner.isAnimating == false {
                                             // Perform Segue to Step 3
                                             self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
                                         }
@@ -278,13 +281,13 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                                             Constants.Firestore.Key.singlePlace : false], merge: true) { error in
                                 
                                 if let error = error {
-                                    popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Data with Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)")
+                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Data with Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)")
                                     return
                                 } else {
                                     
                                     self.spinner.stopAnimating()
                                     
-                                    if spinner.isAnimating == false {
+                                    if self.spinner.isAnimating == false {
                                         // Perform Segue to Step 3
                                         self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
                                     }

@@ -11,5 +11,6 @@ target 'VBC' do
   pod 'FirebaseUI/Storage'
   
   pod 'IQKeyboardManagerSwift'
+  pod 'lottie-ios'
 
 end

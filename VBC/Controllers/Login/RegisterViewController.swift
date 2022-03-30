@@ -19,19 +19,21 @@ class RegisterViewController: UIViewController {
     // Error Label Text
     @IBOutlet weak var errorLabel: UILabel!
     
+    let user = Auth.auth().currentUser
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        navigationController?.setNavigationBarHidden(false, animated: false)
         errorLabel.alpha = 0
     }
     
-    // Check the fields and validate that data is correct. If everything is correct, this method returns nil. Otherwise, it returns error message.
+    // MARK: - Validate Fields Function
     
     func validateFields() -> String? {
         
@@ -50,37 +52,7 @@ class RegisterViewController: UIViewController {
         return nil
     }
     
-    
-    // Email Verification
-    
-    func sendVerificationMail() {
-        
-        let user = Auth.auth().currentUser
-        
-        if user != nil && user!.isEmailVerified == false {
-            user?.sendEmailVerification(completion: { (error) in
-                // Notify the user that the mail has sent or couldn't because of an error.
-                if error != nil {
-                    // Error sending Email verification
-                    let alert = UIAlertController(title: "Verification failed.", message: "Email verification error. Please try again.", preferredStyle: .alert)
-            
-                    self.present(alert, animated: true, completion: nil)
-                    
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            self.dismiss(animated: true, completion: nil)
-                        }
-                    
-                    print(error!)
-                    
-                } else {
-                    
-                    self.performSegue(withIdentifier: Constants.Segue.regToVerify, sender: self)
-                }
-            })
-        }
-    }
-    
-    
+    // MARK: - Register Button Pressed
     @IBAction func registerButtonPressed(_ sender: UIButton) {
         
         // Validate the fields
@@ -94,20 +66,40 @@ class RegisterViewController: UIViewController {
             
             // Create a user
             if let email = emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), let password = passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), repeatTextField.text == passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                    // Check for errors
+                
+                DispatchQueue.main.async {
                     
-                    if error != nil {
-                        // There was an error
+                    
+                    Auth.auth().createUser(withEmail: email, password: password) { authResult , error in
                         
-                        self.showError(error!.localizedDescription)
-                        print(error!)
-                    } else {
-                        // User created successfully
-                        
-                        self.sendVerificationMail()
+                        if error != nil {
+                            // There was an error
+                            self.showError(error!.localizedDescription)
+                            print(error!)
+                        } else {
+                            
+                            authResult?.user.sendEmailVerification(completion: { (error) in
+                                
+                                // Notify the user that the mail has sent or couldn't because of an error.
+                                if error != nil {
+                                    // Error sending Email verification
+                                    let alert = UIAlertController(title: "Verification failed.", message: "Email verification error. Please try again.", preferredStyle: .alert)
+                                    
+                                    self.present(alert, animated: true, completion: nil)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.dismiss(animated: true, completion: nil)
+                                    }
+                                    
+                                } else {
+                                    self.performSegue(withIdentifier: Constants.Segue.regToVerify, sender: self)
+                                }
+                            })
+                            
+                        }
                     }
                 }
+                
             }
         }
     }

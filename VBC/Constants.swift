@@ -11,6 +11,7 @@ struct Constants {
     
     struct Storyboard {
         static let homeVC = "HomeVC"
+        static let welcomeVC = "WelcomeVC"
     }
     
     struct Segue {
@@ -58,6 +59,14 @@ struct Constants {
         
         // Saved Cards
         static let savedToCard = "SavedToCardSegue"
+        
+        // Settings
+        static let confirmSegue = "ConfirmChangesSegue"
+        static let emailPasswordSegue = "ChangeEmailPasswordSegue"
+        static let emailVerifySegue = "UpdatedEmailVerify"
+        static let deleteAccountSegue = "DeleteAccountSegue"
+        static let confirmDeleteSegue = "ConfirmDeleteSegue"
+        
     }
     
     struct Cell {
@@ -65,6 +74,7 @@ struct Constants {
         static let addLocListCell = "addLocListCell"
         static let popUpCell = "CardPopUpCell"
         static let contactListCell = "ContactListCell"
+        static let settingsCell = "SettingsCell"
     
     }
     

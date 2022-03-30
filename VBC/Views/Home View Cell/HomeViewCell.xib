@@ -21,7 +21,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2gn-m0-hFF">
                         <rect key="frame" x="0.0" y="0.0" width="398" height="110"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoImage" translatesAutoresizingMaskIntoConstraints="NO" id="p2G-OT-fcv">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p2G-OT-fcv">
                                 <rect key="frame" x="5" y="5" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="nId-QE-yaL"/>
@@ -60,7 +60,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Srbija" translatesAutoresizingMaskIntoConstraints="NO" id="bwA-o8-JZK">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bwA-o8-JZK">
                                         <rect key="frame" x="258" y="5" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="2qS-t0-IpG"/>
@@ -68,7 +68,7 @@
                                             <constraint firstAttribute="width" secondItem="bwA-o8-JZK" secondAttribute="height" multiplier="1:1" id="yxf-YK-zbi"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Company" translatesAutoresizingMaskIntoConstraints="NO" id="SuX-Nt-NJd">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SuX-Nt-NJd">
                                         <rect key="frame" x="258" y="75" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="52c-Zv-RW2"/>
@@ -122,9 +122,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Company" width="326.5" height="259"/>
-        <image name="LogoImage" width="512" height="512"/>
-        <image name="Srbija" width="85" height="85"/>
         <namedColor name="Background Color">
             <color red="0.84700000286102295" green="0.88999998569488525" blue="0.90600001811981201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

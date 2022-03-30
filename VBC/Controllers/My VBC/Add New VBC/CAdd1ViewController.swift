@@ -136,7 +136,10 @@ class CAdd1ViewController: UIViewController {
             }
             
             let imageName = "Img.\(editCardID)"
-            let imageReference = storage.child(Constants.Firestore.Storage.logoImage).child(imageName)
+            let imageReference = storage
+                .child(Constants.Firestore.Storage.logoImage)
+                .child(self.user!)
+                .child(imageName)
         
             let uploadTask = imageReference.putData(data, metadata: nil) { mData, error in
                 if let e = error {
@@ -269,6 +272,7 @@ class CAdd1ViewController: UIViewController {
                                 
                                 self.storage
                                     .child(Constants.Firestore.Storage.logoImage)
+                                    .child(self.editUserID)
                                     .child("Img.\(self.editCardID)")
                                     .delete()
                                 
