@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MultiplePlaces {
+struct Location {
     
     var city : String = ""
     var street : String = ""

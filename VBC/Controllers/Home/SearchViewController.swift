@@ -46,20 +46,8 @@ class SearchViewController: UIViewController {
 
     }
     
-    // MARK: - Pop Up With Ok
+// MARK: - Search Button Pressed
     
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
-    }
-    
-
     @IBAction func searchButtonPressed(_ sender: UIButton) {
         
         searchTextField.resignFirstResponder()
@@ -244,21 +232,15 @@ extension SearchViewController {
                 }
             }
     }
-    
-    
-}
 
-
-// MARK: - Get Search Parameters List
-
-extension SearchViewController {
-    
     func getSearchBy() {
         
         db.collection(Constants.Firestore.CollectionName.searchBy).getDocuments { snapshot, error in
             
-            if let e = error {
-                self.popUpWithOk(newTitle: "Error!", newMessage: "Error Getting data from Database. Please Check your Internet connection and try again. \(e.localizedDescription)")
+            if error != nil {
+                PopUp().popUpWithOk(newTitle: "Error!",
+                                    newMessage: "Error Getting data from Database. Please Check your Internet connection and try again.",
+                                    vc: self)
             } else {
                 
                 if let snapshotDocuments = snapshot?.documents {
@@ -280,8 +262,6 @@ extension SearchViewController {
             }
         }
     }
-    
-    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {

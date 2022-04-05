@@ -84,121 +84,76 @@ class CAdd1ViewController: UIViewController {
         }
     }
     
-    func spinnerWithBlur() {
-        
-        // Set the Size of the Blur View to be = to all screen
-        blurEffect.bounds = self.view.bounds
-        
-        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
-        
-        animateIn(forView: blurEffect)
-        animateIn(forView: popUpView)
-        
-        spinner.startAnimating()
-    }
-    
-    func animateIn(forView: UIView) {
-        let backgroundView = self.view!
-        
-        backgroundView.addSubview(forView)
-        
-        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        forView.alpha = 0
-        forView.center = backgroundView.center
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            forView.alpha = 1
-        })
-        
-    }
-    
-    func animateOut(forView: UIView) {
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            forView.alpha = 0
-        }) { _ in
-            forView.removeFromSuperview()
-        }
-        
-    }
-    
     // MARK: - Upload Company Logo Image
         
-        func uploadImage() {
-            
-            spinnerWithBlur()
-            
-            guard let image = imageView.image, let data = image.jpegData(compressionQuality: 0.5) else {
-                popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
+    func uploadImage() {
+        
+        spinnerWithBlur()
+        
+        guard let image = imageView.image, let data = image.jpegData(compressionQuality: 0.5) else {
+            PopUp().popUpWithOk(newTitle: "Error!",
+                                newMessage: "Something went wrong. Please Check your Internet connection and try again.",
+                                vc: self)
+            return
+        }
+        
+        let imageName = "Img.\(editCardID)"
+        let imageReference = storage
+            .child(Constants.Firestore.Storage.logoImage)
+            .child(self.user!)
+            .child(imageName)
+    
+        let uploadTask = imageReference.putData(data, metadata: nil) { mData, error in
+            if let e = error {
+                PopUp().popUpWithOk(newTitle: "Error!",
+                                    newMessage: "Error Uploading Image data to Storage. Please Check your Internet connection and try again. \(e.localizedDescription)",
+                                    vc: self)
                 return
             }
             
-            let imageName = "Img.\(editCardID)"
-            let imageReference = storage
-                .child(Constants.Firestore.Storage.logoImage)
-                .child(self.user!)
-                .child(imageName)
-        
-            let uploadTask = imageReference.putData(data, metadata: nil) { mData, error in
-                if let e = error {
-                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Image data to Storage. Please Check your Internet connection and try again. \(e.localizedDescription)")
-                    return
-                }
-                
-                    imageReference.downloadURL { url, error in
-                        if let e = error {
-                            self.popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading URL. \(e.localizedDescription)")
-                        } else {
+                imageReference.downloadURL { url, error in
+                    if let e = error {
+                        PopUp().popUpWithOk(newTitle: "Error!",
+                                            newMessage: "Error Downloading URL. \(e.localizedDescription)",
+                                            vc: self)
+                    } else {
+                    
+                    guard let url = url else {
+                        PopUp().popUpWithOk(newTitle: "Error!",
+                                            newMessage: "Something went wrong. Please Check your Internet connection and try again.",
+                                            vc: self)
+                        return
+                    }
                         
-                        guard let url = url else {
-                            self.popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
-                            return
-                        }
-                            
-                            let urlString = url.absoluteString
+                        let urlString = url.absoluteString
 
-                            self.db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(self.user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(self.editCardID)
-                            .setData(["\(Constants.Firestore.Storage.imageURL)" : "\(urlString)"], merge: true) { error in
+                        self.db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.data)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(self.user!)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(self.editCardID)
+                        .setData(["\(Constants.Firestore.Storage.imageURL)" : "\(urlString)"], merge: true) { error in
 
-                                if let error = error {
-                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)")
-                                    return
-                                }
+                            if let error = error {
+                                PopUp().popUpWithOk(newTitle: "Error!",
+                                                    newMessage: "Error Uploading Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)",
+                                                    vc: self)
+                                return
                             }
                         }
                     }
-            }
-            
-            uploadTask.observe(.success) { snapshot in
-                self.spinner.stopAnimating()
-                
-                if self.spinner.isAnimating == false {
-                    self.navigationController?.popViewController(animated: true)
                 }
+        }
+        
+        uploadTask.observe(.success) { snapshot in
+            self.spinner.stopAnimating()
+            
+            if self.spinner.isAnimating == false {
+                self.navigationController?.popViewController(animated: true)
             }
         }
-    
-    
-// MARK: - Pop Up With Ok
-    
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
     }
-
     
 // MARK: - Check if Fields are correct
     
@@ -237,7 +192,9 @@ class CAdd1ViewController: UIViewController {
         
         if error != nil {
             // If fields are not correct, show error.
-            self.popUpWithOk(newTitle: "Basic Company Info missing", newMessage: "\(error!)")
+            PopUp().popUpWithOk(newTitle: "Basic Company Info missing",
+                                newMessage: "\(error!)",
+                                vc: self)
         } else {
             
             if editCard == false {
@@ -256,7 +213,9 @@ class CAdd1ViewController: UIViewController {
                               Constants.Firestore.Key.type: productType.text!], merge: true) { error in
                         
                         if let e = error {
-                            self.popUpWithOk(newTitle: "Error Saving New Data", newMessage: "Error Uploading Edit data to Database. \(e)")
+                            PopUp().popUpWithOk(newTitle: "Error Saving New Data",
+                                                newMessage: "Error Uploading Edit data to Database. \(e)",
+                                                vc: self)
                         } else {
                             if self.imageView.image != nil {
                                 self.uploadImage()
@@ -409,7 +368,39 @@ class CAdd1ViewController: UIViewController {
     
 } //
 
+// MARK: - Spinner with Blur
 
+extension CAdd1ViewController {
+    
+    func spinnerWithBlur() {
+        blurEffect.bounds = self.view.bounds
+        
+        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
+        
+        animateIn(forView: blurEffect)
+        animateIn(forView: popUpView)
+        
+        spinner.startAnimating()
+    }
+    
+    // Animate Showing View
+    func animateIn(forView: UIView) {
+        let backgroundView = self.view!
+        
+        backgroundView.addSubview(forView)
+        
+        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        forView.alpha = 0
+        forView.center = backgroundView.center
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            forView.alpha = 1
+        })
+        
+    }
+    
+}
 
 // MARK: - UIPickerController for Image Add
 

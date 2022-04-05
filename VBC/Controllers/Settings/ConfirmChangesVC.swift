@@ -121,9 +121,13 @@ class ConfirmChangesVC: UIViewController, UITextFieldDelegate {
         
         if currentPasswordTF.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true {
             if emailChanged == true {
-                popUpWithOk(newTitle: "EMPTY Password", newMessage: "Please Enter your password to confirm Email Address change.")
+                PopUp().popUpWithOk(newTitle: "EMPTY Password",
+                                    newMessage: "Please Enter your password to confirm Email Address change.",
+                                    vc: self)
             } else {
-                popUpWithOk(newTitle: "EMPTY Password", newMessage: "Please Enter your OLD password to confirm Password change.")
+                PopUp().popUpWithOk(newTitle: "EMPTY Password",
+                                    newMessage: "Please Enter your OLD password to confirm Password change.",
+                                    vc: self)
             }
         } else if currentPasswordTF.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false && emailChanged == false && deleteAccount == false {
             // Change Password
@@ -145,12 +149,16 @@ class ConfirmChangesVC: UIViewController, UITextFieldDelegate {
         
         user?.reauthenticate(with: credential , completion: { AuthResult, error in
             if error != nil {
-                self.popUpWithOk(newTitle: "Wrong Password", newMessage: "Please Enter your password.")
+                PopUp().popUpWithOk(newTitle: "Wrong Password",
+                                    newMessage: "Please Enter your password.",
+                                    vc: self)
             } else {
                 
                 self.user?.updatePassword(to: self.passwordForChange.trimmingCharacters(in: .whitespacesAndNewlines), completion: { error in
                     if let e = error {
-                        self.popUpWithOk(newTitle: "Error Adding New Password", newMessage: "\(e)")
+                        PopUp().popUpWithOk(newTitle: "Error Adding New Password",
+                                            newMessage: "\(e)",
+                                            vc: self)
                     } else {
                         // Password Successfully Updated
                         self.animationView?.play(completion: { _ in
@@ -170,14 +178,18 @@ class ConfirmChangesVC: UIViewController, UITextFieldDelegate {
         
         user?.reauthenticate(with: credential , completion: { AuthResult, error in
             if error != nil {
-                self.popUpWithOk(newTitle: "Wrong Password", newMessage: "Please Enter your password.")
+                PopUp().popUpWithOk(newTitle: "Wrong Password",
+                                    newMessage: "Please Enter your password.",
+                                    vc: self)
             } else {
                 
                 self.user?.sendEmailVerification(beforeUpdatingEmail: self.emailForChange.trimmingCharacters(in: .whitespacesAndNewlines), completion: { (error) in
                     
                     if error != nil {
                         // Error sending Email verification
-                        self.popUpWithOk(newTitle: "Verification Error", newMessage: "Sending Email verification error. Check your internet connection and try again.")
+                        PopUp().popUpWithOk(newTitle: "Verification Error",
+                                            newMessage: "Sending Email verification error. Check your internet connection and try again.",
+                                            vc: self)
                     } else {
                         
                         // Email Verification Sent
@@ -201,12 +213,16 @@ class ConfirmChangesVC: UIViewController, UITextFieldDelegate {
             
             user?.reauthenticate(with: credential , completion: { AuthResult, error in
                 if error != nil {
-                    self.popUpWithOk(newTitle: "Wrong Password", newMessage: "Please Enter your password.")
+                    PopUp().popUpWithOk(newTitle: "Wrong Password",
+                                        newMessage: "Please Enter your password.",
+                                        vc: self)
                 } else {
                     
                     self.user?.delete(completion: { err in
                         if err != nil {
-                            self.popUpWithOk(newTitle: "Error Deleting Account", newMessage: "Please try again.")
+                            PopUp().popUpWithOk(newTitle: "Error Deleting Account",
+                                                newMessage: "Please try again.",
+                                                vc: self)
                         } else {
                             // Deleted User from Auth.. Now Delete All user Data..
                             self.deleteAccountData()
@@ -510,19 +526,6 @@ class ConfirmChangesVC: UIViewController, UITextFieldDelegate {
         } else {
             secureTextButton1.setImage(UIImage(named: "OpenEye"), for: .normal)
         }
-    }
-    
-    // MARK: - Pop Up With Ok
-    
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
     }
     
 } //

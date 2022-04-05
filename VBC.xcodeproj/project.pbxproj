@@ -23,6 +23,7 @@
 		D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterViewController.swift */; };
 		D013C646277A421E0017F26F /* ContactListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D013C645277A421D0017F26F /* ContactListVC.swift */; };
 		D0144F74272D52D200576083 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0144F73272D52D200576083 /* CardViewController.swift */; };
+		D015C48127F9B221005E134C /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015C48027F9B221005E134C /* PopUp.swift */; };
 		D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */; };
 		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
@@ -36,6 +37,7 @@
 		D0611E3827BFBE7300434AD8 /* SearchBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0611E3727BFBE7300434AD8 /* SearchBy.swift */; };
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
 		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
+		D089920327F879C60045B896 /* EmailComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D089920227F879C60045B896 /* EmailComposer.swift */; };
 		D091C01E27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */; };
 		D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0955D232767BCF7009E9CA7 /* ShowVBC.swift */; };
 		D0A4360A27CD549C00017DF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A37272449F400A6331B /* Assets.xcassets */; };
@@ -46,6 +48,7 @@
 		D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */; };
 		D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
+		D0C0DE0A27F7111E006EAC27 /* AboutVBCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0DE0927F7111E006EAC27 /* AboutVBCVC.swift */; };
 		D0C9BA0827D9F19900291AA3 /* email.json in Resources */ = {isa = PBXBuildFile; fileRef = D0C9BA0727D9F19900291AA3 /* email.json */; };
 		D0C9BA0E27DA055C00291AA3 /* password.json in Resources */ = {isa = PBXBuildFile; fileRef = D0C9BA0D27DA055C00291AA3 /* password.json */; };
 		D0C9BA1027DA0C1400291AA3 /* password2.json in Resources */ = {isa = PBXBuildFile; fileRef = D0C9BA0F27DA0C1400291AA3 /* password2.json */; };
@@ -54,7 +57,7 @@
 		D0D5C67427D612FA00E8C07E /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D5C67227D612F900E8C07E /* SettingsCell.swift */; };
 		D0D5C67527D612FA00E8C07E /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D5C67327D612F900E8C07E /* SettingsCell.xib */; };
 		D0D5C67727D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D5C67627D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift */; };
-		D0D6A5782743104700773C52 /* MultiplePlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* MultiplePlaces.swift */; };
+		D0D6A5782743104700773C52 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* Location.swift */; };
 		D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57927431AF000773C52 /* AddListViewController.swift */; };
 		D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */; };
 		D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */; };
@@ -103,6 +106,7 @@
 		D00F0A642724591300A6331B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		D013C645277A421D0017F26F /* ContactListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListVC.swift; sourceTree = "<group>"; };
 		D0144F73272D52D200576083 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		D015C48027F9B221005E134C /* PopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUp.swift; sourceTree = "<group>"; };
 		D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 		D0611E3727BFBE7300434AD8 /* SearchBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBy.swift; sourceTree = "<group>"; };
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
 		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
+		D089920227F879C60045B896 /* EmailComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailComposer.swift; sourceTree = "<group>"; };
 		D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedEmailVerifyVC.swift; sourceTree = "<group>"; };
 		D0955D232767BCF7009E9CA7 /* ShowVBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowVBC.swift; sourceTree = "<group>"; };
 		D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVBCViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +130,7 @@
 		D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
 		D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd1ViewController.swift; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D0C0DE0927F7111E006EAC27 /* AboutVBCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutVBCVC.swift; sourceTree = "<group>"; };
 		D0C9BA0727D9F19900291AA3 /* email.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = email.json; sourceTree = "<group>"; };
 		D0C9BA0D27DA055C00291AA3 /* password.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = password.json; sourceTree = "<group>"; };
 		D0C9BA0F27DA0C1400291AA3 /* password2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = password2.json; sourceTree = "<group>"; };
@@ -133,7 +139,7 @@
 		D0D5C67227D612F900E8C07E /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		D0D5C67327D612F900E8C07E /* SettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		D0D5C67627D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmailOrPasswordVC.swift; sourceTree = "<group>"; };
-		D0D6A5772743104700773C52 /* MultiplePlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePlaces.swift; sourceTree = "<group>"; };
+		D0D6A5772743104700773C52 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		D0D6A57927431AF000773C52 /* AddListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListViewController.swift; sourceTree = "<group>"; };
 		D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocListTableViewCell.swift; sourceTree = "<group>"; };
 		D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLocListTableViewCell.xib; sourceTree = "<group>"; };
@@ -266,6 +272,7 @@
 				D047E8AF27D92514001B50F3 /* ConfirmChangesVC.swift */,
 				D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */,
 				D00E608627F076830035BEF7 /* DeleteAccountVC.swift */,
+				D0C0DE0927F7111E006EAC27 /* AboutVBCVC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -294,6 +301,20 @@
 				D07BC3612773A0FB00711110 /* CardPopUpCell.xib */,
 			);
 			path = "Card Pop Up Cell";
+			sourceTree = "<group>";
+		};
+		D089920127F879A30045B896 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				D0CF1CD2273DB51900599EF5 /* Sectors.swift */,
+				D0E8BD482742BE0600B0AB0D /* Country.swift */,
+				D0D6A5772743104700773C52 /* Location.swift */,
+				D0955D232767BCF7009E9CA7 /* ShowVBC.swift */,
+				D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */,
+				D0317F6127818F9400E67776 /* SocialMedia.swift */,
+				D0611E3727BFBE7300434AD8 /* SearchBy.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		D0A7196C27413855000B2E1F /* Add New VBC */ = {
@@ -349,13 +370,9 @@
 		D0CF1CCF273DAABE00599EF5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D0CF1CD2273DB51900599EF5 /* Sectors.swift */,
-				D0E8BD482742BE0600B0AB0D /* Country.swift */,
-				D0D6A5772743104700773C52 /* MultiplePlaces.swift */,
-				D0955D232767BCF7009E9CA7 /* ShowVBC.swift */,
-				D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */,
-				D0317F6127818F9400E67776 /* SocialMedia.swift */,
-				D0611E3727BFBE7300434AD8 /* SearchBy.swift */,
+				D089920127F879A30045B896 /* Firebase */,
+				D089920227F879C60045B896 /* EmailComposer.swift */,
+				D015C48027F9B221005E134C /* PopUp.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -582,6 +599,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D089920327F879C60045B896 /* EmailComposer.swift in Sources */,
 				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
 				D091C01E27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
@@ -589,7 +607,7 @@
 				D0D5C67727D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift in Sources */,
 				D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */,
 				D00463F7276BA259005B13F7 /* PopUpCardViewController.swift in Sources */,
-				D0D6A5782743104700773C52 /* MultiplePlaces.swift in Sources */,
+				D0D6A5782743104700773C52 /* Location.swift in Sources */,
 				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
 				D059CA6427BD11AF0006A6E7 /* ContactListCell.swift in Sources */,
 				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
@@ -602,10 +620,12 @@
 				D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */,
 				D013C646277A421E0017F26F /* ContactListVC.swift in Sources */,
 				D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */,
+				D015C48127F9B221005E134C /* PopUp.swift in Sources */,
 				D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */,
 				D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */,
 				D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */,
 				D0D5C67427D612FA00E8C07E /* SettingsCell.swift in Sources */,
+				D0C0DE0A27F7111E006EAC27 /* AboutVBCVC.swift in Sources */,
 				D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */,

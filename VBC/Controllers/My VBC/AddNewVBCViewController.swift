@@ -28,11 +28,9 @@ class AddNewVBCViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == Constants.Segue.addNew1 {
             
             let destinationVC = segue.destination as! CAdd1ViewController
-            
             destinationVC.companyCard = createCompanyCard
         }
     }

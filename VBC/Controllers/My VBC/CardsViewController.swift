@@ -57,8 +57,7 @@ class CardsViewController: UIViewController {
         tableView.reloadData()
     }
     
-    // MARK: - Notifications for Edit and Delete
-    
+    // MARK: - Observers for Edit and Delete
     func createObserver() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(CardsViewController.editedCard(notification:)), name: NotNameEditedCard, object: nil)
@@ -67,6 +66,7 @@ class CardsViewController: UIViewController {
         
     }
     
+    // MARK: - Edit Card Function
     @objc func editedCard(notification: NSNotification) {
         
         if notification.name == NotNameEditedCard {
@@ -100,6 +100,7 @@ class CardsViewController: UIViewController {
         }
     }
     
+    // MARK: - Delete Card Function
     @objc func deletedCard(notification: NSNotification) {
         
         if notification.name == NotNameDeletedCard {
@@ -128,8 +129,7 @@ class CardsViewController: UIViewController {
         
     }
     
-    // MARK: - Get Company Cards with Single Place
-    
+    // MARK: - Get Cards
     func getCards() {
         
         db.collection(Constants.Firestore.CollectionName.VBC)
@@ -341,8 +341,7 @@ extension CardsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: Constants.Segue.viewCard, sender: self)
     }
-    
-    // MARK: - Prepare for Segue function
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segue.viewCard {
             

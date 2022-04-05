@@ -90,38 +90,31 @@ class AboutViewController: UIViewController {
                     .setData(["About": aboutUsTextView.text!], merge: true) { error in
                         
                         if error != nil {
-                            self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                            PopUp().popUpWithOk(newTitle: "Error!",
+                                                newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again.",
+                                                vc: self)
                         } else {
         
                             self.aboutUsTextView.isEditable = false
                             self.aboutUsTextView.resignFirstResponder()
                             self.editSaveButton.setTitle("Edit", for: .normal)
-                            
-                            self.popUpWithOk(newTitle: "Successfully Saved", newMessage: "Your About Info has been successfully saved.")
+                            // Dodaj Pop Up sto nestaje
+                            PopUp().quickPopUp(newTitle: "Successfully Saved",
+                                               newMessage: "Your About Info has been successfully saved.",
+                                               vc: self,
+                                               numberOfSeconds: 1.5)
                         }
                     }
             } else {
-                popUpWithOk(newTitle: "About Info Empty", newMessage: "Your About Info is Empty. Please Enter your About Informations.")
+                PopUp().popUpWithOk(newTitle: "About Info Empty",
+                                    newMessage: "Your About Info is Empty. Please Enter your About Informations.",
+                                    vc: self)
             }
             
         }
         
         
     }
-    
-    
-    // MARK: - Pop Up With Ok
-        
-        func popUpWithOk(newTitle: String, newMessage: String) {
-            
-            let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-            let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-                alert.dismiss(animated: true, completion: nil)
-            }
-            
-            alert.addAction(actionOK)
-            present(alert, animated: true, completion: nil)
-        }
 
 }
 

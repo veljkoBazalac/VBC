@@ -17,18 +17,9 @@ class LoginViewController: UIViewController {
     // Remember Me Outlet
     @IBOutlet weak var rememberMeSegment: UISegmentedControl!
     
-    // Error Label Outlet
-    @IBOutlet weak var errorLabel: UILabel!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-        errorLabel.alpha = 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -36,8 +27,8 @@ class LoginViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    // MARK: - Validate Fields
     // Check the fields and validate that data is correct. If everything is correct, this method returns nil. Otherwise, it returns error message.
-    
     func validateFields() -> String? {
         
         if emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
@@ -49,21 +40,20 @@ class LoginViewController: UIViewController {
         return nil
     }
     
-    
+    // MARK: - Login Button Pressed
     @IBAction func loginButtonPressed(_ sender: UIButton) {
         
         // Validate the fields
-        
         let error = validateFields()
         
         if error != nil {
             // If fields are not correct, show error.
-            
-            showError(error!)
+            PopUp().popUpWithOk(newTitle: "Error",
+                                newMessage: "\(error!)",
+                                vc: self)
         } else {
             
             let user = Auth.auth().currentUser
-            
             // Login a user
             if let email = self.emailTextField.text, let password = self.passwordTextField.text {
                 Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
@@ -71,41 +61,30 @@ class LoginViewController: UIViewController {
                     
                     if error != nil {
                         // There was an error
-                        
-                        self.showError("User do not exist.")
-                        print(error!)
+                        PopUp().popUpWithOk(newTitle: "Login Error",
+                                            newMessage: "Wrong Email or Password.",
+                                            vc: self)
                     } else if user != nil {
                         // Login successfully
-                        
                         user?.reload(completion: { error in
-                            
                             if error != nil {
                                 // Error reloading user login data and email verification
+                                PopUp().popUpWithOk(newTitle: "Login Error",
+                                                    newMessage: "Please check your connection and try again.",
+                                                    vc: self)
                                 print("Error reloading...")
                             } else {
-                                
                                 // Data reloaded
-                                
                                 if user!.isEmailVerified != true {
-                                    
                                     // User is NOT verified
-                                    
                                     self.emailTextField.text = ""
                                     self.passwordTextField.text = ""
-                                    self.errorLabel.alpha = 0
-                                    
                                     self.performSegue(withIdentifier: Constants.Segue.loginToVerify, sender: self)
-                                    
                                 } else {
-                                    
                                     // User is Email verified
-                                    
                                     self.emailTextField.text = ""
                                     self.passwordTextField.text = ""
-                                    self.errorLabel.alpha = 0
-                                    
                                     self.performSegue(withIdentifier: Constants.Segue.loginSegue, sender: self)
-                                    
                                 }
                             }
                         })
@@ -113,11 +92,6 @@ class LoginViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    func showError(_ message: String) {
-        errorLabel.text = message
-        errorLabel.alpha = 1
     }
     
 }

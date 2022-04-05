@@ -45,30 +45,23 @@ class HomeViewController: UIViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - Pull To Refresh
+    
     @objc func refreshData(send: UIRefreshControl) {
-        
         DispatchQueue.main.async {
             self.getCards()
         }
     }
     
     // MARK: - Search Button
+    
     @IBAction func searchButtonPressed(_ sender: UIBarButtonItem) {
-        
         performSegue(withIdentifier: Constants.Segue.homeToSearch, sender: self)
     }
     
     // MARK: - Language Button
     @IBAction func languageButtonPressed(_ sender: UIBarButtonItem) {
         
-        do {
-            try Auth.auth().signOut()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.navigationController?.popToRootViewController(animated: true)
-            }
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-        }
     }
     
     // MARK: - Get Cards Function

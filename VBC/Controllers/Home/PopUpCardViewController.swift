@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import MessageUI
 
 class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -23,6 +24,8 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
     var emailPressed : Bool = false
     var websitePressed : Bool = false
     var socialPressed : Bool = false
+    
+    var companyOrPersonalName : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +44,7 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.reloadData()
     }
     
-    // MARK: - Pop Up With Ok
-    
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        // Pop Up with OK button
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(actionOK)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
+    // MARK: - Table View
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -92,9 +84,13 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
                         UIApplication.shared.open(phoneNumber, options: [:], completionHandler: nil)
                     }
         } else if emailPressed == true {
-            if let email = URL(string:"mailto:\(emailAddressList[indexPath.row])"), UIApplication.shared.canOpenURL(email) {
-                        UIApplication.shared.open(email, options: [:], completionHandler: nil)
-                    }
+            
+            EmailComposer().showEmailComposer(recipient: emailAddressList[indexPath.row],
+                                              subject: "VBC - ",
+                                              body: "Dear \(companyOrPersonalName), \n \n",
+                                              delegate: self,
+                                              vc: self)
+            
         } else if websitePressed == true {
             //Open Safari and Go to Website.
             guard let url = URL(string: "https://\(websiteList[indexPath.row])") else { return }
@@ -109,7 +105,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                     let appInsta = URL(string: "instagram://user?username=\(link)")!
                 guard let webInsta = URL(string: "https://www.instagram.com/\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "Instagram Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "Instagram Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
 
@@ -122,7 +120,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             } else if socialMediaList[indexPath.row].name == "TikTok" {
                 
                 guard let tikTok = URL(string: "https://www.tiktok.com/@\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "TikTok Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "TikTok Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -135,7 +135,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             } else if socialMediaList[indexPath.row].name == "Viber" {
                 
                 guard let viber = URL(string: "viber://contact?number=\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "Viber Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "Viber Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -148,7 +150,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             } else if socialMediaList[indexPath.row].name == "WhatsApp" {
                 
                 guard let wa = URL(string: "whatsapp://send?phone=\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "WhatsApp Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "WhatsApp Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -162,7 +166,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
                 
                 let appFb = URL(string: "fb://profile/\(link)")!
                 guard let webFb = URL(string: "https://www.facebook.com/\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "Facebook Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "Facebook Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -186,19 +192,25 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             } else if socialMediaList[indexPath.row].name == "LinkedIn" {
                 
                 guard let li = URL(string: "https://www.linkedin.com/in/\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "LinkedIn Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "LinkedIn Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
                 if UIApplication.shared.canOpenURL(li) {
                     UIApplication.shared.open(li, options: [:], completionHandler: nil)
                 } else {
-                    popUpWithOk(newTitle: "Can NOT open Link", newMessage: "LinkedIn Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Can NOT open Link",
+                                        newMessage: "LinkedIn Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                 }
             } else if socialMediaList[indexPath.row].name == "Pinterest" {
                 
                 guard let pint = URL(string: "https://www.pinterest.com/\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "Pinterest Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "Pinterest Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -211,7 +223,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             } else if socialMediaList[indexPath.row].name == "GitHub" {
                 
                 guard let gh = URL(string: "https://www.github.com/\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "GitHub Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "GitHub Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -224,7 +238,9 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             } else if socialMediaList[indexPath.row].name == "YouTube" {
                 
                 guard let yt = URL(string: "https://www.youtube.com/channel/\(link)") else {
-                    popUpWithOk(newTitle: "Link does NOT work", newMessage: "YouTube Link does NOT work or that user does NOT exist.")
+                    PopUp().popUpWithOk(newTitle: "Link does NOT work",
+                                        newMessage: "YouTube Link does NOT work or that user does NOT exist.",
+                                        vc: self)
                     return
                 }
                 
@@ -238,5 +254,19 @@ class PopUpCardViewController: UIViewController, UITableViewDelegate, UITableVie
             
             
         }
+    }
+}
+
+
+extension PopUpCardViewController: MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        if let e = error {
+            print("Error Finish with. \(e)")
+            return
+        }
+        
+        controller.dismiss(animated: true)
     }
 }

@@ -66,6 +66,8 @@ struct Constants {
         static let emailVerifySegue = "UpdatedEmailVerify"
         static let deleteAccountSegue = "DeleteAccountSegue"
         static let confirmDeleteSegue = "ConfirmDeleteSegue"
+        static let notifSegue = "NotificationsSegue"
+        static let aboutVBCSegue = "AboutVBCSegue"
         
     }
     

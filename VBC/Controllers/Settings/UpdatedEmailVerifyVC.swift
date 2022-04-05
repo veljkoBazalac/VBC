@@ -154,7 +154,9 @@ class UpdatedEmailVerifyVC: UIViewController {
                                 }
                             }
                         } else {
-                            self.popUpWithOk(newTitle: "Error Reloading", newMessage: "Please check your Internet Connection and try again.")
+                            PopUp().popUpWithOk(newTitle: "Error Reloading",
+                                                newMessage: "Please check your Internet Connection and try again.",
+                                                vc: self)
                         }
                     })
                 }
@@ -204,20 +206,6 @@ class UpdatedEmailVerifyVC: UIViewController {
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }
-    }
-    
-    
-    // MARK: - Pop Up With Ok
-    
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
     }
     
 } //

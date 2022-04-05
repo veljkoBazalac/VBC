@@ -184,18 +184,28 @@ class ChangeEmailOrPasswordVC: UIViewController, UITextFieldDelegate {
         
         if newEmailOrPassTF.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true || repeatEmailOrPassTF.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true  {
             if changeEmail == true {
-                popUpWithOk(newTitle: "Email text fields EMPTY", newMessage: "Please Enter your Email Address.")
+                PopUp().popUpWithOk(newTitle: "Email text fields EMPTY",
+                                    newMessage: "Please Enter your Email Address.",
+                                    vc: self)
             } else {
-                popUpWithOk(newTitle: "Password text fields EMPTY", newMessage: "Please Enter your Password.")
+                PopUp().popUpWithOk(newTitle: "Password text fields EMPTY",
+                                    newMessage: "Please Enter your Password.",
+                                    vc: self)
             }
         } else if newEmailOrPassTF.text?.trimmingCharacters(in: .whitespacesAndNewlines) != repeatEmailOrPassTF.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
             if changeEmail == true {
-                popUpWithOk(newTitle: "Email does NOT match", newMessage: "Please Enter same Email Address.")
+                PopUp().popUpWithOk(newTitle: "Email does NOT match",
+                                    newMessage: "Please Enter same Email Address.",
+                                    vc: self)
             } else {
-                popUpWithOk(newTitle: "Password does NOT match", newMessage: "Please Enter same Password.")
+                PopUp().popUpWithOk(newTitle: "Password does NOT match",
+                                    newMessage: "Please Enter same Password.",
+                                    vc: self)
             }
         } else if newEmailOrPassTF.text!.trimmingCharacters(in: .whitespacesAndNewlines).count < 6 && changeEmail == false {
-            popUpWithOk(newTitle: "Short Password", newMessage: "Your Password must be at least 6 characters long.")
+            PopUp().popUpWithOk(newTitle: "Short Password",
+                                newMessage: "Your Password must be at least 6 characters long.",
+                                vc: self)
         } else {
             performSegue(withIdentifier: Constants.Segue.confirmSegue, sender: self)
         }
@@ -216,19 +226,6 @@ class ChangeEmailOrPasswordVC: UIViewController, UITextFieldDelegate {
             }
             
         }
-    }
-    
-    // MARK: - Pop Up With Ok
-    
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
     }
     
 } //

@@ -4,6 +4,10 @@
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>googlegmail</string>
+		<string>ms-outlook</string>
+		<string>readdle-spark</string>
+		<string>ymail</string>
 		<string>twitter</string>
 		<string>fb-messenger-api</string>
 		<string>fbshareextension</string>

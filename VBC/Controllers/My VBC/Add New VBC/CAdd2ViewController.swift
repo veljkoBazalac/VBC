@@ -137,44 +137,46 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         
     }
     
-    func spinnerWithBlur() {
+    // MARK: - Prepare for Segue
         
-        // Set the Size of the Blur View to be = to all screen
-        blurEffect.bounds = self.view.bounds
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
-        
-        animateIn(forView: blurEffect)
-        animateIn(forView: popUpView)
-        
-        spinner.startAnimating()
-    }
+        if segue.identifier == Constants.Segue.newLocationsList {
+            
+            let destinationVC = segue.destination as! AddListViewController
+            
+            if editCard2 == false {
+                destinationVC.cardID = cardID
+            } else {
+                destinationVC.cardID = editCardID2
+            }
+            
+            destinationVC.delegate = self
+            destinationVC.delegateEdit = self
     
-    func animateIn(forView: UIView) {
-        let backgroundView = self.view!
-        
-        backgroundView.addSubview(forView)
-        
-        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        forView.alpha = 0
-        forView.center = backgroundView.center
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            forView.alpha = 1
-        })
-        
-    }
-    
-    func animateOut(forView: UIView) {
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-            forView.alpha = 0
-        }) { _ in
-            forView.removeFromSuperview()
         }
         
+        if segue.identifier == Constants.Segue.addNew3 {
+            
+            let destinationVC = segue.destination as! CAdd3ViewController
+            
+            // Basic Info from 1st Step
+            destinationVC.logoImage3 = logoImage2
+            destinationVC.companyName3 = companyName2
+            destinationVC.productType3 = productType2
+            destinationVC.sector3 = sector2
+            destinationVC.companyCard3 = companyCard2
+            
+            if companyCard2 == false {
+                destinationVC.personalName3 = personalName2
+            }
+            
+            // Location Info from 2nd Step
+            destinationVC.selectedNewCountry = selectCountry.text!
+            destinationVC.currentCardID = cardID
+            destinationVC.numberOfPlaces = numberOfPlaces
+            destinationVC.singlePlace = singlePlace
+        }
     }
     
     // MARK: - Get Card with Basic info from Step 1
@@ -191,114 +193,6 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         companyName.text = companyName2
         companySector.text = sector2
         companyProductType.text = productType2
-    }
-
-// MARK: - Upload Company Logo Image
-    
-    func uploadImage() {
-        
-        spinnerWithBlur()
-        
-        guard let image = logoImage2, let data = image.jpegData(compressionQuality: 0.2) else {
-            popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
-            return
-        }
-        
-        let imageName = "Img.\(cardID)"
-        let imageReference = storage
-            .child(Constants.Firestore.Storage.logoImage)
-            .child(user!)
-            .child(imageName)
-    
-        imageReference.putData(data, metadata: nil) { mData, error in
-            if let e = error {
-                self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Image data to Storage. Please Check your Internet connection and try again. \(e.localizedDescription)")
-                return
-            }
-            
-            imageReference.downloadURL { [self] url, error in
-
-                if let e = error {
-                    popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading Image URL from Database. Please Check your Internet connection and try again. \(e.localizedDescription)")
-                    return
-                }
-                
-                imageReference.downloadURL { [self] url, error in
-                    if let e = error {
-                        popUpWithOk(newTitle: "Error!", newMessage: "Error Downloading URL. \(e.localizedDescription)")
-                    } else {
-                    
-                    guard let url = url else {
-                        popUpWithOk(newTitle: "Error!", newMessage: "Something went wrong. Please Check your Internet connection and try again.")
-                        return
-                    }
-                    
-                    let urlString = url.absoluteString
-
-                    let dbPath = db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.data)
-                        .collection(Constants.Firestore.CollectionName.users)
-                        .document(user!)
-                        .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(cardID)
-                        
-                        if singlePlace == true {
-                            
-                            dbPath.setData(["\(Constants.Firestore.Key.imageURL)" : "\(urlString)",
-                                            "Personal Name": personalName2,
-                                            "Company Name": companyName.text!,
-                                            "Sector": companySector.text!,
-                                            "ProductType": companyProductType.text!,
-                                            "CardID": cardID,
-                                            "Country": selectCountry.text!,
-                                            "Single Place": true,
-                                            "Company Card": companyCard2,
-                                            "User ID": user!,
-                                            "Card Saved": false], merge: true)
-                            
-                            dbPath.collection(Constants.Firestore.CollectionName.locations)
-                                .document("\(cityName.text!) - \(streetName.text!)")
-                                .setData(["City": cityName.text!,
-                                          "Street": streetName.text!,
-                                          "gMaps Link": googleMapsLink.text!], merge: true) { error in
-                                    
-                                    if error != nil {
-                                        self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
-                                    } else {
-                                        
-                                        self.spinner.stopAnimating()
-                                        
-                                        if self.spinner.isAnimating == false {
-                                            // Perform Segue to Step 3
-                                            self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
-                                        }
-                                    }
-                                }
-                            
-                        } else {
-                            
-                            dbPath.setData([Constants.Firestore.Key.imageURL : "\(url)",
-                                            Constants.Firestore.Key.singlePlace : false], merge: true) { error in
-                                
-                                if let error = error {
-                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading Data with Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)")
-                                    return
-                                } else {
-                                    
-                                    self.spinner.stopAnimating()
-                                    
-                                    if self.spinner.isAnimating == false {
-                                        // Perform Segue to Step 3
-                                        self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
-                                    }
-                                    
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
 // MARK: - Get Number of Places delegate
@@ -317,25 +211,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         }
     }
     
-    
-    // MARK: - Pop Up With Ok
-        
-        func popUpWithOk(newTitle: String, newMessage: String) {
-            
-            let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-            let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-                alert.dismiss(animated: true, completion: nil)
-            }
-            
-            alert.addAction(actionOK)
-            present(alert, animated: true, completion: nil)
-        }
-
-    
 // MARK: - Create Card ID Function
     
     func createCardID() {
-        
         if cardID == "" && editCard2 == false {
             let countryCode = Country().getCountryCode(country: selectCountry.text!)
             let companyShortName = companyName.text!.prefix(3).uppercased()
@@ -349,7 +227,6 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
 // MARK: - Create User ID Function
     
     func createUserID() {
-        
         if editCard2 == false {
             db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.data)
@@ -367,7 +244,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
             
             if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || streetName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                 
-                popUpWithOk(newTitle: "Location fields empty", newMessage: "Please fill all Location fields. Google Maps Link is optional." )
+                PopUp().popUpWithOk(newTitle: "Location fields empty",
+                                    newMessage: "Please fill all Location fields. Google Maps Link is optional.",
+                                    vc: self )
                 
             } else {
                 
@@ -418,7 +297,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                                       Constants.Firestore.Key.gMaps : googleMapsLink.text!], merge: true) { error in
                                 
                                 if error != nil {
-                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                                    PopUp().popUpWithOk(newTitle: "Error!",
+                                                        newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
+                                                        vc: self)
                                 } else {
                                     // Perform Segue to Step 3 for Single Place without Image
                                     self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
@@ -442,7 +323,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                                       Constants.Firestore.Key.singlePlace : true], merge: true) { error in
                                 
                                 if error != nil {
-                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading edited data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                                    PopUp().popUpWithOk(newTitle: "Error!",
+                                                        newMessage: "Error Uploading edited data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
+                                                        vc: self)
                                 } else {
                                     
                                     self.db.collection(Constants.Firestore.CollectionName.VBC)
@@ -470,7 +353,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
             } else {
                // Save Data for Multiple Places
                 if numberOfPlaces <= 1 {
-                    popUpWithOk(newTitle: "You selected Multiple Places", newMessage: "You must add at least two places.")
+                    PopUp().popUpWithOk(newTitle: "You selected Multiple Places",
+                                        newMessage: "You must add at least two places.",
+                                        vc: self)
                 } else {
                     // Creating New VBC
                     if editCard2 == false {
@@ -493,7 +378,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                             .setData([Constants.Firestore.Key.singlePlace : false], merge: true) { error in
                                 
                                 if error != nil {
-                                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading edited data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                                    PopUp().popUpWithOk(newTitle: "Error!",
+                                                        newMessage: "Error Uploading edited data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
+                                                        vc: self)
                                 } else {
                                     
                                     self.db.collection(Constants.Firestore.CollectionName.VBC)
@@ -521,7 +408,6 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                 }
             }
     }
-  
     
 // MARK: - Add Location Button Pressed
     
@@ -532,7 +418,9 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         // Checking if Fields are empty.
         if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || streetName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
             
-            popUpWithOk(newTitle: "Location fields empty", newMessage: "Please fill all Location fields. Google Maps Link is optional." )
+            PopUp().popUpWithOk(newTitle: "Location fields empty",
+                                newMessage: "Please fill all Location fields. Google Maps Link is optional.",
+                                vc: self)
 
         } else {
             
@@ -579,9 +467,13 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
                               Constants.Firestore.Key.gMaps : googleMapsLink.text!], merge: true) { error in
                         
                         if error != nil {
-                            self.popUpWithOk(newTitle: "Error!", newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)")
+                            PopUp().popUpWithOk(newTitle: "Error!",
+                                                newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
+                                                vc: self)
                         } else {
-                            self.popUpWithOk(newTitle: "Location successfully added", newMessage: "You can see list of your locations by pressing List button.")
+                            PopUp().popUpWithOk(newTitle: "Location successfully added",
+                                                newMessage: "You can see list of your locations by pressing List button.",
+                                                vc: self)
                             
                             self.listButton.isHidden = false
                             self.infoButton.isHidden = false
@@ -602,53 +494,13 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
         // Perform Segue to view List of Locations
         self.performSegue(withIdentifier: Constants.Segue.newLocationsList, sender: self)
     }
-
-// MARK: - Prepare for Segue
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == Constants.Segue.newLocationsList {
-            
-            let destinationVC = segue.destination as! AddListViewController
-            
-            if editCard2 == false {
-                destinationVC.cardID = cardID
-            } else {
-                destinationVC.cardID = editCardID2
-            }
-            
-            destinationVC.delegate = self
-            destinationVC.delegateEdit = self
-    
-        }
-        
-        if segue.identifier == Constants.Segue.addNew3 {
-            
-            let destinationVC = segue.destination as! CAdd3ViewController
-            
-            // Basic Info from 1st Step
-            destinationVC.logoImage3 = logoImage2
-            destinationVC.companyName3 = companyName2
-            destinationVC.productType3 = productType2
-            destinationVC.sector3 = sector2
-            destinationVC.companyCard3 = companyCard2
-            
-            if companyCard2 == false {
-                destinationVC.personalName3 = personalName2
-            }
-            
-            // Location Info from 2nd Step
-            destinationVC.selectedNewCountry = selectCountry.text!
-            destinationVC.currentCardID = cardID
-            destinationVC.numberOfPlaces = numberOfPlaces
-            destinationVC.singlePlace = singlePlace
-        }
-    }
     
 // MARK: - Info Button Pressed
     
     @IBAction func infoButtonPressed(_ sender: UIButton) {
-        popUpWithOk(newTitle: "You want to change a Country?", newMessage: "To do it, you first need to delete all your Places from the List.")
+        PopUp().popUpWithOk(newTitle: "You want to change a Country?",
+                            newMessage: "To do it, you first need to delete all your Places from the List.",
+                            vc: self)
     }
 
 // MARK: - Segment Control
@@ -701,33 +553,198 @@ class CAdd2ViewController: UIViewController, MultiplePlacesDelegate {
     }
 
     
-// MARK: - Get Contries List Function
+}//
+
+// MARK: - Firebase Functions
         
-        func getCountryList() {
+extension CAdd2ViewController {
+    
+    // MARK: - Upload Company Logo Image to Firebase Storage
+        
+    func uploadImage() {
+        
+        spinnerWithBlur()
+        
+        guard let image = logoImage2, let data = image.jpegData(compressionQuality: 0.2) else {
+            PopUp().popUpWithOk(newTitle: "Error!",
+                                newMessage: "Something went wrong. Please Check your Internet connection and try again.",
+                                vc: self)
+            return
+        }
+        
+        let imageName = "Img.\(cardID)"
+        let imageReference = storage
+            .child(Constants.Firestore.Storage.logoImage)
+            .child(user!)
+            .child(imageName)
+    
+        imageReference.putData(data, metadata: nil) { mData, error in
+            if let e = error {
+                PopUp().popUpWithOk(newTitle: "Error!",
+                                    newMessage: "Error Uploading Image data to Storage. Please Check your Internet connection and try again. \(e.localizedDescription)",
+                                    vc: self)
+                return
+            }
             
-            db.collection(Constants.Firestore.CollectionName.countries).getDocuments { snapshot, error in
-                
+            imageReference.downloadURL { [self] url, error in
+
                 if let e = error {
-                    self.popUpWithOk(newTitle: "Error!", newMessage: "Error Getting data from Database. Please Check your Internet connection and try again. \(e.localizedDescription)")
-                } else {
+                    PopUp().popUpWithOk(newTitle: "Error!",
+                                        newMessage: "Error Downloading Image URL from Database. Please Check your Internet connection and try again. \(e.localizedDescription)",
+                                        vc: self)
+                    return
+                }
+                
+                imageReference.downloadURL { [self] url, error in
+                    if let e = error {
+                        PopUp().popUpWithOk(newTitle: "Error!",
+                                            newMessage: "Error Downloading URL. \(e.localizedDescription)",
+                                            vc: self)
+                    } else {
                     
-                    if let snapshotDocuments = snapshot?.documents {
+                    guard let url = url else {
+                        PopUp().popUpWithOk(newTitle: "Error!",
+                                            newMessage: "Something went wrong. Please Check your Internet connection and try again.",
+                                            vc: self)
+                        return
+                    }
                     
-                        for documents in snapshotDocuments {
+                    let urlString = url.absoluteString
+
+                    let dbPath = db.collection(Constants.Firestore.CollectionName.VBC)
+                        .document(Constants.Firestore.CollectionName.data)
+                        .collection(Constants.Firestore.CollectionName.users)
+                        .document(user!)
+                        .collection(Constants.Firestore.CollectionName.cardID)
+                        .document(cardID)
+                        
+                        if singlePlace == true {
                             
-                            let data = documents.data()
+                            dbPath.setData(["\(Constants.Firestore.Key.imageURL)" : "\(urlString)",
+                                            "Personal Name": personalName2,
+                                            "Company Name": companyName.text!,
+                                            "Sector": companySector.text!,
+                                            "ProductType": companyProductType.text!,
+                                            "CardID": cardID,
+                                            "Country": selectCountry.text!,
+                                            "Single Place": true,
+                                            "Company Card": companyCard2,
+                                            "User ID": user!,
+                                            "Card Saved": false], merge: true)
+                            
+                            dbPath.collection(Constants.Firestore.CollectionName.locations)
+                                .document("\(cityName.text!) - \(streetName.text!)")
+                                .setData(["City": cityName.text!,
+                                            "Street": streetName.text!,
+                                            "gMaps Link": googleMapsLink.text!], merge: true) { error in
+                                    
+                                    if error != nil {
+                                        PopUp().popUpWithOk(newTitle: "Error!",
+                                                            newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
+                                                            vc: self)
+                                    } else {
+                                        
+                                        self.spinner.stopAnimating()
+                                        
+                                        if self.spinner.isAnimating == false {
+                                            // Perform Segue to Step 3
+                                            self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
+                                        }
+                                    }
+                                }
+                            
+                        } else {
+                            
+                            dbPath.setData([Constants.Firestore.Key.imageURL : "\(url)",
+                                            Constants.Firestore.Key.singlePlace : false], merge: true) { error in
                                 
-                            if let countryData = data[Constants.Firestore.Key.name] as? String {
-                                
-                                let country = Country(name: countryData)
-                                
-                                self.countryList.append(country)
+                                if let error = error {
+                                    PopUp().popUpWithOk(newTitle: "Error!",
+                                                        newMessage: "Error Uploading Data with Image URL to Firestore. Please Check your Internet connection and try again. \(error.localizedDescription)",
+                                                        vc: self)
+                                    return
+                                } else {
+                                    
+                                    self.spinner.stopAnimating()
+                                    
+                                    if self.spinner.isAnimating == false {
+                                        // Perform Segue to Step 3
+                                        self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
+                                    }
+                                    
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+    
+    // MARK: - Get Contries List from Firestore
+    
+    func getCountryList() {
+        
+        db.collection(Constants.Firestore.CollectionName.countries).getDocuments { snapshot, error in
+            
+            if let e = error {
+                PopUp().popUpWithOk(newTitle: "Error!",
+                                    newMessage: "Error Getting data from Database. Please Check your Internet connection and try again. \(e.localizedDescription)",
+                                    vc: self)
+            } else {
+                
+                if let snapshotDocuments = snapshot?.documents {
+                
+                    for documents in snapshotDocuments {
+                        
+                        let data = documents.data()
+                            
+                        if let countryData = data[Constants.Firestore.Key.name] as? String {
+                            
+                            let country = Country(name: countryData)
+                            
+                            self.countryList.append(country)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+// MARK: - Spinner With Blur
+
+extension CAdd2ViewController {
+    
+    func spinnerWithBlur() {
+        
+        // Set the Size of the Blur View to be = to all screen
+        blurEffect.bounds = self.view.bounds
+        
+        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
+        
+        animateIn(forView: blurEffect)
+        animateIn(forView: popUpView)
+        
+        spinner.startAnimating()
+    }
+    
+    func animateIn(forView: UIView) {
+        let backgroundView = self.view!
+        
+        backgroundView.addSubview(forView)
+        
+        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        forView.alpha = 0
+        forView.center = backgroundView.center
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            forView.alpha = 1
+        })
+        
+    }
 }
 
 // MARK: - UIPickerView for Country
@@ -765,10 +782,14 @@ extension CAdd2ViewController: UIPickerViewDelegate, UIPickerViewDataSource {
             selectCountry.text = countryList[row].name
         }
          else {
-             popUpWithOk(newTitle: "Error!", newMessage: "There was an Error when selected row. Please try again.")
+             PopUp().popUpWithOk(newTitle: "Error!",
+                                 newMessage: "There was an Error when selected row. Please try again.",
+                                 vc: self)
         }
     }
 }
+
+// MARK: - EditSelectedLocation Delegate Function
 
 extension CAdd2ViewController: EditSelectedLocation {
     

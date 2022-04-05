@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import MessageUI
 
 struct SettingsOption {
     let title: String
@@ -70,7 +71,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         tableView.delegate = self
         tableView.dataSource = self
         
-        setEmail()
+        setEmailLabel()
         setLogOutButton()
         setTableView()
     }
@@ -80,19 +81,16 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         emailLabel.text = user?.email
     }
     
-    // MARK: - PopUp with Ok Button
+    // MARK: - Prepare For Segue
     
-    func popUpWithOk(newTitle: String, newMessage: String) {
-        
-        let alert = UIAlertController(title: newTitle, message: newMessage, preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "OK", style: .default) { action in
-            alert.dismiss(animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.Segue.emailPasswordSegue {
+            
+            let destinationVC = segue.destination as! ChangeEmailOrPasswordVC
+            destinationVC.changeEmail = changeEmailPressed
         }
-        
-        alert.addAction(actionOK)
-        present(alert, animated: true, completion: nil)
     }
-    
+
     // MARK: - Log Out Button Pressed
     
     @objc func logOutPressed() {
@@ -104,12 +102,13 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let initialViewController = storyboard.instantiateViewController(withIdentifier: Constants.Storyboard.welcomeVC)
             self.view.window!.rootViewController = initialViewController
         } catch {
-            self.popUpWithOk(newTitle: "Log Out Error", newMessage: "Please check your internet connection and try again.")
+            PopUp().popUpWithOk(newTitle: "Log Out Error",
+                                newMessage: "Please check your internet connection and try again.",
+                                vc: self)
         }
     }
     
     // MARK: - Configure Table View Sections and Cells
-    
     func configure() {
         
         // Section 1
@@ -133,31 +132,79 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         // Section 2
         models.append(Section(title: "Application", options: [
-            SettingsOption(title: "Notifications", icon: UIImage(named: "Serbia"), iconBackgroundColor: .systemPink) {
-                print("S2 C1")
-            },
             
             SettingsOption(title: "Contact Us", icon: UIImage(named: "Austria"), iconBackgroundColor: .systemGreen) {
-                print("S2 C2")
+                EmailComposer().showEmailComposer(recipient: "solosoft.serbia@gmail.com",
+                                                  subject: "VBC - \(self.user?.email ?? "Your Email here...")",
+                                                  body: "Dear VBC Team,\n\n",
+                                                  delegate: self,
+                                                  vc: self)
             },
             
             SettingsOption(title: "About VBC", icon: UIImage(named: "Austria"), iconBackgroundColor: .systemGreen) {
-                print("S2 C3")
+                self.performSegue(withIdentifier: Constants.Segue.aboutVBCSegue, sender: self)
             }
         ]))
     }
     
-    // MARK: - Prepare For Segue
+} //
+
+// MARK: - Contact US open Mail
+
+extension SettingsVC: MFMailComposeViewControllerDelegate {
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.Segue.emailPasswordSegue {
-            
-            let destinationVC = segue.destination as! ChangeEmailOrPasswordVC
-            
-            destinationVC.changeEmail = changeEmailPressed
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        if let e = error {
+            print("Error Finish with. \(e)")
+            return
+        }
+        
+        switch result {
+        case .sent:
+            PopUp().quickPopUp(newTitle: "Email Sent",
+                               newMessage: "We will respond as quickly as possible.",
+                               vc: controller,
+                               numberOfSeconds: 3)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                controller.dismiss(animated: true)
+            }
+        case .failed:
+            PopUp().quickPopUp(newTitle: "Email Failed",
+                               newMessage: "Please check your connection and try again.",
+                               vc: controller,
+                               numberOfSeconds: 3)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                controller.dismiss(animated: true)
+            }
+        case .cancelled:
+            PopUp().quickPopUp(newTitle: "Email Cancelled",
+                               newMessage: "Be free to Contact Us if you have some questions.",
+                               vc: controller,
+                               numberOfSeconds: 3)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                controller.dismiss(animated: true)
+            }
+        case .saved :
+            PopUp().quickPopUp(newTitle: "Email Saved",
+                               newMessage: "Your Email is saved in Drafts.",
+                               vc: controller,
+                               numberOfSeconds: 3)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                controller.dismiss(animated: true)
+            }
+        default:
+            PopUp().quickPopUp(newTitle: "Error",
+                               newMessage: "Oops, Please try again...",
+                               vc: controller,
+                               numberOfSeconds: 3)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                controller.dismiss(animated: true)
+            }
         }
     }
-} //
+
+}
 
 // MARK: - Table View Methods
 
@@ -171,7 +218,6 @@ extension SettingsVC {
     func numberOfSections(in tableView: UITableView) -> Int {
         return models.count
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return models[section].options.count
@@ -201,20 +247,20 @@ extension SettingsVC {
 
 extension SettingsVC {
     
-    func setEmail() {
+    private func setEmailLabel() {
         
         emailLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         emailLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         emailLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50).isActive = true
     }
     
-    func setLogOutButton() {
+    private func setLogOutButton() {
         
         logOutButton.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: 30).isActive = true
         logOutButton.centerXAnchor.constraint(equalTo: emailLabel.centerXAnchor).isActive = true
     }
     
-    func setTableView() {
+    private func setTableView() {
         
         tableView.backgroundColor = UIColor.clear
         tableView.sectionIndexTrackingBackgroundColor = UIColor.red

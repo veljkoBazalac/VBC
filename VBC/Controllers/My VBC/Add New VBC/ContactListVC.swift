@@ -17,7 +17,7 @@ protocol SocialListDelegate: AnyObject {
     func newSocialMediaList(list: [String])
 }
 
-class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSource, DeleteCellDelegate {
+class ContactListVC: UIViewController, DeleteCellDelegate {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -77,7 +77,8 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         delegateSL?.newSocialMediaList(list: keySocialMedia)
     }
     
-    // MARK: - Get Data Function
+    // MARK: - Get Data from Firebase
+    
     func getData() {
         
         if socialListPressed == false {
@@ -85,40 +86,6 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         } else {
             getSocialData()
         }
-    }
-    
-    // MARK: - Table View
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if phoneListPressed == true {
-            return phoneNumbersList.count
-        } else if emailListPressed == true {
-            return emailAddressList.count
-        } else if websiteListPressed == true {
-            return websiteList.count
-        } else {
-            return socialMediaList.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.contactListCell, for: indexPath) as! ContactListCell
-        
-        if phoneListPressed == true {
-            cell.configure(title: "\(phoneNumbersList[indexPath.row].code)\(phoneNumbersList[indexPath.row].number)", row: indexPath.row)
-        } else if emailListPressed == true {
-            cell.configure(title: emailAddressList[indexPath.row], row: indexPath.row)
-        } else if websiteListPressed == true {
-            cell.configure(title: websiteList[indexPath.row], row: indexPath.row)
-        } else {
-            cell.configure(title: socialMediaList[indexPath.row].name, row: indexPath.row)
-        }
-        
-        cell.delegate = self
-        
-        return cell
     }
     
     // MARK: - Get Key for Deleted Button
@@ -227,7 +194,8 @@ class ContactListVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         
         self.present(alert, animated: true, completion: nil)
     }
-}
+    
+}//
 
 // MARK: - Getting Contact Data from Firebase
 
@@ -392,5 +360,42 @@ extension ContactListVC {
                     }
                 }
             }
+    }
+}
+
+// MARK: - TableView
+
+extension ContactListVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if phoneListPressed == true {
+            return phoneNumbersList.count
+        } else if emailListPressed == true {
+            return emailAddressList.count
+        } else if websiteListPressed == true {
+            return websiteList.count
+        } else {
+            return socialMediaList.count
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.contactListCell, for: indexPath) as! ContactListCell
+        
+        if phoneListPressed == true {
+            cell.configure(title: "\(phoneNumbersList[indexPath.row].code)\(phoneNumbersList[indexPath.row].number)", row: indexPath.row)
+        } else if emailListPressed == true {
+            cell.configure(title: emailAddressList[indexPath.row], row: indexPath.row)
+        } else if websiteListPressed == true {
+            cell.configure(title: websiteList[indexPath.row], row: indexPath.row)
+        } else {
+            cell.configure(title: socialMediaList[indexPath.row].name, row: indexPath.row)
+        }
+        
+        cell.delegate = self
+        
+        return cell
     }
 }
