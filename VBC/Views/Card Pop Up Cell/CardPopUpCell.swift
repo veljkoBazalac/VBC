@@ -20,9 +20,11 @@ class CardPopUpCell: UITableViewCell {
         
         UIPasteboard.general.string = cellTextLabel.text
         copyButton.setImage(UIImage(systemName: "checkmark.seal"), for: .normal)
+        copyButton.tintColor = UIColor.systemGreen
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.copyButton.setImage(UIImage(systemName: "doc.on.doc"), for: .normal)
+            self.copyButton.tintColor = UIColor(named: "Color Blue")
         }
     }
 }

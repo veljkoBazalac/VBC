@@ -29,6 +29,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor(named: "Reverse Background Color")
         
         return label
     }()
@@ -48,9 +49,12 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let tableView : UITableView = { () -> UITableView in
         let table = UITableView()
-        table.backgroundColor = UIColor.systemRed
+        table.isScrollEnabled = false
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(SettingsCell.self, forCellReuseIdentifier: Constants.Cell.settingsCell)
+        table.separatorInset.left = 15
+        table.separatorInset.right = 15
+        
         return table
     }()
     
@@ -113,17 +117,17 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         
         // Section 1
         models.append(Section(title: "Account", options: [
-            SettingsOption(title: "Change Email Address", icon: UIImage(named: "Serbia"), iconBackgroundColor: .systemPink) {
+            SettingsOption(title: "Change Email Address", icon: UIImage(named: "ChangeEmail"), iconBackgroundColor: .systemBlue) {
                 self.changeEmailPressed = true
                 self.performSegue(withIdentifier: Constants.Segue.emailPasswordSegue, sender: self)
             },
             
-            SettingsOption(title: "Change Password", icon: UIImage(named: "Austria"), iconBackgroundColor: .systemGreen) {
+            SettingsOption(title: "Change Password", icon: UIImage(named: "ChangePassword"), iconBackgroundColor: .systemGreen) {
                 self.changeEmailPressed = false
                 self.performSegue(withIdentifier: Constants.Segue.emailPasswordSegue, sender: self)
             },
             
-            SettingsOption(title: "Delete Account", icon: UIImage(named: "LogoImage"), iconBackgroundColor: .systemGreen) {
+            SettingsOption(title: "Delete Account", icon: UIImage(named: "DeleteAccount"), iconBackgroundColor: .systemRed) {
                 self.performSegue(withIdentifier: Constants.Segue.deleteAccountSegue, sender: self)
             }
             
@@ -133,7 +137,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Section 2
         models.append(Section(title: "Application", options: [
             
-            SettingsOption(title: "Contact Us", icon: UIImage(named: "Austria"), iconBackgroundColor: .systemGreen) {
+            SettingsOption(title: "Contact Us", icon: UIImage(named: "ContactUs"), iconBackgroundColor: .systemOrange) {
                 EmailComposer().showEmailComposer(recipient: "solosoft.serbia@gmail.com",
                                                   subject: "VBC - \(self.user?.email ?? "Your Email here...")",
                                                   body: "Dear VBC Team,\n\n",
@@ -141,7 +145,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                                                   vc: self)
             },
             
-            SettingsOption(title: "About VBC", icon: UIImage(named: "Austria"), iconBackgroundColor: .systemGreen) {
+            SettingsOption(title: "About VBC", icon: UIImage(named: "AboutVBC"), iconBackgroundColor: .systemPurple) {
                 self.performSegue(withIdentifier: Constants.Segue.aboutVBCSegue, sender: self)
             }
         ]))
@@ -165,40 +169,37 @@ extension SettingsVC: MFMailComposeViewControllerDelegate {
             PopUp().quickPopUp(newTitle: "Email Sent",
                                newMessage: "We will respond as quickly as possible.",
                                vc: controller,
-                               numberOfSeconds: 3)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                               numberOfSeconds: 2)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 controller.dismiss(animated: true)
             }
         case .failed:
-            PopUp().quickPopUp(newTitle: "Email Failed",
-                               newMessage: "Please check your connection and try again.",
-                               vc: controller,
-                               numberOfSeconds: 3)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            PopUp().popUpWithOk(newTitle: "Email Failed",
+                                newMessage: "Please check your connection and try again.",
+                                vc: controller)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 controller.dismiss(animated: true)
             }
         case .cancelled:
             PopUp().quickPopUp(newTitle: "Email Cancelled",
                                newMessage: "Be free to Contact Us if you have some questions.",
                                vc: controller,
-                               numberOfSeconds: 3)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                               numberOfSeconds: 2)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 controller.dismiss(animated: true)
             }
         case .saved :
             PopUp().quickPopUp(newTitle: "Email Saved",
                                newMessage: "Your Email is saved in Drafts.",
                                vc: controller,
-                               numberOfSeconds: 3)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                               numberOfSeconds: 2)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 controller.dismiss(animated: true)
             }
         default:
-            PopUp().quickPopUp(newTitle: "Error",
-                               newMessage: "Oops, Please try again...",
-                               vc: controller,
-                               numberOfSeconds: 3)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            PopUp().popUpWithOk(newTitle: "Error",
+                                newMessage: "Oops, Please try again...", vc: controller)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 controller.dismiss(animated: true)
             }
         }
@@ -240,6 +241,12 @@ extension SettingsVC {
         model.handler()
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        view.tintColor = UIColor.clear
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor(named: "Reverse Background Color")
+    }
+    
     
 }
 
@@ -263,8 +270,9 @@ extension SettingsVC {
     private func setTableView() {
         
         tableView.backgroundColor = UIColor.clear
-        tableView.sectionIndexTrackingBackgroundColor = UIColor.red
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        tableView.separatorColor = UIColor.init(named: "Color Dark Blue")
+        
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         tableView.topAnchor.constraint(equalTo: logOutButton.bottomAnchor, constant: 40).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true

@@ -27,14 +27,13 @@ struct Constants {
         static let homeToCard = "HomeToCardSegue"
         static let homeToSearch = "HomeToSearchSegue"
         static let searchToCard = "SearchToCardSegue"
+        
+        // My Cards
+        static let viewCard = "ViewCardSegue"
         static let cardToAbout = "CardToAboutSegue"
         static let editStep1 = "EditStep1"
         static let editStep2 = "EditStep2"
         static let editStep3 = "EditStep3"
-        
-        // My Cards
-        static let viewCard = "ViewCardSegue"
-        static let cardToPopUp = "CardToPopUp"
         static let addVBC = "addVBCSegue"
         
             // Company Add VBC
@@ -91,6 +90,7 @@ struct Constants {
         static let cardRemoved = "solosoft.VBC.cardRemoved"
         static let cardDeleted = "solosoft.VBC.cardDeleted"
         static let cardEdited = "solosoft.VBC.cardEdited"
+        static let locationEdited = "solosoft.VBC.locationEdited"
     }
     
     struct Firestore {
@@ -168,6 +168,17 @@ struct Constants {
             static let gMaps = "gMaps Link"
             
             // Key for Social Network
+            static let Facebook = "Facebook"
+            static let GitHub = "GitHub"
+            static let Instagram = "Instagram"
+            static let LinkedIn = "LinkedIn"
+            static let Pinterest = "Pinterest"
+            static let TikTok = "TikTok"
+            static let Twitter = "Twitter"
+            static let Viber = "Viber"
+            static let WhatsApp = "WhatsApp"
+            static let YouTube = "YouTube"
+            
             static let link = "link"
             static let socialAdded = "Social Media Added"
             

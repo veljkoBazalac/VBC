@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,47 +21,51 @@
                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2gn-m0-hFF">
                         <rect key="frame" x="0.0" y="0.0" width="398" height="110"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p2G-OT-fcv">
-                                <rect key="frame" x="5" y="5" width="100" height="100"/>
+                            <imageView opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p2G-OT-fcv">
+                                <rect key="frame" x="10" y="5" width="100" height="100"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="nId-QE-yaL"/>
                                     <constraint firstAttribute="height" constant="100" id="qnZ-UT-quQ"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwA-7u-p5U">
-                                <rect key="frame" x="105" y="5" width="288" height="100"/>
+                                <rect key="frame" x="110" y="5" width="283" height="100"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vYE-md-pvh" userLabel="Text Stack">
-                                        <rect key="frame" x="10" y="5" width="238" height="90"/>
+                                        <rect key="frame" x="10" y="5" width="233" height="90"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upe-XO-6Vt">
-                                                <rect key="frame" x="61.5" y="0.0" width="115" height="22.5"/>
+                                                <rect key="frame" x="59" y="0.0" width="115" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" name="Color SDS"/>
+                                                <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e4E-lm-xGa">
-                                                <rect key="frame" x="64.5" y="22.5" width="109.5" height="22.5"/>
+                                                <rect key="frame" x="62" y="22.5" width="109.5" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" name="Color SDS"/>
+                                                <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sector" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A4B-KO-4cC">
-                                                <rect key="frame" x="96.5" y="45" width="45.5" height="22.5"/>
+                                                <rect key="frame" x="94" y="45" width="45.5" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" name="Color SDS"/>
+                                                <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICl-GJ-EBA">
-                                                <rect key="frame" x="73" y="67.5" width="92" height="22.5"/>
+                                                <rect key="frame" x="70.5" y="67.5" width="92" height="22.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <color key="textColor" name="Color SDS"/>
+                                                <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bwA-o8-JZK">
-                                        <rect key="frame" x="258" y="5" width="20" height="20"/>
+                                        <rect key="frame" x="253" y="5" width="20" height="20"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="2qS-t0-IpG"/>
                                             <constraint firstAttribute="height" constant="20" id="VkI-cP-bMB"/>
@@ -69,7 +73,8 @@
                                         </constraints>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SuX-Nt-NJd">
-                                        <rect key="frame" x="258" y="75" width="20" height="20"/>
+                                        <rect key="frame" x="253" y="75" width="20" height="20"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="52c-Zv-RW2"/>
                                             <constraint firstAttribute="width" constant="20" id="d41-b3-cou"/>
@@ -91,15 +96,17 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="p2G-OT-fcv" secondAttribute="bottom" constant="5" id="AsF-ug-UOz"/>
                             <constraint firstItem="p2G-OT-fcv" firstAttribute="top" secondItem="2gn-m0-hFF" secondAttribute="top" constant="5" id="Gju-iA-KhU"/>
                             <constraint firstAttribute="bottom" secondItem="bwA-7u-p5U" secondAttribute="bottom" constant="5" id="Igy-ua-QFP"/>
-                            <constraint firstItem="p2G-OT-fcv" firstAttribute="leading" secondItem="2gn-m0-hFF" secondAttribute="leading" constant="5" id="idl-8I-0w9"/>
+                            <constraint firstItem="p2G-OT-fcv" firstAttribute="leading" secondItem="2gn-m0-hFF" secondAttribute="leading" constant="10" id="idl-8I-0w9"/>
                             <constraint firstAttribute="trailing" secondItem="bwA-7u-p5U" secondAttribute="trailing" constant="5" id="k6f-v0-e2s"/>
                         </constraints>
                     </stackView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="2gn-m0-hFF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="10W-dQ-xwf"/>
                     <constraint firstItem="2gn-m0-hFF" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BcH-gu-h5f"/>
@@ -125,8 +132,8 @@
         <namedColor name="Background Color">
             <color red="0.84700000286102295" green="0.88999998569488525" blue="0.90600001811981201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Color SDS">
-            <color red="0.067000001668930054" green="0.097999997437000275" blue="0.19200000166893005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="Reverse Background Color">
+            <color red="0.14117647058823529" green="0.1764705882352941" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

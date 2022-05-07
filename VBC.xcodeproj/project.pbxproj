@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		07CE09A9C2D8FC6BA5B867E1 /* Pods_VBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6054D27C5A017FA5A794711A /* Pods_VBC.framework */; };
-		D00463F7276BA259005B13F7 /* PopUpCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00463F6276BA258005B13F7 /* PopUpCardViewController.swift */; };
 		D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */; };
 		D00E608427F069D50035BEF7 /* verifySend.json in Resources */ = {isa = PBXBuildFile; fileRef = D00E608327F069D50035BEF7 /* verifySend.json */; };
 		D00E608727F076830035BEF7 /* DeleteAccountVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E608627F076830035BEF7 /* DeleteAccountVC.swift */; };
@@ -16,24 +15,24 @@
 		D00E608D27F0AC510035BEF7 /* warning.json in Resources */ = {isa = PBXBuildFile; fileRef = D00E608C27F0AC510035BEF7 /* warning.json */; };
 		D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A2E272449EE00A6331B /* AppDelegate.swift */; };
 		D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A30272449EE00A6331B /* SceneDelegate.swift */; };
-		D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A32272449EE00A6331B /* HomeViewController.swift */; };
+		D00F0A33272449EE00A6331B /* FindVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A32272449EE00A6331B /* FindVC.swift */; };
 		D00F0A36272449EE00A6331B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A34272449EE00A6331B /* Main.storyboard */; };
 		D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A39272449F400A6331B /* LaunchScreen.storyboard */; };
-		D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A60272452D300A6331B /* LoginViewController.swift */; };
-		D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterViewController.swift */; };
+		D00F0A61272452D300A6331B /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A60272452D300A6331B /* LoginVC.swift */; };
+		D00F0A652724591300A6331B /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00F0A642724591300A6331B /* RegisterVC.swift */; };
 		D013C646277A421E0017F26F /* ContactListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D013C645277A421D0017F26F /* ContactListVC.swift */; };
-		D0144F74272D52D200576083 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0144F73272D52D200576083 /* CardViewController.swift */; };
+		D0144F74272D52D200576083 /* CardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0144F73272D52D200576083 /* CardVC.swift */; };
 		D015C48127F9B221005E134C /* PopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D015C48027F9B221005E134C /* PopUp.swift */; };
-		D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */; };
-		D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyViewController.swift */; };
+		D016DFD9272ABDE10041B633 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFD8272ABDE10041B633 /* WelcomeVC.swift */; };
+		D016DFDB272ABF7A0041B633 /* VerifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016DFDA272ABF790041B633 /* VerifyVC.swift */; };
 		D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* HomeViewCell.swift */; };
 		D01EF8F2272D233000146DDC /* HomeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* HomeViewCell.xib */; };
 		D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0317F6127818F9400E67776 /* SocialMedia.swift */; };
 		D047E8B027D92514001B50F3 /* ConfirmChangesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D047E8AF27D92514001B50F3 /* ConfirmChangesVC.swift */; };
 		D059CA6427BD11AF0006A6E7 /* ContactListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D059CA6227BD11AF0006A6E7 /* ContactListCell.swift */; };
 		D059CA6527BD11AF0006A6E7 /* ContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D059CA6327BD11AF0006A6E7 /* ContactListCell.xib */; };
-		D05CD5D527A28AD60083F4DF /* SavedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05CD5D427A28AD60083F4DF /* SavedViewController.swift */; };
-		D0611E3627BFB8A400434AD8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0611E3527BFB8A400434AD8 /* SearchViewController.swift */; };
+		D05CD5D527A28AD60083F4DF /* SavedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05CD5D427A28AD60083F4DF /* SavedVC.swift */; };
+		D0611E3627BFB8A400434AD8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0611E3527BFB8A400434AD8 /* SearchVC.swift */; };
 		D0611E3827BFBE7300434AD8 /* SearchBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0611E3727BFBE7300434AD8 /* SearchBy.swift */; };
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
 		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
@@ -41,12 +40,12 @@
 		D091C01E27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */; };
 		D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0955D232767BCF7009E9CA7 /* ShowVBC.swift */; };
 		D0A4360A27CD549C00017DF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00F0A37272449F400A6331B /* Assets.xcassets */; };
-		D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */; };
-		D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */; };
-		D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197127413922000B2E1F /* CAdd3ViewController.swift */; };
-		D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */; };
-		D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */; };
-		D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */; };
+		D0A7196E274138C1000B2E1F /* AddNewCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196D274138C1000B2E1F /* AddNewCardVC.swift */; };
+		D0A71970274138EC000B2E1F /* AddStep2VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7196F274138EC000B2E1F /* AddStep2VC.swift */; };
+		D0A7197227413922000B2E1F /* AddStep3VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197127413922000B2E1F /* AddStep3VC.swift */; };
+		D0A7197427414415000B2E1F /* FinishAddCardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A7197327414415000B2E1F /* FinishAddCardVC.swift */; };
+		D0AB29C3273AFCF300A43EF2 /* MyCardsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C2273AFCF300A43EF2 /* MyCardsVC.swift */; };
+		D0AB29C5273B204800A43EF2 /* AddStep1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB29C4273B204800A43EF2 /* AddStep1VC.swift */; };
 		D0BD582E272891EE002C6525 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BD582D272891EE002C6525 /* Constants.swift */; };
 		D0C0DE0A27F7111E006EAC27 /* AboutVBCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C0DE0927F7111E006EAC27 /* AboutVBCVC.swift */; };
 		D0C9BA0827D9F19900291AA3 /* email.json in Resources */ = {isa = PBXBuildFile; fileRef = D0C9BA0727D9F19900291AA3 /* email.json */; };
@@ -58,10 +57,10 @@
 		D0D5C67527D612FA00E8C07E /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D5C67327D612F900E8C07E /* SettingsCell.xib */; };
 		D0D5C67727D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D5C67627D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift */; };
 		D0D6A5782743104700773C52 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* Location.swift */; };
-		D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57927431AF000773C52 /* AddListViewController.swift */; };
+		D0D6A57A27431AF000773C52 /* LocationListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57927431AF000773C52 /* LocationListVC.swift */; };
 		D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */; };
 		D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */; };
-		D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutViewController.swift */; };
+		D0E7753E272D7322001FB9F8 /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutVC.swift */; };
 		D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8BD482742BE0600B0AB0D /* Country.swift */; };
 		D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -86,7 +85,6 @@
 /* Begin PBXFileReference section */
 		5775DE092B764DC759113030 /* Pods-VBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VBC.release.xcconfig"; path = "Target Support Files/Pods-VBC/Pods-VBC.release.xcconfig"; sourceTree = "<group>"; };
 		6054D27C5A017FA5A794711A /* Pods_VBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D00463F6276BA258005B13F7 /* PopUpCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpCardViewController.swift; sourceTree = "<group>"; };
 		D00463F8276BA78F005B13F7 /* PhoneNumbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumbers.swift; sourceTree = "<group>"; };
 		D00E608327F069D50035BEF7 /* verifySend.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = verifySend.json; sourceTree = "<group>"; };
 		D00E608627F076830035BEF7 /* DeleteAccountVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountVC.swift; sourceTree = "<group>"; };
@@ -95,40 +93,40 @@
 		D00F0A2B272449EE00A6331B /* VBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F0A2E272449EE00A6331B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D00F0A30272449EE00A6331B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D00F0A32272449EE00A6331B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D00F0A32272449EE00A6331B /* FindVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindVC.swift; sourceTree = "<group>"; };
 		D00F0A35272449EE00A6331B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D00F0A37272449F400A6331B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D00F0A3A272449F400A6331B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D00F0A3C272449F400A6331B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D00F0A41272449F500A6331B /* VBCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D00F0A4B272449F500A6331B /* VBCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D00F0A60272452D300A6331B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		D00F0A642724591300A6331B /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		D00F0A60272452D300A6331B /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		D00F0A642724591300A6331B /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		D013C645277A421D0017F26F /* ContactListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListVC.swift; sourceTree = "<group>"; };
-		D0144F73272D52D200576083 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		D0144F73272D52D200576083 /* CardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardVC.swift; sourceTree = "<group>"; };
 		D015C48027F9B221005E134C /* PopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUp.swift; sourceTree = "<group>"; };
-		D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
-		D016DFDA272ABF790041B633 /* VerifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyViewController.swift; sourceTree = "<group>"; };
+		D016DFD8272ABDE10041B633 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
+		D016DFDA272ABF790041B633 /* VerifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyVC.swift; sourceTree = "<group>"; };
 		D01EF8EF272D233000146DDC /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* HomeViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewCell.xib; sourceTree = "<group>"; };
 		D0317F6127818F9400E67776 /* SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
 		D047E8AF27D92514001B50F3 /* ConfirmChangesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmChangesVC.swift; sourceTree = "<group>"; };
 		D059CA6227BD11AF0006A6E7 /* ContactListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListCell.swift; sourceTree = "<group>"; };
 		D059CA6327BD11AF0006A6E7 /* ContactListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactListCell.xib; sourceTree = "<group>"; };
-		D05CD5D427A28AD60083F4DF /* SavedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedViewController.swift; sourceTree = "<group>"; };
-		D0611E3527BFB8A400434AD8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		D05CD5D427A28AD60083F4DF /* SavedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVC.swift; sourceTree = "<group>"; };
+		D0611E3527BFB8A400434AD8 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		D0611E3727BFBE7300434AD8 /* SearchBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBy.swift; sourceTree = "<group>"; };
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
 		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
 		D089920227F879C60045B896 /* EmailComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailComposer.swift; sourceTree = "<group>"; };
 		D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedEmailVerifyVC.swift; sourceTree = "<group>"; };
 		D0955D232767BCF7009E9CA7 /* ShowVBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowVBC.swift; sourceTree = "<group>"; };
-		D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewVBCViewController.swift; sourceTree = "<group>"; };
-		D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd2ViewController.swift; sourceTree = "<group>"; };
-		D0A7197127413922000B2E1F /* CAdd3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd3ViewController.swift; sourceTree = "<group>"; };
-		D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedAddVBCViewController.swift; sourceTree = "<group>"; };
-		D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewController.swift; sourceTree = "<group>"; };
-		D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAdd1ViewController.swift; sourceTree = "<group>"; };
+		D0A7196D274138C1000B2E1F /* AddNewCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCardVC.swift; sourceTree = "<group>"; };
+		D0A7196F274138EC000B2E1F /* AddStep2VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2VC.swift; sourceTree = "<group>"; };
+		D0A7197127413922000B2E1F /* AddStep3VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3VC.swift; sourceTree = "<group>"; };
+		D0A7197327414415000B2E1F /* FinishAddCardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishAddCardVC.swift; sourceTree = "<group>"; };
+		D0AB29C2273AFCF300A43EF2 /* MyCardsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCardsVC.swift; sourceTree = "<group>"; };
+		D0AB29C4273B204800A43EF2 /* AddStep1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep1VC.swift; sourceTree = "<group>"; };
 		D0BD582D272891EE002C6525 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D0C0DE0927F7111E006EAC27 /* AboutVBCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutVBCVC.swift; sourceTree = "<group>"; };
 		D0C9BA0727D9F19900291AA3 /* email.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = email.json; sourceTree = "<group>"; };
@@ -140,10 +138,10 @@
 		D0D5C67327D612F900E8C07E /* SettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		D0D5C67627D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmailOrPasswordVC.swift; sourceTree = "<group>"; };
 		D0D6A5772743104700773C52 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		D0D6A57927431AF000773C52 /* AddListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListViewController.swift; sourceTree = "<group>"; };
+		D0D6A57927431AF000773C52 /* LocationListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListVC.swift; sourceTree = "<group>"; };
 		D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocListTableViewCell.swift; sourceTree = "<group>"; };
 		D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLocListTableViewCell.xib; sourceTree = "<group>"; };
-		D0E7753D272D7321001FB9F8 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		D0E7753D272D7321001FB9F8 /* AboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutVC.swift; sourceTree = "<group>"; };
 		D0E8BD482742BE0600B0AB0D /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F61C45378CA26B341EC60C72 /* Pods-VBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VBC.debug.xcconfig"; path = "Target Support Files/Pods-VBC/Pods-VBC.debug.xcconfig"; sourceTree = "<group>"; };
@@ -219,10 +217,12 @@
 		D00F0A5E27244CB100A6331B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D0144F73272D52D200576083 /* CardVC.swift */,
+				D0E7753D272D7321001FB9F8 /* AboutVC.swift */,
 				D00F0A62272452F300A6331B /* Login */,
-				D00F0A63272452FD00A6331B /* Home */,
-				D0AB29C1273AFCBA00A43EF2 /* My VBC */,
-				D05CD5D327A28A350083F4DF /* Saved VBC */,
+				D0AB29C1273AFCBA00A43EF2 /* My Cards */,
+				D05CD5D327A28A350083F4DF /* Wallet */,
+				D00F0A63272452FD00A6331B /* Find */,
 				D03A325D27D22FD900A4F776 /* Settings */,
 			);
 			path = Controllers;
@@ -244,24 +244,21 @@
 		D00F0A62272452F300A6331B /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				D016DFD8272ABDE10041B633 /* WelcomeViewController.swift */,
-				D00F0A60272452D300A6331B /* LoginViewController.swift */,
-				D00F0A642724591300A6331B /* RegisterViewController.swift */,
-				D016DFDA272ABF790041B633 /* VerifyViewController.swift */,
+				D016DFD8272ABDE10041B633 /* WelcomeVC.swift */,
+				D00F0A60272452D300A6331B /* LoginVC.swift */,
+				D00F0A642724591300A6331B /* RegisterVC.swift */,
+				D016DFDA272ABF790041B633 /* VerifyVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
 		};
-		D00F0A63272452FD00A6331B /* Home */ = {
+		D00F0A63272452FD00A6331B /* Find */ = {
 			isa = PBXGroup;
 			children = (
-				D00F0A32272449EE00A6331B /* HomeViewController.swift */,
-				D0144F73272D52D200576083 /* CardViewController.swift */,
-				D00463F6276BA258005B13F7 /* PopUpCardViewController.swift */,
-				D0E7753D272D7321001FB9F8 /* AboutViewController.swift */,
-				D0611E3527BFB8A400434AD8 /* SearchViewController.swift */,
+				D00F0A32272449EE00A6331B /* FindVC.swift */,
+				D0611E3527BFB8A400434AD8 /* SearchVC.swift */,
 			);
-			path = Home;
+			path = Find;
 			sourceTree = "<group>";
 		};
 		D03A325D27D22FD900A4F776 /* Settings */ = {
@@ -286,12 +283,12 @@
 			path = "Contact List Cell";
 			sourceTree = "<group>";
 		};
-		D05CD5D327A28A350083F4DF /* Saved VBC */ = {
+		D05CD5D327A28A350083F4DF /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
-				D05CD5D427A28AD60083F4DF /* SavedViewController.swift */,
+				D05CD5D427A28AD60083F4DF /* SavedVC.swift */,
 			);
-			path = "Saved VBC";
+			path = Wallet;
 			sourceTree = "<group>";
 		};
 		D07BC3642773AA7600711110 /* Card Pop Up Cell */ = {
@@ -320,24 +317,24 @@
 		D0A7196C27413855000B2E1F /* Add New VBC */ = {
 			isa = PBXGroup;
 			children = (
-				D0AB29C4273B204800A43EF2 /* CAdd1ViewController.swift */,
-				D0A7196F274138EC000B2E1F /* CAdd2ViewController.swift */,
-				D0D6A57927431AF000773C52 /* AddListViewController.swift */,
-				D0A7197127413922000B2E1F /* CAdd3ViewController.swift */,
+				D0AB29C4273B204800A43EF2 /* AddStep1VC.swift */,
+				D0A7196F274138EC000B2E1F /* AddStep2VC.swift */,
+				D0D6A57927431AF000773C52 /* LocationListVC.swift */,
+				D0A7197127413922000B2E1F /* AddStep3VC.swift */,
 				D013C645277A421D0017F26F /* ContactListVC.swift */,
 			);
 			path = "Add New VBC";
 			sourceTree = "<group>";
 		};
-		D0AB29C1273AFCBA00A43EF2 /* My VBC */ = {
+		D0AB29C1273AFCBA00A43EF2 /* My Cards */ = {
 			isa = PBXGroup;
 			children = (
-				D0AB29C2273AFCF300A43EF2 /* CardsViewController.swift */,
-				D0A7196D274138C1000B2E1F /* AddNewVBCViewController.swift */,
+				D0AB29C2273AFCF300A43EF2 /* MyCardsVC.swift */,
+				D0A7196D274138C1000B2E1F /* AddNewCardVC.swift */,
 				D0A7196C27413855000B2E1F /* Add New VBC */,
-				D0A7197327414415000B2E1F /* FinishedAddVBCViewController.swift */,
+				D0A7197327414415000B2E1F /* FinishAddCardVC.swift */,
 			);
-			path = "My VBC";
+			path = "My Cards";
 			sourceTree = "<group>";
 		};
 		D0C9BA0927D9FABA00291AA3 /* Support Files */ = {
@@ -357,12 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				D00F0A37272449F400A6331B /* Assets.xcassets */,
-				D0C9BA0727D9F19900291AA3 /* email.json */,
-				D00E608327F069D50035BEF7 /* verifySend.json */,
-				D0C9BA0D27DA055C00291AA3 /* password.json */,
-				D0C9BA0F27DA0C1400291AA3 /* password2.json */,
-				D00E608C27F0AC510035BEF7 /* warning.json */,
-				D00E608A27F078280035BEF7 /* check.json */,
+				D0F168522826FB3900EDED37 /* Animations */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -402,6 +394,19 @@
 				D01EF8F0272D233000146DDC /* HomeViewCell.xib */,
 			);
 			path = "Home View Cell";
+			sourceTree = "<group>";
+		};
+		D0F168522826FB3900EDED37 /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				D0C9BA0727D9F19900291AA3 /* email.json */,
+				D00E608327F069D50035BEF7 /* verifySend.json */,
+				D0C9BA0D27DA055C00291AA3 /* password.json */,
+				D0C9BA0F27DA0C1400291AA3 /* password2.json */,
+				D00E608C27F0AC510035BEF7 /* warning.json */,
+				D00E608A27F078280035BEF7 /* check.json */,
+			);
+			name = Animations;
 			sourceTree = "<group>";
 		};
 		E71AE2FCB527CBA0C9F591E7 /* Frameworks */ = {
@@ -600,45 +605,44 @@
 			buildActionMask = 2147483647;
 			files = (
 				D089920327F879C60045B896 /* EmailComposer.swift in Sources */,
-				D00F0A61272452D300A6331B /* LoginViewController.swift in Sources */,
+				D00F0A61272452D300A6331B /* LoginVC.swift in Sources */,
 				D091C01E27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift in Sources */,
-				D016DFDB272ABF7A0041B633 /* VerifyViewController.swift in Sources */,
+				D016DFDB272ABF7A0041B633 /* VerifyVC.swift in Sources */,
 				D00E608727F076830035BEF7 /* DeleteAccountVC.swift in Sources */,
 				D0D5C67727D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift in Sources */,
-				D0A7197427414415000B2E1F /* FinishedAddVBCViewController.swift in Sources */,
-				D00463F7276BA259005B13F7 /* PopUpCardViewController.swift in Sources */,
+				D0A7197427414415000B2E1F /* FinishAddCardVC.swift in Sources */,
 				D0D6A5782743104700773C52 /* Location.swift in Sources */,
-				D0E7753E272D7322001FB9F8 /* AboutViewController.swift in Sources */,
+				D0E7753E272D7322001FB9F8 /* AboutVC.swift in Sources */,
 				D059CA6427BD11AF0006A6E7 /* ContactListCell.swift in Sources */,
-				D00F0A652724591300A6331B /* RegisterViewController.swift in Sources */,
-				D00F0A33272449EE00A6331B /* HomeViewController.swift in Sources */,
-				D0611E3627BFB8A400434AD8 /* SearchViewController.swift in Sources */,
+				D00F0A652724591300A6331B /* RegisterVC.swift in Sources */,
+				D00F0A33272449EE00A6331B /* FindVC.swift in Sources */,
+				D0611E3627BFB8A400434AD8 /* SearchVC.swift in Sources */,
 				D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */,
 				D0D5C66F27D60D0100E8C07E /* SettingsVC.swift in Sources */,
 				D00F0A2F272449EE00A6331B /* AppDelegate.swift in Sources */,
 				D00F0A31272449EE00A6331B /* SceneDelegate.swift in Sources */,
-				D0AB29C3273AFCF300A43EF2 /* CardsViewController.swift in Sources */,
+				D0AB29C3273AFCF300A43EF2 /* MyCardsVC.swift in Sources */,
 				D013C646277A421E0017F26F /* ContactListVC.swift in Sources */,
-				D0AB29C5273B204800A43EF2 /* CAdd1ViewController.swift in Sources */,
+				D0AB29C5273B204800A43EF2 /* AddStep1VC.swift in Sources */,
 				D015C48127F9B221005E134C /* PopUp.swift in Sources */,
-				D0A7196E274138C1000B2E1F /* AddNewVBCViewController.swift in Sources */,
+				D0A7196E274138C1000B2E1F /* AddNewCardVC.swift in Sources */,
 				D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */,
 				D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */,
 				D0D5C67427D612FA00E8C07E /* SettingsCell.swift in Sources */,
 				D0C0DE0A27F7111E006EAC27 /* AboutVBCVC.swift in Sources */,
-				D0D6A57A27431AF000773C52 /* AddListViewController.swift in Sources */,
+				D0D6A57A27431AF000773C52 /* LocationListVC.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */,
 				D0611E3827BFBE7300434AD8 /* SearchBy.swift in Sources */,
 				D0BD582E272891EE002C6525 /* Constants.swift in Sources */,
-				D0A71970274138EC000B2E1F /* CAdd2ViewController.swift in Sources */,
-				D016DFD9272ABDE10041B633 /* WelcomeViewController.swift in Sources */,
-				D0A7197227413922000B2E1F /* CAdd3ViewController.swift in Sources */,
+				D0A71970274138EC000B2E1F /* AddStep2VC.swift in Sources */,
+				D016DFD9272ABDE10041B633 /* WelcomeVC.swift in Sources */,
+				D0A7197227413922000B2E1F /* AddStep3VC.swift in Sources */,
 				D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */,
-				D05CD5D527A28AD60083F4DF /* SavedViewController.swift in Sources */,
+				D05CD5D527A28AD60083F4DF /* SavedVC.swift in Sources */,
 				D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */,
 				D047E8B027D92514001B50F3 /* ConfirmChangesVC.swift in Sources */,
-				D0144F74272D52D200576083 /* CardViewController.swift in Sources */,
+				D0144F74272D52D200576083 /* CardVC.swift in Sources */,
 				D01EF8F1272D233000146DDC /* HomeViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

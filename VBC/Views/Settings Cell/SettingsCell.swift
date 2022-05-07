@@ -27,6 +27,7 @@ class SettingsCell: UITableViewCell {
     private let label: UILabel = { () -> UILabel in
         let label = UILabel()
         label.numberOfLines = 1
+        label.textColor = UIColor(named: "Reverse Background Color")
         return label
     }()
     
@@ -46,8 +47,8 @@ class SettingsCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let size: CGFloat = contentView.frame.size.height - 12
-        iconContainer.frame = CGRect(x: 15, y: 6, width: size, height: size)
+        let size: CGFloat = contentView.frame.size.height - 15
+        iconContainer.frame = CGRect(x: 15, y: 8, width: size, height: size)
         
         let imageSize: CGFloat = size / 1.5
         iconImageView.frame = CGRect(x: (size-imageSize)/2, y: (size-imageSize)/2, width: imageSize, height: imageSize)
