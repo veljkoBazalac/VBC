@@ -43,6 +43,7 @@ class AddStep3VC: UIViewController {
     @IBOutlet weak var addSocial: UIButton!
     @IBOutlet weak var socialList: UIButton!
     @IBOutlet weak var linkToFinish: UILabel!
+    @IBOutlet weak var linkStack: UIStackView!
     
     // Finish Nav Button
     @IBOutlet weak var finishButton: UIBarButtonItem!
@@ -53,22 +54,39 @@ class AddStep3VC: UIViewController {
     let user = Auth.auth().currentUser?.uid
     // Picker View
     var pickerView = UIPickerView()
+    // Pop Up With TableView
+    var popUpTableView : PopUpTableView!
     // Locations Dict
     var locationsList : [Location] = []
+    // Single Place or Multiple Places
     var singlePlace : Bool = true
     // Info successfully added
     var infoForPlace = [String:Bool]()
-    // Show Pop Up or No
-    var showPopUp : Bool = true
-    // Number of Contact Data Added
-    var numberOfPhones : Int = 0
-    var numberOfEmails : Int = 0
-    var numberOfWebsite : Int = 0
+    
+    // Contact Data List Dict
+    private var phoneNumbersList : [PhoneNumber] = []
+    private var emailAddressList : [Email] = []
+    private var websiteList : [Website] = []
+    private var socialMediaList : [SocialMedia] = []
+    
+    // Array of Keys for Firestore
+    private var keyPhoneNumbersList : [String] = []
+    private var keyEmailAddressList : [String] = []
+    private var keyWebsiteList : [String] = []
+    private var keySocialMedia : [String] = []
     
     // Social Networks List Dict
-    private var socialMediaList : [SocialMedia] = []
-    private var socialMediaNames : [String] = []
+    private var selectSocialMedia : [SocialMedia] = []
     private var socialExist : Bool = false
+    
+    // Var that show which Button List is pressed
+    private var phoneListPressed : Bool = false
+    private var emailListPressed : Bool = false
+    private var websiteListPressed : Bool = false
+    private var socialListPressed : Bool = false
+    
+    // Bool that indicates if user deleted row in PopUpTableView
+    private var rowDeleted : Bool = false
     
     // Edit Card
     var editCard3 : Bool = false
@@ -90,29 +108,28 @@ class AddStep3VC: UIViewController {
     
     // Location Info from 2nd Step
     var selectedNewCountry : String = ""
-    var currentCardID : String = ""
+    var cardID : String = ""
     var numberOfPlaces : Int = 0
-    
-    // Contact Info from 3rd Step
-    var phoneNumberCode : String = ""
-    var phone1 : String = ""
-    var phone2 : String = ""
-    var phone3 : String = ""
-    
-    var email1 : String = ""
-    var email2 : String = ""
-    
-    var web1 : String = ""
-    var web2 : String = ""
-
-    var social1 : String = ""
-    var social2 : String = ""
-    var social3 : String = ""
-    var social4 : String = ""
-    var social5 : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        phoneNumber.attributedPlaceholder = NSAttributedString(
+            string: "Enter Phone number...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        emailAddress.attributedPlaceholder = NSAttributedString(
+            string: "Enter Email address...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        websiteLink.attributedPlaceholder = NSAttributedString(
+            string: "Enter Website link...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        selectSocial.attributedPlaceholder = NSAttributedString(
+            string: "Select Social Media",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        socialProfile.attributedPlaceholder = NSAttributedString(
+            string: "",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        
         
         getBasicCard3()
         
@@ -120,71 +137,15 @@ class AddStep3VC: UIViewController {
         
         getSocialMediaList()
         
-        getData()
+        DispatchQueue.main.async {
+            self.getLocationList()
+        }
         
+        linkStack.isHidden = true
         selectLocation.inputView = pickerView
         selectSocial.inputView = pickerView
         pickerView.delegate = self
         pickerView.dataSource = self
-        
-    }
-    
-    
-    // MARK: - Prepare for Segue
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == Constants.Segue.phoneListSegue {
-            
-            let destinationVC = segue.destination as! ContactListVC
-            
-            destinationVC.popUpTitle = "Phone Number List"
-            destinationVC.phoneListPressed = true
-            destinationVC.cardID = currentCardID
-            destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegateCD = self
-            destinationVC.delegateSL = self
-            destinationVC.singlePlace = singlePlace
-        }
-        
-        else if segue.identifier == Constants.Segue.emailListSegue {
-            
-            let destinationVC = segue.destination as! ContactListVC
-            
-            destinationVC.popUpTitle = "Email List"
-            destinationVC.emailListPressed = true
-            destinationVC.cardID = currentCardID
-            destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegateCD = self
-            destinationVC.delegateSL = self
-            destinationVC.singlePlace = singlePlace
-        }
-        
-        if segue.identifier == Constants.Segue.websiteListSegue {
-            
-            let destinationVC = segue.destination as! ContactListVC
-            
-            destinationVC.popUpTitle = "Website List"
-            destinationVC.websiteListPressed = true
-            destinationVC.cardID = currentCardID
-            destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegateCD = self
-            destinationVC.delegateSL = self
-            destinationVC.singlePlace = singlePlace
-        }
-        
-        if segue.identifier == Constants.Segue.pSocialList {
-            
-            let destinationVC = segue.destination as! ContactListVC
-        
-            destinationVC.popUpTitle = "Social Media"
-            destinationVC.socialListPressed = true
-            destinationVC.cardID = currentCardID
-            destinationVC.dataForLocation = selectLocation.text!
-            destinationVC.delegateCD = self
-            destinationVC.delegateSL = self
-            destinationVC.singlePlace = singlePlace
-        }
         
     }
     
@@ -214,51 +175,8 @@ class AddStep3VC: UIViewController {
     
     func getCountryCode() {
         let countryCode = Country().getCountryCode(country: selectedNewCountry)
-        phoneNumberCode = countryCode
-        phoneCode.text = "+\(phoneNumberCode)"
+        phoneCode.text = "+\(countryCode)"
         
-    }
-    
-    // MARK: - Block User to Add same Social Media
-    
-    func blockSameSocialNetwork(name: String) {
-        socialExist = false
-        
-        if socialMediaNames.contains(name) == true {
-            socialExist = true
-        } else {
-            socialExist = false
-        }
-    }
-
-    // MARK: - Change Link Label Function
-    
-    func changeSocialLinkLabel() {
-        socialProfile.text = ""
-        socialProfile.placeholder = "Select Social Media"
-        
-        if selectSocial.text == "Facebook" {
-            linkToFinish.text = "facebook.com/"
-            socialProfile.placeholder = "Enter your Facebook Link"
-        } else if selectSocial.text == "Instagram" {
-            linkToFinish.text = "instagram.com/"
-            socialProfile.placeholder = "Enter your Instagram Link"
-        } else if selectSocial.text == "TikTok" || selectSocial.text == "Twitter" || selectSocial.text == "Pinterest" {
-            linkToFinish.text = "Username: @"
-            socialProfile.placeholder = "Enter your Name"
-        } else if selectSocial.text == "Viber" || selectSocial.text == "WhatsApp" {
-            linkToFinish.text = "Phone Number:"
-            socialProfile.text = "+\(phoneNumberCode)"
-        } else if selectSocial.text == "LinkedIn" {
-            linkToFinish.text = "linkedin.com/in/"
-            socialProfile.placeholder = "Enter your Linked In Link"
-        } else if selectSocial.text == "GitHub" {
-            linkToFinish.text = "github.com/"
-            socialProfile.placeholder = "Enter your GitHub Link"
-        } else if selectSocial.text == "YouTube" {
-            linkToFinish.text = "youtube.com/channel/"
-            socialProfile.placeholder = "Enter your YouTube Link"
-        }
     }
     
     // MARK: - Finish Creating Company VBC
@@ -288,7 +206,7 @@ class AddStep3VC: UIViewController {
                     .collection(Constants.Firestore.CollectionName.users)
                     .document(user!)
                     .collection(Constants.Firestore.CollectionName.cardID)
-                    .document(currentCardID)
+                    .document(cardID)
                     .setData(["Contact Info Added" : false], merge: true) { error in
                         
                         if let e = error {
@@ -300,7 +218,7 @@ class AddStep3VC: UIViewController {
                                 .collection(Constants.Firestore.CollectionName.users)
                                 .document(self.user!)
                                 .collection(Constants.Firestore.CollectionName.cardID)
-                                .document(self.currentCardID)
+                                .document(self.cardID)
                                 .setData(["Contact Info Edited" : false], merge: true)
                             
                             self.db.collection(Constants.Firestore.CollectionName.VBC)
@@ -308,7 +226,7 @@ class AddStep3VC: UIViewController {
                                 .collection(Constants.Firestore.CollectionName.users)
                                 .document(self.user!)
                                 .collection(Constants.Firestore.CollectionName.cardID)
-                                .document(self.currentCardID)
+                                .document(self.cardID)
                                 .setData(["Contact Info Edited" : true], merge: true)
                         }
                     }
@@ -323,47 +241,53 @@ class AddStep3VC: UIViewController {
         // Adding Phone Numbers to Firestore
         if phoneNumber.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-            if phone1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                phone1 = phoneNumber.text!
+            if keyPhoneNumbersList.contains(Constants.Firestore.Key.phone1) == false {
                 
-                showPopUp = false
-                uploadContactData(field: Constants.Firestore.Key.phone1code, value: phoneCode.text!, button: phoneListButton)
-                showPopUp = true
-                uploadContactData(field: Constants.Firestore.Key.phone1, value: phone1, button: phoneListButton)
+                uploadContactData(field: Constants.Firestore.Key.phone1code,
+                                  value: phoneCode.text!.replacingOccurrences(of: " ", with: ""),
+                                  button: phoneListButton)
+                uploadContactData(field: Constants.Firestore.Key.phone1,
+                                  value: phoneNumber.text!.replacingOccurrences(of: " ", with: ""),
+                                  button: phoneListButton)
                 
                 phoneNumber.text?.removeAll()
+                getContactData()
+                } else if keyPhoneNumbersList.contains(Constants.Firestore.Key.phone2) == false {
                     
-                } else if phone2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    phone2 = phoneNumber.text!
-                    
-                    showPopUp = false
-                    uploadContactData(field: Constants.Firestore.Key.phone2code, value: phoneCode.text!, button: phoneListButton)
-                    showPopUp = true
-                    uploadContactData(field: Constants.Firestore.Key.phone2, value: phone2, button: phoneListButton)
-                    
-                    phoneNumber.text?.removeAll()
-                    
-                } else if phone3.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    phone3 = phoneNumber.text!
-                    
-                    showPopUp = false
-                    uploadContactData(field: Constants.Firestore.Key.phone3code, value: phoneCode.text!, button: phoneListButton)
-                    showPopUp = true
-                    uploadContactData(field: Constants.Firestore.Key.phone3, value: phone3, button: phoneListButton)
+                    uploadContactData(field: Constants.Firestore.Key.phone2code,
+                                      value: phoneCode.text!.replacingOccurrences(of: " ", with: ""),
+                                      button: phoneListButton)
+                    uploadContactData(field: Constants.Firestore.Key.phone2,
+                                      value: phoneNumber.text!.replacingOccurrences(of: " ", with: ""),
+                                      button: phoneListButton)
                     
                     phoneNumber.text?.removeAll()
+                    getContactData()
+                } else if keyPhoneNumbersList.contains(Constants.Firestore.Key.phone3) == false {
                     
-                } else {
+                    uploadContactData(field: Constants.Firestore.Key.phone3code, value:
+                                        phoneCode.text!.replacingOccurrences(of: " ", with: ""),
+                                      button: phoneListButton)
+                    uploadContactData(field: Constants.Firestore.Key.phone3,
+                                      value: phoneNumber.text!.replacingOccurrences(of: " ", with: ""),
+                                      button: phoneListButton)
+                    
+                    phoneNumber.text?.removeAll()
+                    getContactData()
+                } else if keyPhoneNumbersList.contains(Constants.Firestore.Key.phone1) && keyPhoneNumbersList.contains(Constants.Firestore.Key.phone2) && keyPhoneNumbersList.contains(Constants.Firestore.Key.phone3){
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Maximum reached",
-                                        newMessage: "You can add Maximum 3 Numbers for \(self.selectLocation.text!).",
+                                        newMessage: "You can add Maximum 3 Numbers for \n\(self.selectLocation.text!).",
                                         vc: self)
-                    phoneNumber.text?.removeAll()
+                    
             }
         } else {
+            self.view.endEditing(true)
             PopUp().popUpWithOk(newTitle: "Missing Phone Number",
                                 newMessage: "Please Enter your Phone Number.",
                                 vc: self)
         }
+        self.view.endEditing(true)
     }
     
     // MARK: - Add Email Number Action
@@ -372,31 +296,35 @@ class AddStep3VC: UIViewController {
         // Adding Emails to Firestore
         if emailAddress.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-            if email1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                email1 = emailAddress.text!
+            if keyEmailAddressList.contains(Constants.Firestore.Key.email1) == false {
                 
-                uploadContactData(field: Constants.Firestore.Key.email1, value: email1, button: emailListButton)
-                
-                emailAddress.text?.removeAll()
-                
-            } else if email2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                email2 = emailAddress.text!
-                
-                uploadContactData(field: Constants.Firestore.Key.email2, value: email2, button: emailListButton)
+                uploadContactData(field: Constants.Firestore.Key.email1,
+                                  value: emailAddress.text!.replacingOccurrences(of: " ", with: ""),
+                                  button: emailListButton)
                 
                 emailAddress.text?.removeAll()
+                getContactData()
+            } else if keyEmailAddressList.contains(Constants.Firestore.Key.email2) == false {
                 
-            } else {
+                uploadContactData(field: Constants.Firestore.Key.email2,
+                                  value: emailAddress.text!.replacingOccurrences(of: " ", with: ""),
+                                  button: emailListButton)
+                
+                emailAddress.text?.removeAll()
+                        getContactData()
+            } else if keyEmailAddressList.contains(Constants.Firestore.Key.email1) && keyEmailAddressList.contains(Constants.Firestore.Key.email2){
+                self.view.endEditing(true)
                 PopUp().popUpWithOk(newTitle: "Maximum reached",
-                                    newMessage: "You can add Maximum 2 Email Addresses for \(self.selectLocation.text!).",
+                                    newMessage: "You can add Maximum 2 Email Addresses for \n\(self.selectLocation.text!).",
                                     vc: self)
-                emailAddress.text?.removeAll()
             }
         } else {
+            self.view.endEditing(true)
             PopUp().popUpWithOk(newTitle: "Missing Email",
                                 newMessage: "Please Enter your Email Address.",
                                 vc: self)
         }
+        self.view.endEditing(true)
     }
     
     // MARK: - Add Website Link Action
@@ -405,31 +333,35 @@ class AddStep3VC: UIViewController {
         // Adding Websites to Firestore
         if websiteLink.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-                if web1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    web1 = websiteLink.text!
+            if keyWebsiteList.contains(Constants.Firestore.Key.web1) == false {
                     
-                    uploadContactData(field: Constants.Firestore.Key.web1, value: "\(wwwLabel.text!)\(web1)", button: websiteListButton)
-                    
-                    websiteLink.text?.removeAll()
-                    
-                } else if web2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                    web2 = websiteLink.text!
-                    
-                    uploadContactData(field: Constants.Firestore.Key.web2, value: "\(wwwLabel.text!)\(web2)", button: websiteListButton)
+                uploadContactData(field: Constants.Firestore.Key.web1,
+                                  value: "\(wwwLabel.text!)\(websiteLink.text!.replacingOccurrences(of: " ", with: ""))",
+                                  button: websiteListButton)
                     
                     websiteLink.text?.removeAll()
+                    getContactData()
+                } else if keyWebsiteList.contains(Constants.Firestore.Key.web2) == false {
                     
-                } else  {
+                    uploadContactData(field: Constants.Firestore.Key.web2,
+                                      value: "\(wwwLabel.text!)\(websiteLink.text!.replacingOccurrences(of: " ", with: ""))",
+                                      button: websiteListButton)
+                    
+                    websiteLink.text?.removeAll()
+                    getContactData()
+                } else if keyWebsiteList.contains(Constants.Firestore.Key.web1) && keyWebsiteList.contains(Constants.Firestore.Key.web2) {
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Maximum reached",
-                                        newMessage: "You can add Maximum 2 Website Links for \(self.selectLocation.text!)",
+                                        newMessage: "You can add Maximum 2 Website Links for \n\(self.selectLocation.text!)",
                                         vc: self)
-                    websiteLink.text?.removeAll()
                 }
         } else {
+            self.view.endEditing(true)
             PopUp().popUpWithOk(newTitle: "Missing Website",
                                 newMessage: "Please Enter your Website Link.",
                                 vc: self)
         }
+        self.view.endEditing(true)
     }
     
     // MARK: - Add Social Media Action
@@ -439,163 +371,257 @@ class AddStep3VC: UIViewController {
         // Adding Social Media to Firestore
         if socialProfile.text?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
-            if social1.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                social1 = selectSocial.text!
-                blockSameSocialNetwork(name: social1)
+            if socialMediaList.count == 0 {
+                blockSameSocialNetwork(name: selectSocial.text!)
                 
                 if socialExist == false {
                     
-                    showPopUp = false
-                    uploadSocialData(field: Constants.Firestore.Key.name, value: social1, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.name,
+                                     value: selectSocial.text!,
+                                     blink: socialList)
                     
-                    showPopUp = true
-                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.link,
+                                     value: socialProfile.text!.replacingOccurrences(of: " ", with: ""),
+                                     blink: socialList)
                     
-                    socialMediaNames.append(social1)
                     selectSocial.text?.removeAll()
                     socialProfile.text?.removeAll()
-                    
+                    getSocialData()
                 } else {
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Social Media exist",
-                                        newMessage: "You can only add one \(social1) Profile for \(self.selectLocation.text!).",
+                                        newMessage: "You can only add one \(selectSocial.text!) Profile for \(self.selectLocation.text!).",
                                         vc: self)
-                    social1 = ""
-                    selectSocial.text?.removeAll()
-                    socialProfile.text?.removeAll()
                 }
                 
-            } else if social2.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                social2 = selectSocial.text!
-                blockSameSocialNetwork(name: social2)
+            } else if socialMediaList.count == 1 {
+                blockSameSocialNetwork(name: selectSocial.text!)
                 
                 if socialExist == false {
                     
-                    showPopUp = false
-                    uploadSocialData(field: Constants.Firestore.Key.name, value: social2, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.name,
+                                     value: selectSocial.text!,
+                                     blink: socialList)
                     
-                    showPopUp = true
-                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.link,
+                                     value: socialProfile.text!.replacingOccurrences(of: " ", with: ""),
+                                     blink: socialList)
                     
-                    socialMediaNames.append(social2)
                     selectSocial.text?.removeAll()
                     socialProfile.text?.removeAll()
-                    
+                    getSocialData()
                 } else {
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Social Media exist",
-                                        newMessage: "You can only add one \(social2) Profile for \(self.selectLocation.text!).",
+                                        newMessage: "You can only add one \(selectSocial.text!) Profile for \(self.selectLocation.text!).",
                                         vc: self)
-                    social2 = ""
-                    selectSocial.text?.removeAll()
-                    socialProfile.text?.removeAll()
                 }
                 
-            } else if social3.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                social3 = selectSocial.text!
-                blockSameSocialNetwork(name: social3)
+            } else if socialMediaList.count == 2 {
+                blockSameSocialNetwork(name: selectSocial.text!)
                 
                 if socialExist == false {
                     
-                    showPopUp = false
-                    uploadSocialData(field: Constants.Firestore.Key.name, value: social3, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.name,
+                                     value: selectSocial.text!,
+                                     blink: socialList)
                     
-                    showPopUp = true
-                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.link,
+                                     value: socialProfile.text!.replacingOccurrences(of: " ", with: ""),
+                                     blink: socialList)
                     
-                    socialMediaNames.append(social3)
                     selectSocial.text?.removeAll()
                     socialProfile.text?.removeAll()
-                    
+                    getSocialData()
                 } else {
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Social Media exist",
-                                        newMessage: "You can only add one \(social3) Profile for \(self.selectLocation.text!).",
+                                        newMessage: "You can only add one \(selectSocial.text!) Profile for \(self.selectLocation.text!).",
                                         vc: self)
-                    social3 = ""
-                    selectSocial.text?.removeAll()
-                    socialProfile.text?.removeAll()
                 }
                 
-            } else if social4.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                social4 = selectSocial.text!
-                blockSameSocialNetwork(name: social4)
+            } else if socialMediaList.count == 3 {
+                blockSameSocialNetwork(name: selectSocial.text!)
                 
                 if socialExist == false {
                     
-                    showPopUp = false
-                    uploadSocialData(field: Constants.Firestore.Key.name, value: social4, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.name,
+                                     value: selectSocial.text!,
+                                     blink: socialList)
                     
-                    showPopUp = true
-                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.link,
+                                     value: socialProfile.text!.replacingOccurrences(of: " ", with: ""),
+                                     blink: socialList)
                     
-                    socialMediaNames.append(social4)
                     selectSocial.text?.removeAll()
                     socialProfile.text?.removeAll()
-                    
+                    getSocialData()
                 } else {
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Social Media exist",
-                                        newMessage: "You can only add one \(social4) Profile for \(self.selectLocation.text!).",
+                                        newMessage: "You can only add one \(selectSocial.text!) Profile for \(self.selectLocation.text!).",
                                         vc: self)
-                    social4 = ""
-                    selectSocial.text?.removeAll()
-                    socialProfile.text?.removeAll()
                 }
                 
-            } else if social5.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                social5 = selectSocial.text!
-                blockSameSocialNetwork(name: social5)
+            } else if socialMediaList.count == 4 {
+                blockSameSocialNetwork(name: selectSocial.text!)
                 
                 if socialExist == false {
                     
-                    showPopUp = false
-                    uploadSocialData(field: Constants.Firestore.Key.name, value: social5, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.name,
+                                     value: selectSocial.text!,
+                                     blink: socialList)
                     
-                    showPopUp = true
-                    uploadSocialData(field: Constants.Firestore.Key.link, value: socialProfile.text!, blink: socialList)
+                    uploadSocialData(field: Constants.Firestore.Key.link,
+                                     value: socialProfile.text!.replacingOccurrences(of: " ", with: ""),
+                                     blink: socialList)
                     
-                    socialMediaNames.append(social5)
                     selectSocial.text?.removeAll()
                     socialProfile.text?.removeAll()
-                    
+                    getSocialData()
                 } else {
+                    self.view.endEditing(true)
                     PopUp().popUpWithOk(newTitle: "Social Media exist",
-                                        newMessage: "You can only add one \(social5) Profile for \(self.selectLocation.text!).",
+                                        newMessage: "You can only add one \(selectSocial.text!) Profile for \(self.selectLocation.text!).",
                                         vc: self)
-                    social5 = ""
-                    selectSocial.text?.removeAll()
-                    socialProfile.text?.removeAll()
                 }
                 
             } else {
+                self.view.endEditing(true)
                 PopUp().popUpWithOk(newTitle: "Maximum reached",
-                                    newMessage: "You can add Maximum 5 Social Media profiles for \(self.selectLocation.text!).",
+                                    newMessage: "You can add Maximum 5 Social Media profiles for \n\(self.selectLocation.text!).",
                                     vc: self)
-                selectSocial.text?.removeAll()
-                socialProfile.text?.removeAll()
             }
             
         } else {
+            self.view.endEditing(true)
             PopUp().popUpWithOk(newTitle: "Missing Social Profile",
                                 newMessage: "Please Choose your Social Media and Enter your Profile Link.",
                                 vc: self)
         }
+        self.view.endEditing(true)
+    }
+    
+    // MARK: - Block User to Add same Social Media
+    func blockSameSocialNetwork(name: String) {
+        socialExist = false
         
+        if keySocialMedia.contains(name) == true {
+            socialExist = true
+        } else {
+            socialExist = false
+        }
+    }
+
+    // MARK: - Change Social Media Link Label Function
+    func changeSocialLinkLabel() {
+        socialProfile.text?.removeAll()
+        socialProfile.attributedPlaceholder = NSAttributedString(
+            string: "Select Social Media",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        
+        if selectSocial.text == "Facebook" {
+            linkToFinish.text = "facebook.com/"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter your Facebook Link...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        } else if selectSocial.text == "Instagram" {
+            linkToFinish.text = "instagram.com/"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter your Instagram Link...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        } else if selectSocial.text == "TikTok" || selectSocial.text == "Twitter" || selectSocial.text == "Pinterest" {
+            linkToFinish.text = "Username: @"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter your Name...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        } else if selectSocial.text == "Viber" || selectSocial.text == "WhatsApp" {
+            linkToFinish.text = "Phone Number:"
+            socialProfile.text = "\(phoneCode.text!)"
+            socialProfile.keyboardType = .phonePad
+        } else if selectSocial.text == "LinkedIn" {
+            linkToFinish.text = "linkedin.com/in/"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter your Linked In Link...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        } else if selectSocial.text == "GitHub" {
+            linkToFinish.text = "github.com/"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter your GitHub Link...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        } else if selectSocial.text == "YouTube" {
+            linkToFinish.text = "youtube.com/channel/"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter your YouTube Link...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        } else if selectSocial.text == "Telegram" {
+            linkToFinish.text = "t.me/"
+            socialProfile.attributedPlaceholder = NSAttributedString(
+                string: "Enter Phone Number or Link...",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+            socialProfile.keyboardType = .default
+        }
     }
     
-    // MARK: - Show List of Contact Info and Social Media Buttons
-    
+    // MARK: - Show Phone List
     @IBAction func showPhoneListPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.phoneListSegue, sender: self)
+        phoneListPressed = true
+        rowDeleted = false
+        
+        DispatchQueue.main.async {
+            self.getContactData()
+        }
+        self.view.endEditing(true)
     }
     
+    // MARK: - Show Email List
     @IBAction func showEmailPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.emailListSegue, sender: self)
+        emailListPressed = true
+        rowDeleted = false
+        
+        DispatchQueue.main.async {
+            self.getContactData()
+        }
+        self.view.endEditing(true)
     }
     
+    // MARK: - Show Website List
     @IBAction func showWebsitePressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.websiteListSegue, sender: self)
+        websiteListPressed = true
+        rowDeleted = false
+        
+        DispatchQueue.main.async {
+            self.getContactData()
+        }
+        self.view.endEditing(true)
     }
     
+    // MARK: - Show Social Media List
     @IBAction func showSocialPressed(_ sender: UIButton) {
-        performSegue(withIdentifier: Constants.Segue.pSocialList, sender: self)
+        socialListPressed = true
+        rowDeleted = false
+        
+        DispatchQueue.main.async {
+            self.getSocialData()
+        }
+        self.view.endEditing(true)
+    }
+    
+    // MARK: - PopUp with TableView Back button Pressed
+    @objc func popUpBackButtonPressed() {
+        dismissPopUpWithTableView()
+        
+        phoneListPressed = false
+        emailListPressed = false
+        websiteListPressed = false
+        socialListPressed = false
+        rowDeleted = false
     }
     
 }//
@@ -613,7 +639,7 @@ extension AddStep3VC {
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(currentCardID)
+            .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
             .setData(["\(field)":"\(value)"], merge: true) { error in
@@ -623,7 +649,6 @@ extension AddStep3VC {
                                         newMessage: "Error Uploading Contact Info to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
                                         vc: self)
                 } else {
-                    
                     self.blinkButton(buttonName: button)
                     self.finishButton.isEnabled = true
                     self.infoForPlace.updateValue(true, forKey: self.selectLocation.text!)
@@ -642,7 +667,7 @@ extension AddStep3VC {
                 .collection(Constants.Firestore.CollectionName.users)
                 .document(user!)
                 .collection(Constants.Firestore.CollectionName.cardID)
-                .document(currentCardID)
+                .document(cardID)
                 .collection(Constants.Firestore.CollectionName.locations)
                 .document(selectLocation.text!)
                 .collection(Constants.Firestore.CollectionName.social)
@@ -660,11 +685,12 @@ extension AddStep3VC {
                             .collection(Constants.Firestore.CollectionName.users)
                             .document(self.user!)
                             .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(self.currentCardID)
+                            .document(self.cardID)
                             .collection(Constants.Firestore.CollectionName.locations)
                             .document(self.selectLocation.text!)
                             .setData(["Social Media Added" : true], merge: true)
                         
+                        self.linkStack.isHidden = true
                         self.finishButton.isEnabled = true
                         self.infoForPlace.updateValue(true, forKey: self.selectLocation.text!)
                         self.blinkButton(buttonName: blink)
@@ -678,31 +704,15 @@ extension AddStep3VC {
 
 extension AddStep3VC {
     
-    
-    // MARK: - Get Data from Firestore Function
-    func getData() {
-        
-        DispatchQueue.main.async {
-            self.getLocationList()
-        }
-        
-        if editCard3 == true {
-            self.selectLocation.text = self.editCardLocation
-            getContactData()
-        }
-    }
-    
-    
     // MARK: - Get List of Location(s)
-    
     func getLocationList() {
-        // Getting location list
+
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(currentCardID)
+            .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .getDocuments { snapshot, error in
                 
@@ -735,6 +745,13 @@ extension AddStep3VC {
                                                 self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
                                             }
                                         }
+                                        
+                                        if self.editCard3 == true {
+                                            self.selectLocation.text = self.editCardLocation
+                                        }
+                                        
+                                        self.getContactData()
+                                        self.getSocialData()
                                     }
                                 }
                             }
@@ -744,8 +761,7 @@ extension AddStep3VC {
             }
     }
     
-    // MARK: - Get Social Media List
-    
+    // MARK: - Get Social Media List to pick from PickerView
     func getSocialMediaList() {
         
         db.collection(Constants.Firestore.CollectionName.social).getDocuments { snapshot, error in
@@ -766,7 +782,7 @@ extension AddStep3VC {
                             
                             let socialNetwork = SocialMedia(name: socialNetworkData)
                             
-                            self.socialMediaList.append(socialNetwork)
+                            self.selectSocialMedia.append(socialNetwork)
                         }
                     }
                 }
@@ -782,7 +798,7 @@ extension AddStep3VC {
             .collection(Constants.Firestore.CollectionName.users)
             .document(user!)
             .collection(Constants.Firestore.CollectionName.cardID)
-            .document(currentCardID)
+            .document(cardID)
             .collection(Constants.Firestore.CollectionName.locations)
             .document(selectLocation.text!)
             .getDocument { document, error in
@@ -795,12 +811,18 @@ extension AddStep3VC {
                         
                         let data = document!.data()
                             
+                        
+                        self.keyPhoneNumbersList.removeAll()
+                            self.phoneNumbersList.removeAll()
                             // Phone Contact Info
                             if let phoneCode1 = data![Constants.Firestore.Key.phone1code] as? String {
                                 if let phone1Number = data![Constants.Firestore.Key.phone1] as? String {
                                     
                                     if phone1Number != "" {
-                                        self.phone1 = "\(phoneCode1)\(phone1Number)"
+                                        let number = PhoneNumber(code: phoneCode1,
+                                                                 number: phone1Number,
+                                                                 field: Constants.Firestore.Key.phone1)
+                                        self.phoneNumbersList.append(number)
                                     }
                                 }
                             }
@@ -809,7 +831,10 @@ extension AddStep3VC {
                                 if let phone2Number = data![Constants.Firestore.Key.phone2] as? String {
                                     
                                     if phone2Number != "" {
-                                        self.phone2 = "\(phoneCode2)\(phone2Number)"
+                                        let number = PhoneNumber(code: phoneCode2,
+                                                                 number: phone2Number,
+                                                                 field: Constants.Firestore.Key.phone2)
+                                        self.phoneNumbersList.append(number)
                                     }
                                 }
                             }
@@ -818,42 +843,162 @@ extension AddStep3VC {
                                 if let phone3Number = data![Constants.Firestore.Key.phone3] as? String {
                                     
                                     if phone3Number != "" {
-                                        self.phone3 = "\(phoneCode3)\(phone3Number)"
+                                        let number = PhoneNumber(code: phoneCode3,
+                                                                 number: phone3Number,
+                                                                 field: Constants.Firestore.Key.phone3)
+                                        self.phoneNumbersList.append(number)
                                     }
                                 }
                             }
+                        
+                        for item in self.phoneNumbersList {
+                            self.keyPhoneNumbersList.append(item.field)
+                        }
+                        
+                        if self.phoneListPressed == true {
+                            if self.rowDeleted == false {
+                                DispatchQueue.main.async {
+                                    self.popUpWithTableView(rows: self.phoneNumbersList.count, type: "Phone")
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.popUpTableView.rowDeleted(numberOfRows: self.phoneNumbersList.count)
+                                }
+                            }
+                        }
+                        
+                    
+                        // Email Contact Info
+                        self.keyEmailAddressList.removeAll()
+                            self.emailAddressList.removeAll()
                             
-                            // Email Contact Info
                             if let email1Address = data![Constants.Firestore.Key.email1] as? String {
                                 if email1Address != "" {
-                                    self.email1 = email1Address
+                                    let email = Email(address: email1Address,
+                                                      key: Constants.Firestore.Key.email1)
+                                    self.emailAddressList.append(email)
                                 }
                             }
                             if let email2Address = data![Constants.Firestore.Key.email2] as? String {
                                 if email2Address != "" {
-                                    self.email2 = email2Address
+                                    let email = Email(address: email2Address,
+                                                      key: Constants.Firestore.Key.email2)
+                                    self.emailAddressList.append(email)
                                 }
                             }
+                        
+                        for item in self.emailAddressList {
+                            self.keyEmailAddressList.append(item.key)
+                        }
+                        
+                        if self.emailListPressed == true {
+                            if self.rowDeleted == false {
+                                DispatchQueue.main.async {
+                                    self.popUpWithTableView(rows: self.emailAddressList.count, type: "Email")
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.popUpTableView.rowDeleted(numberOfRows: self.emailAddressList.count)
+                                }
+                            }
+                        }
+                        
+                        // Website Contact Info
+                        self.keyWebsiteList.removeAll()
+                            self.websiteList.removeAll()
                             
-                            // Website Contact Info
                             if let web1Link = data![Constants.Firestore.Key.web1] as? String {
                                 if web1Link != "" {
-                                    self.web1 = web1Link
+                                    let web = Website(link: web1Link,
+                                                      key: Constants.Firestore.Key.web1)
+                                    self.websiteList.append(web)
                                 }
                             }
                             if let web2Link = data![Constants.Firestore.Key.web2] as? String {
                                 if web2Link != "" {
-                                    self.web2 = web2Link
+                                    let web = Website(link: web2Link,
+                                                      key: Constants.Firestore.Key.web2)
+                                    self.websiteList.append(web)
                                 }
                             }
+                        
+                        for item in self.websiteList {
+                            self.keyWebsiteList.append(item.key)
+                        }
+                        
+                        if self.websiteListPressed == true {
+                            if self.rowDeleted == false {
+                                DispatchQueue.main.async {
+                                    self.popUpWithTableView(rows: self.websiteList.count, type: "Website")
+                                }
+                            } else {
+                                DispatchQueue.main.async {
+                                    self.popUpTableView.rowDeleted(numberOfRows: self.websiteList.count)
+                                }
+                            }
+                        }
+                        
                     }
+                }
+            }
+    }
+    
+    // MARK: - Get Social Media Data
+    func getSocialData() {
+        
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(cardID)
+            .collection(Constants.Firestore.CollectionName.locations)
+            .document(selectLocation.text!)
+            .collection(Constants.Firestore.CollectionName.social)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print ("Error getting Social Media List. \(e)")
+                } else {
+                    
+                    self.keySocialMedia.removeAll()
+                    self.socialMediaList.removeAll()
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let socialName = data[Constants.Firestore.Key.name] as? String {
+                                
+                                let social = SocialMedia(name: socialName)
+                        
+                                self.keySocialMedia.append(social.name)
+                                self.socialMediaList.append(social)
+                            }
+                        }
+                    }
+                    
+                    if self.socialListPressed == true {
+                        if self.rowDeleted == false {
+                            DispatchQueue.main.async {
+                                self.popUpWithTableView(rows: self.socialMediaList.count, type: "Social")
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.popUpTableView.rowDeleted(numberOfRows: self.socialMediaList.count)
+                            }
+                        }
+                    }
+                    
                 }
             }
     }
     
 }
 
-// MARK: - UIPickerView for Location
+// MARK: - UIPickerView for Location and Social Media
 
 extension AddStep3VC: UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -866,7 +1011,7 @@ extension AddStep3VC: UIPickerViewDelegate, UIPickerViewDataSource {
         if selectLocation.isEditing {
             return locationsList.count
         } else if selectSocial.isEditing {
-            return socialMediaList.count
+            return selectSocialMedia.count
         } else {
             return 1
         }
@@ -877,7 +1022,7 @@ extension AddStep3VC: UIPickerViewDelegate, UIPickerViewDataSource {
         if selectLocation.isEditing {
             return "\(locationsList[row].city) - \(locationsList[row].street)"
         } else if selectSocial.isEditing {
-            return socialMediaList[row].name
+            return selectSocialMedia[row].name
         } else {
             return "Error adding Title for Row."
         }
@@ -887,26 +1032,12 @@ extension AddStep3VC: UIPickerViewDelegate, UIPickerViewDataSource {
         
         if selectLocation.isEditing {
             selectLocation.text = "\(locationsList[row].city) - \(locationsList[row].street)"
-            phone1 = ""
-            phone2 = ""
-            phone3 = ""
-            email1 = ""
-            email2 = ""
-            web1 = ""
-            web2 = ""
-            social1 = ""
-            social2 = ""
-            social3 = ""
-            social4 = ""
-            social5 = ""
-            
-            if editCard3 == true {
-                getContactData()
-            }
             
         } else if selectSocial.isEditing {
-            selectSocial.text = socialMediaList[row].name
+            selectSocial.text = selectSocialMedia[row].name
             changeSocialLinkLabel()
+            linkStack.isHidden = false
+            socialProfile.becomeFirstResponder()
         }
         else {
             PopUp().popUpWithOk(newTitle: "Error!",
@@ -916,65 +1047,183 @@ extension AddStep3VC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
-// MARK: - NumberOfContactData protocol delegate function
+// MARK: - TableView and Cell Delete Delegate
 
-extension AddStep3VC: NumberOfContactDataDelegate {
-
-        func keyForContactData(key: String) {
+extension AddStep3VC: UITableViewDelegate, UITableViewDataSource, DeleteCellDelegate {
+    
+    func deleteButtonPressed(with title: String, row: Int) {
+        
+        // Pop Up with Yes and No
+        let alert = UIAlertController(title: "Delete?", message: "Are you sure that you want to delete? Data will be lost forever.", preferredStyle: .alert)
+        let actionBACK = UIAlertAction(title: "Back", style: .default) { action in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        let actionDELETE = UIAlertAction(title: "Delete", style: .destructive) { [self] action in
             
-            if key == Constants.Firestore.Key.phone1 {
-                phone1 = ""
-            } else if key == Constants.Firestore.Key.phone2 {
-                phone2 = ""
-            } else if key == Constants.Firestore.Key.phone3 {
-                phone3 = ""
-            } else if key == Constants.Firestore.Key.email1 {
-                email1 = ""
-            } else if key == Constants.Firestore.Key.email2 {
-                email2 = ""
-            } else if key == Constants.Firestore.Key.web1 {
-                web1 = ""
-            } else if key == Constants.Firestore.Key.web2 {
-                web2 = ""
+            if phoneListPressed == true || emailListPressed == true || websiteListPressed == true {
+                
+                let fieldKey = getKeyForDelete(rowNumber: row)
+                
+                db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(cardID)
+                    .collection(Constants.Firestore.CollectionName.locations)
+                    .document(selectLocation.text!)
+                    .updateData(["\(fieldKey)": FieldValue.delete()], completion: { [self] err in
+                        if let e = err {
+                            PopUp().popUpWithOk(newTitle: "Error",
+                                                newMessage: "Error Deleting Contact Info. \(e)",
+                                                vc: self)
+                        } else {
+                            
+                            rowDeleted = true
+                            
+                            if phoneListPressed == true {
+                                
+                                if phoneNumbersList.count == 1 {
+                                    dismissPopUpWithTableView()
+                                }
+                                getContactData()
+                                
+                            } else if emailListPressed == true {
+
+                                if emailAddressList.count == 1 {
+                                    dismissPopUpWithTableView()
+                                }
+                                getContactData()
+                                
+                            } else if websiteListPressed == true {
+
+                                if websiteList.count == 1 {
+                                    dismissPopUpWithTableView()
+                                }
+                                getContactData()
+                            }
+                        }
+                    })
+            
+            }
+            
+            if socialListPressed == true {
+
+                let documentName = title
+                
+                db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(cardID)
+                    .collection(Constants.Firestore.CollectionName.locations)
+                    .document(selectLocation.text!)
+                    .collection(Constants.Firestore.CollectionName.social)
+                    .document(documentName)
+                    .delete { err in
+                        if let e = err {
+                            PopUp().popUpWithOk(newTitle: "Error",
+                                                newMessage: "Error Deleting Social Media. \(e)",
+                                                vc: self)
+                        } else {
+                            
+                            self.rowDeleted = true
+
+                            if self.socialMediaList.count == 1 {
+                                self.dismissPopUpWithTableView()
+                            }
+                            self.getSocialData()
+                            
+                        }
+                    }
             }
         }
-}
 
-// MARK: - SocialListDelegate Function
+        alert.addAction(actionDELETE)
+        alert.addAction(actionBACK)
 
-extension AddStep3VC: SocialListDelegate {
+        self.present(alert, animated: true, completion: nil)
+    }
     
-    func newSocialMediaList(list: [String]) {
-        socialMediaNames = list
+    // MARK: - Get Key for Deleted Button
+    
+    func getKeyForDelete(rowNumber: Int) -> String {
+        
+        if phoneListPressed == true {
+            return phoneNumbersList[rowNumber].field
+        } else if emailListPressed == true {
+            return emailAddressList[rowNumber].key
+        } else if websiteListPressed == true {
+            return websiteList[rowNumber].key
+        } else {
+            return ""
+        }
+        
     }
     
     
-    func deletedSocialMedia(rowTitle: String, atRow: Int) {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if rowTitle == social1 {
-            social1 = ""
-        } else if rowTitle == social2 {
-            social2 = ""
-        } else if rowTitle == social3 {
-            social3 = ""
-        } else if rowTitle == social4 {
-            social4 = ""
-        } else if rowTitle == social5 {
-            social5 = ""
+        if phoneListPressed == true {
+            return phoneNumbersList.count
+        } else if emailListPressed == true {
+            return emailAddressList.count
+        } else if websiteListPressed == true {
+            return websiteList.count
+        } else {
+            return socialMediaList.count
         }
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.contactListCell, for: indexPath) as! ContactListCell
+        
+        if phoneListPressed == true {
+            cell.configure(title: "\(phoneNumbersList[indexPath.row].code) \(phoneNumbersList[indexPath.row].number)", row: indexPath.row)
+        } else if emailListPressed == true {
+            cell.configure(title: emailAddressList[indexPath.row].address, row: indexPath.row)
+        } else if websiteListPressed == true {
+            cell.configure(title: websiteList[indexPath.row].link, row: indexPath.row)
+        } else {
+            cell.configure(title: socialMediaList[indexPath.row].name, row: indexPath.row)
+        }
+        
+        cell.delegate = self
+        
+        return cell
+    }
 }
 
 // MARK: - UI Settings
 extension AddStep3VC {
     
-    // MARK: - Blink Button Function
-    
+    //  Blink Button Function
     func blinkButton(buttonName: UIButton) {
         buttonName.tintColor = .green
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             buttonName.tintColor = UIColor(named: "Reverse Background Color")
         }
+    }
+    
+    // Pop Up With Table View and Blur
+    func popUpWithTableView(rows: Int, type: String) {
+        
+        self.popUpTableView = PopUpTableView(frame: self.view.frame)
+        self.popUpTableView.popUpWithTableView(vc: self,
+                                               rows: rows,
+                                               type: type,
+                                               nibName: Constants.Nib.contactListCell,
+                                               cellIdentifier: Constants.Cell.contactListCell)
+        self.popUpTableView.backButton.addTarget(self, action: #selector(self.popUpBackButtonPressed), for: UIControl.Event.touchUpInside)
+        self.view.addSubview(self.popUpTableView)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    func dismissPopUpWithTableView() {
+        popUpTableView.animateOut(forView: popUpTableView.popUpView, mainView: popUpTableView)
+        popUpTableView.animateOut(forView: popUpTableView.blurEffectView, mainView: popUpTableView)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 }

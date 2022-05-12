@@ -10,21 +10,20 @@ import Firebase
 import FirebaseStorage
 
 class AddStep1VC: UIViewController {
-    
+    // Basic Info Outlets
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var personalName: UITextField!
     @IBOutlet weak var companyName: UITextField!
     @IBOutlet weak var selectSector: UITextField!
     @IBOutlet weak var productType: UITextField!
-
-    @IBOutlet weak var nameStack: UIStackView!
-    
-    @IBOutlet var blurEffect: UIVisualEffectView!
-    @IBOutlet var popUpView: UIView!
-    @IBOutlet var spinner: UIActivityIndicatorView!
-    
+    // Personal Name Stack Outlet
+    @IBOutlet weak var personalNameStack: UIStackView!
+    // Pop Up Outlets
+//    @IBOutlet var blurEffect: UIVisualEffectView!
+//    @IBOutlet var popUpView: UIView!
+    // Remove Image Outlet
     @IBOutlet weak var removeImageButton: UIButton!
-    
+    // -------------------- //
     // Firebase Firestore Database
     let db = Firestore.firestore()
     // Firebase Storage
@@ -49,37 +48,43 @@ class AddStep1VC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // PickerView Delegate for Select Sector
         pickerView.delegate = self
         pickerView.dataSource = self
         selectSector.inputView = pickerView
-        
         getSectorsList()
         
+        // Hide PersonalName Stack if it's Company Card.
         if companyCard == true {
-            nameStack.isHidden = true
+            personalNameStack.isHidden = true
         }
         
         if editCard == false {
+            // User Create New Card.
             productType.isEnabled = false
             removeImageButton.isHidden = true
         } else {
+            // User Edit Card.
             navigationItem.rightBarButtonItem?.title = "Save"
             navigationItem.hidesBackButton = true
             navigationItem.title = NavBarTitle1
             selectSector.isEnabled = false
             
+            // Check for LogoImage.
             if editImage == UIImage(named: "LogoImage") {
+                // User does NOT have Image.
                 DispatchQueue.main.async {
                     self.imageView.image = nil
                     self.removeImageButton.isHidden = true
                 }
             } else {
+                // User DOES have Image.
                 DispatchQueue.main.async {
                     self.imageView.image = self.editImage
                     self.removeImageButton.isHidden = false
                 }
             }
+            // Get Card Data for Edit from Firestore.
             getCardForEdit()
         }
     }
@@ -88,7 +93,9 @@ class AddStep1VC: UIViewController {
         
     func uploadImage() {
         
-        spinnerWithBlur()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        PopUp().spinnerWithBlur(backgroundView: self.view)
+    
         
         guard let image = imageView.image, let data = image.jpegData(compressionQuality: 0.5) else {
             PopUp().popUpWithOk(newTitle: "Error!",
@@ -147,9 +154,10 @@ class AddStep1VC: UIViewController {
         }
         
         uploadTask.observe(.success) { snapshot in
-            self.spinner.stopAnimating()
+            PopUp().spinner.stopAnimating()
             
-            if self.spinner.isAnimating == false {
+            if PopUp().spinner.isAnimating == false {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -272,9 +280,7 @@ class AddStep1VC: UIViewController {
     }
  
 // MARK: - Get Sectors List Function
-    
     func getSectorsList() {
-        
         db.collection(Constants.Firestore.CollectionName.sectors).getDocuments { snapshot, error in
             
             if let e = error {
@@ -288,7 +294,7 @@ class AddStep1VC: UIViewController {
                         let data = documents.data()
                             
                         if let sectorsData = data[Constants.Firestore.Key.name] as? String {
-                            
+                
                             let sector  = Sectors(name: sectorsData)
                             
                             self.sectors.append(sector)
@@ -301,9 +307,7 @@ class AddStep1VC: UIViewController {
     
     
 // MARK: - Get Card for Edit
-    
     func getCardForEdit() {
-        
         // Getting Card from Firebase Database
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -321,7 +325,6 @@ class AddStep1VC: UIViewController {
                         
                         let data = document!.data()
                         // Get Basic Info data
-                        
                         if let companyName = data![Constants.Firestore.Key.companyName] as? String {
                             if let sector = data![Constants.Firestore.Key.sector] as? String {
                                 if let productType = data![Constants.Firestore.Key.type] as? String {
@@ -353,9 +356,7 @@ class AddStep1VC: UIViewController {
     }
     
     // MARK: - Add Logo Image Pressed
-    
     @IBAction func addImagePressed(_ sender: UIButton) {
-        
         DispatchQueue.main.async {
             let vc = UIImagePickerController()
             vc.sourceType = .photoLibrary
@@ -368,42 +369,7 @@ class AddStep1VC: UIViewController {
     
 } //
 
-// MARK: - Spinner with Blur
-
-extension AddStep1VC {
-    
-    func spinnerWithBlur() {
-        blurEffect.bounds = self.view.bounds
-        
-        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
-        
-        animateIn(forView: blurEffect)
-        animateIn(forView: popUpView)
-        
-        spinner.startAnimating()
-    }
-    
-    // Animate Showing View
-    func animateIn(forView: UIView) {
-        let backgroundView = self.view!
-        
-        backgroundView.addSubview(forView)
-        
-        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        forView.alpha = 0
-        forView.center = backgroundView.center
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            forView.alpha = 1
-        })
-        
-    }
-    
-}
-
 // MARK: - UIPickerController for Image Add
-
 extension AddStep1VC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -425,7 +391,6 @@ extension AddStep1VC: UIImagePickerControllerDelegate, UINavigationControllerDel
 
 
 // MARK: - UIPickerView for Sectors
-
 extension AddStep1VC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

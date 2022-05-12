@@ -31,7 +31,7 @@ class FindVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
         
         refreshControl.addTarget(self, action: #selector(refreshData(send:)), for: UIControl.Event.valueChanged)
         tableView.addSubview(refreshControl)
@@ -57,11 +57,6 @@ class FindVC: UIViewController {
     
     @IBAction func searchButtonPressed(_ sender: UIBarButtonItem) {
         performSegue(withIdentifier: Constants.Segue.homeToSearch, sender: self)
-    }
-    
-    // MARK: - Language Button
-    @IBAction func languageButtonPressed(_ sender: UIBarButtonItem) {
-        
     }
     
     // MARK: - Get Cards Function
@@ -164,7 +159,7 @@ extension FindVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! DefaultCell
         
         let cardsRow = allCardsList[indexPath.row]
         

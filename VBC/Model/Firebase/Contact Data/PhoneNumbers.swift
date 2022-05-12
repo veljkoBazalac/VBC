@@ -11,4 +11,5 @@ struct PhoneNumber {
     
     var code : String = ""
     var number : String = ""
+    var field : String = ""
 }

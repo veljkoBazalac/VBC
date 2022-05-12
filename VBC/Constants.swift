@@ -80,7 +80,7 @@ struct Constants {
     }
     
     struct Nib {
-        static let homeViewCell = "HomeViewCell"
+        static let defaultCell = "DefaultCell"
         static let addLocList = "AddLocListTableViewCell"
         static let popUpCell = "CardPopUpCell"
         static let contactListCell = "ContactListCell"
@@ -91,6 +91,7 @@ struct Constants {
         static let cardDeleted = "solosoft.VBC.cardDeleted"
         static let cardEdited = "solosoft.VBC.cardEdited"
         static let locationEdited = "solosoft.VBC.locationEdited"
+        static let popUpTableView = "solosoft.VBC.pupUpTableView"
     }
     
     struct Firestore {

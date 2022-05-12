@@ -53,7 +53,7 @@ class AboutVBCVC: UIViewController, MFMailComposeViewControllerDelegate {
         button.setTitle("Contact Us", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.titleLabel?.textAlignment = .center
-        button.setTitleColor(UIColor.systemBackground, for: .normal)
+        button.setTitleColor(UIColor(named: "Color Dark"), for: .normal)
         button.backgroundColor = UIColor.systemGreen
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true

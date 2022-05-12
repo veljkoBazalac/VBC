@@ -4,6 +4,7 @@
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>tg</string>
 		<string>googlegmail</string>
 		<string>ms-outlook</string>
 		<string>readdle-spark</string>

@@ -9,7 +9,7 @@ import UIKit
 import FirebaseStorage
 import FirebaseStorageUI
 
-class HomeViewCell: UITableViewCell {
+class DefaultCell: UITableViewCell {
 
     // Image Label
     @IBOutlet weak var logoImageView: UIImageView!

@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class SavedVC: UIViewController, UISearchResultsUpdating {
+class WalletVC: UIViewController, UISearchResultsUpdating {
     
     // Outlets for TableView and SearchBar
     @IBOutlet weak var tableView: UITableView!
@@ -38,7 +38,7 @@ class SavedVC: UIViewController, UISearchResultsUpdating {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
         
         getSavedVBC()
     }
@@ -75,7 +75,7 @@ class SavedVC: UIViewController, UISearchResultsUpdating {
 
 // MARK: - Get Data from Firestore
 
-extension SavedVC {
+extension WalletVC {
     
     func getSavedVBC() {
         
@@ -257,7 +257,7 @@ extension SavedVC {
 
 // MARK: - TableView
 
-extension SavedVC: UITableViewDelegate, UITableViewDataSource {
+extension WalletVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -270,7 +270,7 @@ extension SavedVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! DefaultCell
         
         if searchController.isActive == true {
             

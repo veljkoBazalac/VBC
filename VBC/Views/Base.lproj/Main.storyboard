@@ -423,13 +423,12 @@
                         <outlet property="blurEffect" destination="c2b-AW-xt2" id="C1l-WX-0bA"/>
                         <outlet property="companyName" destination="lAK-b2-9GY" id="IxJ-a4-qbb"/>
                         <outlet property="imageView" destination="6hR-az-cAl" id="nGz-Ud-eoz"/>
-                        <outlet property="nameStack" destination="inI-gS-92q" id="QNa-Vo-1uh"/>
                         <outlet property="personalName" destination="FTf-xI-lsc" id="QpL-3o-B3s"/>
+                        <outlet property="personalNameStack" destination="inI-gS-92q" id="QNa-Vo-1uh"/>
                         <outlet property="popUpView" destination="TX4-S4-huD" id="Tdc-cr-lyD"/>
                         <outlet property="productType" destination="05p-Y0-zo6" id="gWv-u0-f9R"/>
                         <outlet property="removeImageButton" destination="zuN-af-ghL" id="NeY-rm-HiP"/>
                         <outlet property="selectSector" destination="ac0-Vh-DGn" id="HMF-FI-nhD"/>
-                        <outlet property="spinner" destination="mR2-ld-p3r" id="Yef-1X-g8g"/>
                         <segue destination="VZB-T1-8BV" kind="show" identifier="AddNewVBC2" id="20g-WO-MrN"/>
                     </connections>
                 </viewController>
@@ -446,26 +445,8 @@
                 <view contentMode="scaleToFill" id="TX4-S4-huD">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" id="mR2-ld-p3r">
-                            <rect key="frame" x="110" y="52" width="20" height="23.666666666666668"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="color" systemColor="systemRedColor"/>
-                        </activityIndicatorView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please wait..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Adl-ng-oRK">
-                            <rect key="frame" x="70" y="95.5" width="100" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
                     <viewLayoutGuide key="safeArea" id="atR-kA-5X1"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstItem="Adl-ng-oRK" firstAttribute="centerX" secondItem="TX4-S4-huD" secondAttribute="centerX" id="VgV-us-xGc"/>
-                        <constraint firstItem="Adl-ng-oRK" firstAttribute="top" secondItem="mR2-ld-p3r" secondAttribute="bottom" constant="20" id="ghM-Fw-PDh"/>
-                    </constraints>
                 </view>
             </objects>
             <point key="canvasLocation" x="5394" y="-940"/>
@@ -898,13 +879,14 @@
                                         <color key="textColor" name="Reverse Background Color"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5mR-wh-dTU">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Location" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5mR-wh-dTU">
                                         <rect key="frame" x="84.5" y="0.0" width="299.5" height="30"/>
+                                        <color key="backgroundColor" name="Reverse Background Color"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="31G-Cp-nqt"/>
                                         </constraints>
-                                        <color key="textColor" name="Reverse Background Color"/>
+                                        <color key="textColor" name="Background Color"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -946,9 +928,6 @@
                                                 <state key="normal" image="list.dash.header.rectangle" catalog="system"/>
                                                 <connections>
                                                     <action selector="showPhoneListPressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="r08-Zy-uYf"/>
-                                                    <segue destination="Ha7-rm-7bL" kind="popoverPresentation" identifier="PhoneListSegue" popoverAnchorView="XKh-u0-L30" id="BEj-3X-WDA">
-                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                    </segue>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -962,21 +941,23 @@
                                                 <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qdu-c4-hGv">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Qdu-c4-hGv">
                                                 <rect key="frame" x="67.5" y="0.0" width="60" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="60" id="NS2-c4-6yn"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Number..." textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="7aO-BC-u84">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Number..." textAlignment="center" minimumFontSize="10" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="7aO-BC-u84">
                                                 <rect key="frame" x="137.5" y="0.0" width="236.5" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Yst-B3-adx"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="phonePad" textContentType="tel"/>
                                             </textField>
@@ -1026,9 +1007,6 @@
                                                 <state key="normal" image="list.dash.header.rectangle" catalog="system"/>
                                                 <connections>
                                                     <action selector="showEmailPressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="KM2-F2-rWo"/>
-                                                    <segue destination="Ha7-rm-7bL" kind="popoverPresentation" identifier="EmailListSegue" popoverAnchorView="IoL-ST-ewE" id="7RN-X6-JNK">
-                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                    </segue>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1042,12 +1020,13 @@
                                                 <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Email Address..." textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="NOv-Zk-FLw">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Email Address..." textAlignment="center" minimumFontSize="10" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="NOv-Zk-FLw">
                                                 <rect key="frame" x="60" y="0.0" width="314" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Lb7-uv-Sqv"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
                                             </textField>
@@ -1097,9 +1076,6 @@
                                                 <state key="normal" image="list.dash.header.rectangle" catalog="system"/>
                                                 <connections>
                                                     <action selector="showWebsitePressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="mSl-wl-d4c"/>
-                                                    <segue destination="Ha7-rm-7bL" kind="popoverPresentation" identifier="WebsiteListSegue" popoverAnchorView="YkO-1h-ZTX" id="wwb-fc-F9f">
-                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                    </segue>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1119,12 +1095,13 @@
                                                 <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Website Link..." textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="aUv-gs-sCR">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Website Link..." textAlignment="center" minimumFontSize="10" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="aUv-gs-sCR">
                                                 <rect key="frame" x="133" y="0.0" width="241" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="XMa-G6-Qzo"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="URL" textContentType="url"/>
                                             </textField>
@@ -1150,19 +1127,20 @@
                                                 <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Social Network" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O6o-N8-nL6">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select Social Network" textAlignment="center" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="O6o-N8-nL6">
                                                 <rect key="frame" x="115.5" y="0.0" width="258.5" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="tHm-Lj-PQz"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rxS-t4-80E" userLabel="Name">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rxS-t4-80E" userLabel="Link Stack">
                                         <rect key="frame" x="0.0" y="40" width="374" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDG-zl-9VJ">
@@ -1171,12 +1149,13 @@
                                                 <color key="textColor" name="Reverse Background Color"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter here..." textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="zey-I4-rlJ">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter here..." textAlignment="center" minimumFontSize="10" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="zey-I4-rlJ">
                                                 <rect key="frame" x="41.5" y="0.0" width="332.5" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="HdT-IB-RRr"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                                             </textField>
@@ -1227,9 +1206,6 @@
                                         <connections>
                                             <action selector="listButtonPressed:" destination="VZB-T1-8BV" eventType="touchUpInside" id="KFH-0t-hHJ"/>
                                             <action selector="showSocialPressed:" destination="y1A-XJ-Bcv" eventType="touchUpInside" id="ySI-0K-uS7"/>
-                                            <segue destination="Ha7-rm-7bL" kind="popoverPresentation" identifier="SocialListSegue" popoverAnchorView="Aer-ke-wfF" id="Ddz-lh-47U">
-                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                            </segue>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1280,6 +1256,7 @@
                         <outlet property="emailLabel" destination="He7-33-CsZ" id="uAT-ex-hqi"/>
                         <outlet property="emailListButton" destination="IoL-ST-ewE" id="jbr-pj-LSY"/>
                         <outlet property="finishButton" destination="eAU-cS-GbX" id="Y0f-3C-In0"/>
+                        <outlet property="linkStack" destination="rxS-t4-80E" id="8h3-iw-Pkx"/>
                         <outlet property="linkToFinish" destination="qDG-zl-9VJ" id="DQv-bF-3hj"/>
                         <outlet property="logoImageView" destination="Qh9-kt-Hzo" id="GpO-zX-wyd"/>
                         <outlet property="personalName" destination="OPl-CQ-MHz" id="2N7-Cd-ozj"/>
@@ -1360,7 +1337,7 @@
         <!--Wallet-->
         <scene sceneID="PH2-tm-pKT">
             <objects>
-                <viewController id="pCf-2F-Prb" customClass="SavedVC" customModule="VBC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pCf-2F-Prb" customClass="WalletVC" customModule="VBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dfX-il-LoR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1532,11 +1509,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Find VBC" largeTitleDisplayMode="always" id="pBs-vz-gnu">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="flag" catalog="system" id="br2-vF-s1E">
-                            <connections>
-                                <action selector="languageButtonPressed:" destination="SlP-2S-sAV" id="gFW-WV-vIv"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="magnifyingglass.circle" catalog="system" id="5r1-Gy-HgA">
                             <connections>
                                 <action selector="searchButtonPressed:" destination="SlP-2S-sAV" id="KdM-oC-8a3"/>
@@ -1562,7 +1534,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b4b-P8-a8D">
-                                <rect key="frame" x="82" y="98" width="250" height="250"/>
+                                <rect key="frame" x="70.5" y="98" width="273" height="273"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="250" constant="250" id="el1-Zr-5cF"/>
                                     <constraint firstAttribute="width" secondItem="b4b-P8-a8D" secondAttribute="height" multiplier="1:1" id="rME-zj-975"/>
@@ -1571,29 +1543,29 @@
                                     <outletCollection property="gestureRecognizers" destination="EEJ-tl-Zsp" appends="YES" id="ByC-Qa-F0w"/>
                                 </connections>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fwN-Eo-ezN" userLabel="Text Stack">
-                                <rect key="frame" x="0.0" y="378" width="414" height="141"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fwN-Eo-ezN" userLabel="Text Stack">
+                                <rect key="frame" x="10" y="401" width="394" height="141"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ao-gm-wEt">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4ao-gm-wEt">
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="29.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" name="Reverse Background Color"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7dk-6f-XOr">
-                                        <rect key="frame" x="0.0" y="38" width="414" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="7dk-6f-XOr">
+                                        <rect key="frame" x="0.0" y="37.5" width="394" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" name="Reverse Background Color"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sector" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YC6-lR-XEh">
-                                        <rect key="frame" x="0.0" y="76" width="414" height="25.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sector" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="YC6-lR-XEh">
+                                        <rect key="frame" x="0.0" y="74.5" width="394" height="29.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" name="Reverse Background Color"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5QK-QC-MAx">
-                                        <rect key="frame" x="0.0" y="109.5" width="414" height="31.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="5QK-QC-MAx">
+                                        <rect key="frame" x="0.0" y="112" width="394" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" name="Reverse Background Color"/>
                                         <nil key="highlightedColor"/>
@@ -1604,7 +1576,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="6Qs-RX-Qu5" userLabel="Location Stack">
-                                <rect key="frame" x="57" y="569" width="300" height="70"/>
+                                <rect key="frame" x="57" y="592" width="300" height="70"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location :" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOJ-7e-daI">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="30"/>
@@ -1627,11 +1599,12 @@
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose Location..." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="epc-dw-Ieh">
                                                 <rect key="frame" x="40" y="0.0" width="260" height="30"/>
+                                                <color key="backgroundColor" name="Reverse Background Color"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="ktV-Nf-iCw"/>
                                                 </constraints>
-                                                <color key="textColor" name="Reverse Background Color"/>
+                                                <color key="textColor" name="Background Color"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                             </textField>
@@ -1639,17 +1612,18 @@
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="NFV-zx-FUj"/>
                                     <constraint firstAttribute="width" constant="300" id="yTA-as-hbg"/>
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="Rhi-bz-xsL" userLabel="Down Stack">
-                                <rect key="frame" x="0.0" y="689" width="414" height="153"/>
+                                <rect key="frame" x="0.0" y="712" width="414" height="130"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="bDf-jy-9qE" userLabel="Contact Stack">
-                                        <rect key="frame" x="37" y="0.0" width="340" height="73"/>
+                                        <rect key="frame" x="37" y="0.0" width="340" height="50"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qzA-s5-UZc">
-                                                <rect key="frame" x="0.0" y="16.5" width="40" height="40"/>
+                                                <rect key="frame" x="0.0" y="5" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qzA-s5-UZc" secondAttribute="height" multiplier="1:1" id="8Uv-RL-Uww"/>
                                                     <constraint firstAttribute="height" constant="40" id="hd0-HF-swj"/>
@@ -1661,7 +1635,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aiL-c2-hrb">
-                                                <rect key="frame" x="75" y="16.5" width="40" height="40"/>
+                                                <rect key="frame" x="75" y="5" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="aiL-c2-hrb" secondAttribute="height" multiplier="1:1" id="78S-xa-Oac"/>
                                                     <constraint firstAttribute="height" constant="40" id="IGy-4c-XwN"/>
@@ -1673,7 +1647,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ycr-Dr-11i">
-                                                <rect key="frame" x="150" y="16.5" width="40" height="40"/>
+                                                <rect key="frame" x="150" y="5" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Ycr-Dr-11i" secondAttribute="height" multiplier="1:1" id="j4H-2f-Oax"/>
                                                     <constraint firstAttribute="height" constant="40" id="vBI-mD-aXN"/>
@@ -1685,7 +1659,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5o-U9-Rsf">
-                                                <rect key="frame" x="225" y="16.5" width="40" height="40"/>
+                                                <rect key="frame" x="225" y="5" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="o5o-U9-Rsf" secondAttribute="height" multiplier="1:1" id="Uqn-Y8-Meb"/>
                                                     <constraint firstAttribute="height" constant="40" id="xGL-lp-BC6"/>
@@ -1697,7 +1671,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zv0-1m-oUh">
-                                                <rect key="frame" x="300" y="16.5" width="40" height="40"/>
+                                                <rect key="frame" x="300" y="5" width="40" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="gKA-fb-ynx"/>
                                                     <constraint firstAttribute="width" secondItem="zv0-1m-oUh" secondAttribute="height" multiplier="1:1" id="sY9-Bz-p2S"/>
@@ -1714,10 +1688,11 @@
                                             <constraint firstItem="Ycr-Dr-11i" firstAttribute="width" secondItem="Ycr-Dr-11i" secondAttribute="height" multiplier="1:1" id="EpM-Ip-bas"/>
                                             <constraint firstItem="o5o-U9-Rsf" firstAttribute="width" secondItem="o5o-U9-Rsf" secondAttribute="height" multiplier="1:1" id="Sng-DE-xvu"/>
                                             <constraint firstItem="zv0-1m-oUh" firstAttribute="width" secondItem="zv0-1m-oUh" secondAttribute="height" multiplier="1:1" id="Xbf-co-oo2"/>
+                                            <constraint firstAttribute="height" constant="50" id="evX-4N-Wf1"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="AoF-vV-0Ae" userLabel="Button Stack">
-                                        <rect key="frame" x="97" y="123" width="220" height="30"/>
+                                        <rect key="frame" x="97" y="100" width="220" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KU7-aK-XIr">
                                                 <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
@@ -1757,6 +1732,9 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="3PO-qa-b8f"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                             </stackView>
@@ -1767,7 +1745,7 @@
                             <constraint firstItem="fwN-Eo-ezN" firstAttribute="top" secondItem="b4b-P8-a8D" secondAttribute="bottom" constant="30" id="1aT-gn-ixQ"/>
                             <constraint firstItem="b4b-P8-a8D" firstAttribute="top" secondItem="Ls0-ww-8MO" secondAttribute="top" constant="10" id="2ZI-Hg-Imq"/>
                             <constraint firstItem="fwN-Eo-ezN" firstAttribute="centerX" secondItem="aby-Jk-deV" secondAttribute="centerX" id="MmF-xh-0Qy"/>
-                            <constraint firstItem="Ls0-ww-8MO" firstAttribute="trailing" secondItem="fwN-Eo-ezN" secondAttribute="trailing" id="MsY-yN-5Ia"/>
+                            <constraint firstItem="Ls0-ww-8MO" firstAttribute="trailing" secondItem="fwN-Eo-ezN" secondAttribute="trailing" constant="10" id="MsY-yN-5Ia"/>
                             <constraint firstItem="6Qs-RX-Qu5" firstAttribute="top" secondItem="fwN-Eo-ezN" secondAttribute="bottom" constant="50" id="PyI-Em-qJc"/>
                             <constraint firstItem="Rhi-bz-xsL" firstAttribute="top" secondItem="6Qs-RX-Qu5" secondAttribute="bottom" constant="50" id="QLc-Yz-bsp"/>
                             <constraint firstItem="b4b-P8-a8D" firstAttribute="centerX" secondItem="aby-Jk-deV" secondAttribute="centerX" id="UMv-4m-zaY"/>
@@ -1775,12 +1753,11 @@
                             <constraint firstItem="Rhi-bz-xsL" firstAttribute="leading" secondItem="Ls0-ww-8MO" secondAttribute="leading" id="nOL-HY-ERr"/>
                             <constraint firstItem="6Qs-RX-Qu5" firstAttribute="centerX" secondItem="aby-Jk-deV" secondAttribute="centerX" id="q8Z-y5-NhW"/>
                             <constraint firstItem="Ls0-ww-8MO" firstAttribute="trailing" secondItem="Rhi-bz-xsL" secondAttribute="trailing" id="ww6-Ag-FDX"/>
-                            <constraint firstItem="fwN-Eo-ezN" firstAttribute="leading" secondItem="Ls0-ww-8MO" secondAttribute="leading" id="yBX-rO-ZSB"/>
+                            <constraint firstItem="fwN-Eo-ezN" firstAttribute="leading" secondItem="Ls0-ww-8MO" secondAttribute="leading" constant="10" id="yBX-rO-ZSB"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Business Card" largeTitleDisplayMode="never" id="MkC-PS-BdN"/>
                     <connections>
-                        <outlet property="blurEffect" destination="35t-Oa-7Yp" id="jHk-12-iG4"/>
                         <outlet property="callButton" destination="qzA-s5-UZc" id="uAV-6e-VBd"/>
                         <outlet property="companyNameLabel" destination="7dk-6f-XOr" id="TGA-DW-385"/>
                         <outlet property="countryFlag" destination="YK4-Ga-Rlj" id="HbF-ZV-z8A"/>
@@ -1789,10 +1766,6 @@
                         <outlet property="mailButton" destination="aiL-c2-hrb" id="5Hr-8g-Y0y"/>
                         <outlet property="mapButton" destination="Ycr-Dr-11i" id="Rkp-nc-UbQ"/>
                         <outlet property="personalNameLabel" destination="4ao-gm-wEt" id="jRo-0I-jy9"/>
-                        <outlet property="popUpBackButton" destination="Hwa-T9-cpd" id="XUE-iC-vxm"/>
-                        <outlet property="popUpTableView" destination="maR-lR-meu" id="2Bd-JU-Rww"/>
-                        <outlet property="popUpTitle" destination="q4i-2o-uZP" id="GjG-qp-Zs7"/>
-                        <outlet property="popUpView" destination="IlH-9O-eec" id="Smg-cD-Ymd"/>
                         <outlet property="productTypeLabel" destination="5QK-QC-MAx" id="xQq-kI-JfK"/>
                         <outlet property="saveButton" destination="NdM-pZ-g2r" id="dLu-ds-r9U"/>
                         <outlet property="sectorLabel" destination="YC6-lR-XEh" id="j4E-5G-fMc"/>
@@ -1811,78 +1784,6 @@
                         <action selector="logoPressed:" destination="LXT-QG-o9w" id="vSh-8f-J1f"/>
                     </connections>
                 </tapGestureRecognizer>
-                <visualEffectView opaque="NO" contentMode="scaleToFill" id="35t-Oa-7Yp">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="192"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fGD-P7-MhG">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="192"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    </view>
-                    <blurEffect style="regular"/>
-                </visualEffectView>
-                <view contentMode="scaleToFill" id="IlH-9O-eec">
-                    <rect key="frame" x="0.0" y="0.0" width="316" height="478"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Numbers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4i-2o-uZP">
-                            <rect key="frame" x="0.0" y="10" width="316" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" name="Reverse Background Color"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="maR-lR-meu">
-                            <rect key="frame" x="0.0" y="51" width="316" height="357"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <color key="separatorColor" name="Reverse Background Color"/>
-                            <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
-                            <prototypes>
-                                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="E3i-DZ-npc">
-                                    <rect key="frame" x="0.0" y="44.5" width="316" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="E3i-DZ-npc" id="RFR-VN-ozv">
-                                        <rect key="frame" x="0.0" y="0.0" width="316" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </tableViewCellContentView>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </tableViewCell>
-                            </prototypes>
-                        </tableView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hwa-T9-cpd">
-                            <rect key="frame" x="108" y="428" width="100" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="OM9-fG-TLO"/>
-                                <constraint firstAttribute="width" constant="100" id="aZQ-s0-q36"/>
-                                <constraint firstAttribute="height" constant="30" id="nYO-da-Zi0"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="yMb-7T-bYB"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="filled" title="Back" cornerStyle="capsule">
-                                <backgroundConfiguration key="background">
-                                    <color key="backgroundColor" name="Reverse Background Color"/>
-                                </backgroundConfiguration>
-                                <color key="baseForegroundColor" name="Background Color"/>
-                            </buttonConfiguration>
-                            <connections>
-                                <action selector="popUpBackButtonPressed:" destination="LXT-QG-o9w" eventType="touchUpInside" id="681-nU-M1C"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="1jd-vq-d62"/>
-                    <color key="backgroundColor" name="Background Color"/>
-                    <constraints>
-                        <constraint firstItem="maR-lR-meu" firstAttribute="leading" secondItem="IlH-9O-eec" secondAttribute="leading" id="0fq-4G-NQ5"/>
-                        <constraint firstItem="maR-lR-meu" firstAttribute="top" secondItem="q4i-2o-uZP" secondAttribute="bottom" constant="20" id="115-2c-9lU"/>
-                        <constraint firstItem="q4i-2o-uZP" firstAttribute="top" secondItem="IlH-9O-eec" secondAttribute="top" constant="10" id="5Yo-cC-xEY"/>
-                        <constraint firstItem="Hwa-T9-cpd" firstAttribute="top" secondItem="maR-lR-meu" secondAttribute="bottom" constant="20" id="Qcl-uE-jOQ"/>
-                        <constraint firstItem="1jd-vq-d62" firstAttribute="bottom" secondItem="Hwa-T9-cpd" secondAttribute="bottom" constant="20" id="TCv-g9-cRG"/>
-                        <constraint firstAttribute="trailing" secondItem="maR-lR-meu" secondAttribute="trailing" id="bZ7-gE-kqm"/>
-                        <constraint firstItem="q4i-2o-uZP" firstAttribute="leading" secondItem="1jd-vq-d62" secondAttribute="leading" id="diK-Eh-cNM"/>
-                        <constraint firstItem="1jd-vq-d62" firstAttribute="trailing" secondItem="q4i-2o-uZP" secondAttribute="trailing" id="e4R-id-lyQ"/>
-                        <constraint firstItem="q4i-2o-uZP" firstAttribute="centerX" secondItem="IlH-9O-eec" secondAttribute="centerX" id="fxN-aO-MOL"/>
-                        <constraint firstItem="Hwa-T9-cpd" firstAttribute="centerX" secondItem="IlH-9O-eec" secondAttribute="centerX" id="zoO-kZ-IbH"/>
-                    </constraints>
-                </view>
             </objects>
             <point key="canvasLocation" x="5449" y="-116"/>
         </scene>
@@ -2679,69 +2580,6 @@
             </objects>
             <point key="canvasLocation" x="5187" y="846"/>
         </scene>
-        <!--Contact ListVC-->
-        <scene sceneID="8aj-mC-rT1">
-            <objects>
-                <viewController modalTransitionStyle="flipHorizontal" modalPresentationStyle="currentContext" id="Ha7-rm-7bL" customClass="ContactListVC" customModule="VBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="KnH-F4-XWI">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Emj-h5-9Bv">
-                                <rect key="frame" x="57" y="271" width="300" height="300"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Numbers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Qw-c0-K5e">
-                                        <rect key="frame" x="20" y="20" width="260" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" name="Reverse Background Color"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="doY-VL-rcL">
-                                        <rect key="frame" x="10" y="71" width="280" height="219"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="cQn-su-6Hj">
-                                                <rect key="frame" x="0.0" y="44.5" width="280" height="43.5"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cQn-su-6Hj" id="yVC-Kl-TO7">
-                                                    <rect key="frame" x="0.0" y="0.0" width="280" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
-                                    </tableView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="doY-VL-rcL" firstAttribute="leading" secondItem="Emj-h5-9Bv" secondAttribute="leading" constant="10" id="2D9-Cx-lbh"/>
-                                    <constraint firstAttribute="height" constant="300" id="ABD-Cb-CqS"/>
-                                    <constraint firstItem="doY-VL-rcL" firstAttribute="top" secondItem="8Qw-c0-K5e" secondAttribute="bottom" constant="30" id="FFx-A8-yb1"/>
-                                    <constraint firstItem="8Qw-c0-K5e" firstAttribute="leading" secondItem="Emj-h5-9Bv" secondAttribute="leading" constant="20" id="JwB-GV-iTq"/>
-                                    <constraint firstAttribute="trailing" secondItem="8Qw-c0-K5e" secondAttribute="trailing" constant="20" id="PYo-U2-Sz8"/>
-                                    <constraint firstAttribute="width" constant="300" id="ZiR-Ln-4fQ"/>
-                                    <constraint firstItem="8Qw-c0-K5e" firstAttribute="top" secondItem="Emj-h5-9Bv" secondAttribute="top" constant="20" id="erR-XP-QqR"/>
-                                    <constraint firstAttribute="trailing" secondItem="doY-VL-rcL" secondAttribute="trailing" constant="10" id="ewN-KX-GcP"/>
-                                    <constraint firstAttribute="bottom" secondItem="doY-VL-rcL" secondAttribute="bottom" constant="10" id="igB-Ip-cP0"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="owl-mF-h43"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Emj-h5-9Bv" firstAttribute="centerX" secondItem="KnH-F4-XWI" secondAttribute="centerX" id="4Wk-Se-6wD"/>
-                            <constraint firstItem="Emj-h5-9Bv" firstAttribute="centerY" secondItem="KnH-F4-XWI" secondAttribute="centerY" id="YuK-46-5eF"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="FJO-fD-UPZ"/>
-                    <connections>
-                        <outlet property="tableView" destination="doY-VL-rcL" id="5EM-UP-XGF"/>
-                        <outlet property="titleLabel" destination="8Qw-c0-K5e" id="XYe-4H-xKY"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mLJ-dk-ae2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8361" y="-1726"/>
-        </scene>
         <!--Wallet-->
         <scene sceneID="jEf-Bu-Ae1">
             <objects>
@@ -2806,14 +2644,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7RN-X6-JNK"/>
         <segue reference="Rp6-LF-omk"/>
         <segue reference="tcA-6k-Npe"/>
-        <segue reference="GR6-hE-tZO"/>
+        <segue reference="mp1-Y8-sbT"/>
         <segue reference="YES-5H-aKc"/>
-        <segue reference="sh2-4g-cyr"/>
-        <segue reference="20g-WO-MrN"/>
-        <segue reference="miC-W4-jdi"/>
+        <segue reference="FNW-Bb-ffa"/>
+        <segue reference="aJC-5I-9Wg"/>
+        <segue reference="hh6-KM-p1z"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="Color DB"/>
     <resources>
@@ -2834,7 +2671,6 @@
         <image name="Wallet" width="25" height="25"/>
         <image name="WalletSelected" width="25" height="25"/>
         <image name="Website" width="341" height="341"/>
-        <image name="flag" catalog="system" width="128" height="121"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="list.dash.header.rectangle" catalog="system" width="128" height="93"/>
         <image name="magnifyingglass.circle" catalog="system" width="128" height="121"/>

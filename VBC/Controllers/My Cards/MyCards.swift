@@ -44,7 +44,7 @@ class MyCardsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: Constants.Nib.homeViewCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
         
         getCards()
         createObserver()
@@ -293,7 +293,7 @@ extension MyCardsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! HomeViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! DefaultCell
         
         if currentSegment0 == true {
             

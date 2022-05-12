@@ -184,7 +184,7 @@ class AddStep2VC: UIViewController {
             
             // Location Info from 2nd Step
             destinationVC.selectedNewCountry = selectCountry.text!
-            destinationVC.currentCardID = cardID
+            destinationVC.cardID = cardID
             destinationVC.numberOfPlaces = numberOfPlaces
             destinationVC.singlePlace = singlePlace
         }
