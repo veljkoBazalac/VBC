@@ -71,8 +71,8 @@ struct Constants {
     }
     
     struct Cell {
-        static let homeCell = "homeCell"
-        static let addLocListCell = "addLocListCell"
+        static let defaultCell = "DefaultCell"
+        static let locationCell = "LocationCell"
         static let popUpCell = "CardPopUpCell"
         static let contactListCell = "ContactListCell"
         static let settingsCell = "SettingsCell"
@@ -81,7 +81,7 @@ struct Constants {
     
     struct Nib {
         static let defaultCell = "DefaultCell"
-        static let addLocList = "AddLocListTableViewCell"
+        static let locationCell = "LocationCell"
         static let popUpCell = "CardPopUpCell"
         static let contactListCell = "ContactListCell"
     }
@@ -167,6 +167,7 @@ struct Constants {
             static let city = "City"
             static let street = "Street"
             static let gMaps = "gMaps Link"
+            static let aMaps = "aMaps Link"
             
             // Key for Social Network
             static let Facebook = "Facebook"

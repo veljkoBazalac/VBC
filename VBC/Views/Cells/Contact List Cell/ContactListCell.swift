@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DeleteCellDelegate: AnyObject {
+    func deleteButtonPressed(with title: String, row: Int)
+}
+
 class ContactListCell: UITableViewCell {
 
     @IBOutlet weak var contactLabel: UILabel!

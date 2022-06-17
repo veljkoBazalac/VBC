@@ -24,7 +24,7 @@ class CardPopUpCell: UITableViewCell {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.copyButton.setImage(UIImage(systemName: "doc.on.doc"), for: .normal)
-            self.copyButton.tintColor = UIColor(named: "Color Blue")
+            self.copyButton.tintColor = UIColor(named: "Color DB")
         }
     }
 }

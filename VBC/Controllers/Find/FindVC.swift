@@ -31,7 +31,7 @@ class FindVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.defaultCell)
         
         refreshControl.addTarget(self, action: #selector(refreshData(send:)), for: UIControl.Event.valueChanged)
         tableView.addSubview(refreshControl)
@@ -159,7 +159,7 @@ extension FindVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! DefaultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.defaultCell, for: indexPath) as! DefaultCell
         
         let cardsRow = allCardsList[indexPath.row]
         

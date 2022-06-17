@@ -18,9 +18,6 @@ class AddStep1VC: UIViewController {
     @IBOutlet weak var productType: UITextField!
     // Personal Name Stack Outlet
     @IBOutlet weak var personalNameStack: UIStackView!
-    // Pop Up Outlets
-//    @IBOutlet var blurEffect: UIVisualEffectView!
-//    @IBOutlet var popUpView: UIView!
     // Remove Image Outlet
     @IBOutlet weak var removeImageButton: UIButton!
     // -------------------- //
@@ -30,24 +27,27 @@ class AddStep1VC: UIViewController {
     let storage = Storage.storage().reference()
     // Firebase Auth Current User
     let user = Auth.auth().currentUser?.uid
-    
-    var pickerView = UIPickerView()
-    var sectorRow : Int = 0
+    // PopUp with Spinner
+    private var popUpSpinner : PopUpSpinner!
+    // PickerView for Sector
+    private var pickerView = UIPickerView()
+    // Number of Sector Row
+    private var sectorRow : Int = 0
+    // Company or Personal Card
     var companyCard : Bool = true
-    
     // Sector List Dictionary
     private var sectors : [Sectors] = []
-    
+    // Edit Card
     var editCard : Bool = false
     var editCardID : String = ""
     var editUserID : String = ""
-    var editSinglePlace : Bool = true
-    var editCardCountry : String = ""
     var editImage : UIImage?
     var NavBarTitle1 : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Placeholders for Textfields
+        setPlaceholders()
         // PickerView Delegate for Select Sector
         pickerView.delegate = self
         pickerView.dataSource = self
@@ -89,13 +89,27 @@ class AddStep1VC: UIViewController {
         }
     }
     
-    // MARK: - Upload Company Logo Image
+    // MARK: - Set Placeholders for Textfields
+    private func setPlaceholders() {
         
+        personalName.attributedPlaceholder = NSAttributedString(
+            string: "Enter Your Name...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        companyName.attributedPlaceholder = NSAttributedString(
+            string: "Enter Company Name...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        selectSector.attributedPlaceholder = NSAttributedString(
+            string: "Select Sector",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        productType.attributedPlaceholder = NSAttributedString(
+            string: "Select Sector first...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+    }
+    
+    // MARK: - Upload Company Logo Image
     func uploadImage() {
         
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-        PopUp().spinnerWithBlur(backgroundView: self.view)
-    
+        startSpinner()
         
         guard let image = imageView.image, let data = image.jpegData(compressionQuality: 0.5) else {
             PopUp().popUpWithOk(newTitle: "Error!",
@@ -154,17 +168,16 @@ class AddStep1VC: UIViewController {
         }
         
         uploadTask.observe(.success) { snapshot in
-            PopUp().spinner.stopAnimating()
+            self.stopSpinner()
             
-            if PopUp().spinner.isAnimating == false {
+            if self.popUpSpinner.spinner.isAnimating == false {
                 self.navigationController?.setNavigationBarHidden(false, animated: true)
                 self.navigationController?.popViewController(animated: true)
             }
         }
     }
     
-// MARK: - Check if Fields are correct
-    
+    // MARK: - Check if Fields are correct
     func validateFields() -> String? {
         
         if personalName.text!.trimmingCharacters(in: .whitespacesAndNewlines).count > 30 && companyCard == false {
@@ -192,8 +205,7 @@ class AddStep1VC: UIViewController {
         return nil
     }
     
-// MARK: - Next Button Pressed
-    
+    // MARK: - Next Button Pressed
     @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
         
         let error = validateFields()
@@ -260,7 +272,7 @@ class AddStep1VC: UIViewController {
         }
     }
 
-// MARK: - Prepare for Segue
+    // MARK: - Prepare for Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.Segue.addNew2 {
             
@@ -279,7 +291,7 @@ class AddStep1VC: UIViewController {
         }
     }
  
-// MARK: - Get Sectors List Function
+    // MARK: - Get Sectors List Function
     func getSectorsList() {
         db.collection(Constants.Firestore.CollectionName.sectors).getDocuments { snapshot, error in
             
@@ -305,8 +317,7 @@ class AddStep1VC: UIViewController {
         }
     }
     
-    
-// MARK: - Get Card for Edit
+    // MARK: - Get Card for Edit
     func getCardForEdit() {
         // Getting Card from Firebase Database
         db.collection(Constants.Firestore.CollectionName.VBC)
@@ -427,5 +438,19 @@ extension AddStep1VC: UIPickerViewDelegate, UIPickerViewDataSource {
          else {
             print("Error selecting Row!")
         }
+    }
+}
+
+// MARK: - PopUp with Spinner
+extension AddStep1VC {
+    
+    func startSpinner() {
+        self.popUpSpinner = PopUpSpinner(frame: self.view.frame)
+        self.popUpSpinner.spinnerWithBlur()
+        self.view.addSubview(self.popUpSpinner)
+    }
+    
+    func stopSpinner() {
+        self.popUpSpinner.animateOut(forView: popUpSpinner.popUpView, mainView: popUpSpinner)
     }
 }

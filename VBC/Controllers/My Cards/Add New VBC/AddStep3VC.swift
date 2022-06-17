@@ -55,7 +55,7 @@ class AddStep3VC: UIViewController {
     // Picker View
     var pickerView = UIPickerView()
     // Pop Up With TableView
-    var popUpTableView : PopUpTableView!
+    private var popUpTableView : PopUpTableView!
     // Locations Dict
     var locationsList : [Location] = []
     // Single Place or Multiple Places
@@ -88,12 +88,8 @@ class AddStep3VC: UIViewController {
     // Bool that indicates if user deleted row in PopUpTableView
     private var rowDeleted : Bool = false
     
-    // Edit Card
+    // Edit Card from CardVC
     var editCard3 : Bool = false
-    var editCardID3 : String = ""
-    var editUserID3 : String = ""
-    var editSinglePlace3 : Bool = true
-    var editCardSaved3 : Bool = false
     var editCardCountry3 : String = ""
     var editCardLocation : String = ""
     var NavBarTitle3 : String = ""
@@ -107,13 +103,31 @@ class AddStep3VC: UIViewController {
     var companyCard3 : Bool = true
     
     // Location Info from 2nd Step
-    var selectedNewCountry : String = ""
+    var selectedCountry : String = ""
     var cardID : String = ""
-    var numberOfPlaces : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setPlaceHolders()
+        getBasicCard3()
+        getSocialMediaList()
+        createPhoneNumberCode()
+        
+        DispatchQueue.main.async {
+            self.getLocationList()
+        }
+        
+        linkStack.isHidden = true
+        selectLocation.inputView = pickerView
+        selectSocial.inputView = pickerView
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+    }
+    
+    // MARK: - Set Place Holders for TextFields
+    func setPlaceHolders() {
         phoneNumber.attributedPlaceholder = NSAttributedString(
             string: "Enter Phone number...",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
@@ -129,24 +143,6 @@ class AddStep3VC: UIViewController {
         socialProfile.attributedPlaceholder = NSAttributedString(
             string: "",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
-        
-        
-        getBasicCard3()
-        
-        getCountryCode()
-        
-        getSocialMediaList()
-        
-        DispatchQueue.main.async {
-            self.getLocationList()
-        }
-        
-        linkStack.isHidden = true
-        selectLocation.inputView = pickerView
-        selectSocial.inputView = pickerView
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        
     }
     
     // MARK: - Get Card with Basic info from Step 1
@@ -173,8 +169,8 @@ class AddStep3VC: UIViewController {
     
     // MARK: - Get Country Code and Show it in Text Field
     
-    func getCountryCode() {
-        let countryCode = Country().getCountryCode(country: selectedNewCountry)
+    func createPhoneNumberCode() {
+        let countryCode = Country().getCountryCode(country: selectedCountry)
         phoneCode.text = "+\(countryCode)"
         
     }
@@ -212,7 +208,7 @@ class AddStep3VC: UIViewController {
                         if let e = error {
                             print("Contact Info Added Failed. \(e)")
                         } else {
-                            
+      //TODO: DODAJE SOCIAL ZBOG ""
                             self.db.collection(Constants.Firestore.CollectionName.VBC)
                                 .document(Constants.Firestore.CollectionName.data)
                                 .collection(Constants.Firestore.CollectionName.users)
@@ -688,7 +684,7 @@ extension AddStep3VC {
                             .document(self.cardID)
                             .collection(Constants.Firestore.CollectionName.locations)
                             .document(self.selectLocation.text!)
-                            .setData(["Social Media Added" : true], merge: true)
+                            .setData([Constants.Firestore.Key.socialAdded : true], merge: true)
                         
                         self.linkStack.isHidden = true
                         self.finishButton.isEnabled = true
@@ -1052,7 +1048,6 @@ extension AddStep3VC: UIPickerViewDelegate, UIPickerViewDataSource {
 extension AddStep3VC: UITableViewDelegate, UITableViewDataSource, DeleteCellDelegate {
     
     func deleteButtonPressed(with title: String, row: Int) {
-        
         // Pop Up with Yes and No
         let alert = UIAlertController(title: "Delete?", message: "Are you sure that you want to delete? Data will be lost forever.", preferredStyle: .alert)
         let actionBACK = UIAlertAction(title: "Back", style: .default) { action in

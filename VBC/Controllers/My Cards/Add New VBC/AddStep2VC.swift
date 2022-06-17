@@ -10,16 +10,8 @@ import Firebase
 import FirebaseStorage
 import SafariServices
 
-protocol NewEditedLocation: AnyObject {
-    func getNewEditedLocation(newLocation: String)
-}
-
 class AddStep2VC: UIViewController {
     
-    @IBOutlet var blurEffect: UIVisualEffectView!
-    @IBOutlet var popUpView: UIView!
-    @IBOutlet var spinner: UIActivityIndicatorView!
-
     // Image and Text Stack Outlets
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var personalName: UILabel!
@@ -32,15 +24,17 @@ class AddStep2VC: UIViewController {
     @IBOutlet weak var cityName: UITextField!
     @IBOutlet weak var streetName: UITextField!
     @IBOutlet weak var googleMapsLink: UITextField!
+    @IBOutlet weak var aMapsLink: UITextField!
     
-    // Segment Outlet
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
-    // Add, List and Delete Button Outlet
+    // Add Location Button Outlet
     @IBOutlet weak var addButton: UIButton!
+    // Show Location Button Outlet
     @IBOutlet weak var listButton: UIButton!
-    @IBOutlet weak var infoButton: UIButton!
-    
+    // Google Maps Link Info
+    @IBOutlet weak var gMapsInfo: UIButton!
+    // Apple Maps Link Info
+    @IBOutlet weak var aMapsInfo: UIButton!
+    // -------------------- //
     // Firebase Firestore Database
     let db = Firestore.firestore()
     // Firebase Storage
@@ -48,20 +42,26 @@ class AddStep2VC: UIViewController {
     // Firebase Auth Current User
     let user = Auth.auth().currentUser?.uid
     
-    // Delegate For Edit Location
-    weak var delegate: NewEditedLocation?
+    // PopUp with TableView and Blur
+    private var popUpTableView : PopUpTableView!
+    // Row Deleted in PopUp TableView
+    private var rowDeleted = false
+    // Row Edited in PopUp TableView
+    private var rowEdited = false
+    // PopUp with Spinner
+    private var popUpSpinner : PopUpSpinner!
     
     // Country List Dict
     private var countryList : [Country] = []
-    
-    // Current Number of Multiple Places
-    var numberOfPlaces: Int = 0
+    // List of Locations
+    private var locationList : [Location] = []
+    // Single or Multiple Locations
     var singlePlace : Bool = true
-    
     // Current CardID
     var cardID : String = ""
     // Company or Personal Card
     var companyCard2 : Bool = true
+    private var locationListPressed = false
     
     // Edit Card
     var editCard2 : Bool = false
@@ -93,13 +93,13 @@ class AddStep2VC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setPlaceholders()
+        
         pickerView.delegate = self
         pickerView.dataSource = self
         selectCountry.inputView = pickerView
-        infoButton.isHidden = true
-        
+  
         getBasicCard2()
-
         getCountryList()
         
         if editCard2 == true {
@@ -109,63 +109,31 @@ class AddStep2VC: UIViewController {
             cardID = editCardID2
             selectCountry.text = editCardCountry2
             selectCountry.isEnabled = false
-            cityName.text = editCardCity2
-            streetName.text = editCardStreet2
-            googleMapsLink.text = editCardMap2
+            getLocations()
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(false)
-        
-        if editCard2 == false {
-            
-            if segmentedControl.selectedSegmentIndex == 0 {
-                segmentedControl.isEnabled = true
-                addButton.isHidden = true
-                listButton.isHidden = true
-                
-            } else {
-                segmentedControl.isEnabled = false
-                addButton.isHidden = false
-                listButton.isHidden = false
-            }
-            
-        } else {
-            
-            if editSinglePlace2 == true {
-                segmentedControl.selectedSegmentIndex = 0
-                segmentedControl.isEnabled = true
-                addButton.isHidden = true
-                listButton.isHidden = true
-            } else {
-                segmentedControl.selectedSegmentIndex = 1
-                segmentedControl.isEnabled = false
-                addButton.isHidden = false
-                listButton.isHidden = false
-            }
-        }
-        
+    private func setPlaceholders() {
+        selectCountry.attributedPlaceholder = NSAttributedString(
+            string: "Select Country",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        cityName.attributedPlaceholder = NSAttributedString(
+            string: "Enter City Name...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        streetName.attributedPlaceholder = NSAttributedString(
+            string: "Enter Street Name and Number...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        googleMapsLink.attributedPlaceholder = NSAttributedString(
+            string: "Paste Google Maps Link...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        aMapsLink.attributedPlaceholder = NSAttributedString(
+            string: "Paste Apple Maps Link...",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
     }
     
     // MARK: - Prepare for Segue
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == Constants.Segue.newLocationsList {
-            
-            let destinationVC = segue.destination as! LocationListVC
-            
-            if editCard2 == false {
-                destinationVC.cardID = cardID
-            } else {
-                destinationVC.cardID = editCardID2
-            }
-            
-            destinationVC.delegate = self
-            destinationVC.delegateEdit = self
-    
-        }
         
         if segue.identifier == Constants.Segue.addNew3 {
             
@@ -183,9 +151,8 @@ class AddStep2VC: UIViewController {
             }
             
             // Location Info from 2nd Step
-            destinationVC.selectedNewCountry = selectCountry.text!
+            destinationVC.selectedCountry = selectCountry.text!
             destinationVC.cardID = cardID
-            destinationVC.numberOfPlaces = numberOfPlaces
             destinationVC.singlePlace = singlePlace
         }
     }
@@ -207,7 +174,6 @@ class AddStep2VC: UIViewController {
     }
     
 // MARK: - Create Card ID Function
-    
     func createCardID() {
         if cardID == "" && editCard2 == false {
             let countryCode = Country().getCountryCode(country: selectCountry.text!)
@@ -220,7 +186,6 @@ class AddStep2VC: UIViewController {
     }
     
 // MARK: - Create User ID Function
-    
     func createUserID() {
         if editCard2 == false {
             db.collection(Constants.Firestore.CollectionName.VBC)
@@ -232,338 +197,252 @@ class AddStep2VC: UIViewController {
     }
     
 // MARK: - Next Button Pressed
-    
     @IBAction func nextButtonPressed(_ sender: UIBarButtonItem) {
-        
-        if segmentedControl.selectedSegmentIndex == 0 {
-            
-            if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || streetName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-                
-                PopUp().popUpWithOk(newTitle: "Location fields empty",
-                                    newMessage: "Please fill all Location fields. Google Maps Link is optional.",
-                                    vc: self )
-                
-            } else {
-                
-                if editCard2 == false {
-                    
-                    singlePlace = true
-                    
-                    // Create CardID
-                    createCardID()
-                    
-                    // Create UserID
-                    createUserID()
-                    
-                    // Uploading Data to Firestore with Logo Image
-                    if self.logoImageView.image != nil {
-                        self.uploadImage()
-                    } else {
-                        
-                        // Adding Data to Firestore Database if user selected Single Place without Image
-                        db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(cardID)
-                            .setData([Constants.Firestore.Key.personalName : personalName2,
-                                      Constants.Firestore.Key.companyName : companyName.text!,
-                                      Constants.Firestore.Key.sector : companySector.text!,
-                                      Constants.Firestore.Key.type: companyProductType.text!,
-                                      Constants.Firestore.Key.cardID : cardID,
-                                      Constants.Firestore.Key.country : selectCountry.text!,
-                                      Constants.Firestore.Key.singlePlace : true,
-                                      Constants.Firestore.Key.companyCard : companyCard2,
-                                      Constants.Firestore.Key.userID : user!,
-                                      Constants.Firestore.Key.cardSaved : false,
-                                      Constants.Firestore.Key.imageURL : ""], merge: true)
-                        
-                        db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(cardID)
-                            .collection(Constants.Firestore.CollectionName.locations)
-                            .document("\(cityName.text!) - \(streetName.text!)")
-                            .setData([Constants.Firestore.Key.city : cityName.text!,
-                                      Constants.Firestore.Key.street : streetName.text!,
-                                      Constants.Firestore.Key.gMaps : googleMapsLink.text!], merge: true) { error in
-                                
-                                if error != nil {
-                                    PopUp().popUpWithOk(newTitle: "Error!",
-                                                        newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
-                                                        vc: self)
-                                } else {
-                                    // Perform Segue to Step 3 for Single Place without Image
-                                    self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
-                                }
-                            }
-                        }
-                    } else {
-                        
-                        // Updating Edited Data to Firestore Database for Single Place
-                        db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(editCardID2)
-                            .collection(Constants.Firestore.CollectionName.locations)
-                            .document("\(self.cityName.text!) - \(self.streetName.text!)")
-                            .setData([Constants.Firestore.Key.city : cityName.text!,
-                                      Constants.Firestore.Key.street : streetName.text!,
-                                      Constants.Firestore.Key.gMaps : googleMapsLink.text!], merge: true) { error in
-                                
-                                if error != nil {
-                                    PopUp().popUpWithOk(newTitle: "Error!",
-                                                        newMessage: "Error Uploading edited data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
-                                                        vc: self)
-                                } else {
-                                    
-                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
-                                        .document(Constants.Firestore.CollectionName.data)
-                                        .collection(Constants.Firestore.CollectionName.users)
-                                        .document(self.user!)
-                                        .collection(Constants.Firestore.CollectionName.cardID)
-                                        .document(self.cardID)
-                                        .setData(["Card Edited" : false,
-                                                  Constants.Firestore.Key.singlePlace : true], merge: true)
-                                    
-                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
-                                        .document(Constants.Firestore.CollectionName.data)
-                                        .collection(Constants.Firestore.CollectionName.users)
-                                        .document(self.user!)
-                                        .collection(Constants.Firestore.CollectionName.cardID)
-                                        .document(self.cardID)
-                                        .setData(["Card Edited" : true], merge: true)
-                                    
-                                        self.navigationController?.popViewController(animated: true)
-                                }
-                            }
-                    }
-                }
-               
-            } else {
-               // Save Data for Multiple Places
-                if numberOfPlaces <= 1 {
-                    PopUp().popUpWithOk(newTitle: "You selected Multiple Places",
-                                        newMessage: "You must add at least two places.",
-                                        vc: self)
-                } else {
-                    // Creating New VBC
-                    if editCard2 == false {
-                        // Uploading Logo image.
-                        if self.logoImageView.image != nil {
-                            self.uploadImage()
-                        } else {
-                            // Perform Segue to Step 3 for Multiple Places without Image
-                            self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
-                        }
-                    } else {
-                        
-                        // Updating Edited Data to Firestore Database for Multiple Places
-                        db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(editCardID2)
-                            .setData([Constants.Firestore.Key.singlePlace : false], merge: true) { error in
-                                
-                                if error != nil {
-                                    PopUp().popUpWithOk(newTitle: "Error!",
-                                                        newMessage: "Error Uploading edited data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
-                                                        vc: self)
-                                } else {
-                                    
-                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
-                                        .document(Constants.Firestore.CollectionName.data)
-                                        .collection(Constants.Firestore.CollectionName.users)
-                                        .document(self.user!)
-                                        .collection(Constants.Firestore.CollectionName.cardID)
-                                        .document(self.cardID)
-                                        .setData(["Card Edited" : false], merge: true)
-                                    
-                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
-                                        .document(Constants.Firestore.CollectionName.data)
-                                        .collection(Constants.Firestore.CollectionName.users)
-                                        .document(self.user!)
-                                        .collection(Constants.Firestore.CollectionName.cardID)
-                                        .document(self.cardID)
-                                        .setData(["Card Edited" : true], merge: true)
-                                    
-                                    // Go Back to Card View Controller with Edited Data
-                                    self.navigationController?.popViewController(animated: true)
-                                }
-                            }
-                        
-                    }
-                }
-            }
-    }
-    
-// MARK: - Add Location Button Pressed
-    
-    @IBAction func addLocationPressed(_ sender: UIButton) {
-        
-        // Adding data to Firestore Database if user selected Multiple Places.
-        
-        // Checking if Fields are empty.
-        if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || streetName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            
-            PopUp().popUpWithOk(newTitle: "Location fields empty",
-                                newMessage: "Please fill all Location fields. Google Maps Link is optional.",
-                                vc: self)
-
+        self.view.endEditing(true)
+        if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || locationList.count == 0 {
+            PopUp().popUpWithOk(newTitle: "Location missing",
+                                newMessage: "Please select Country and enter City name. Press + Button to add location.",
+                                vc: self )
         } else {
             
-            singlePlace = false
-            
             if editCard2 == false {
-                
+                // User Create New Card.
+                // PopUp with spinner.
+                startSpinner()
                 // Create CardID
                 createCardID()
                 // Create UserID
                 createUserID()
-                
-                // Adding Basic Data from Step 1
+                if logoImageView.image != nil {
+                // Uploading Card with Logo Image from Step 1 to Firestore.
+                uploadImage()
+                } else {
+                // Uploading Data to Firestore without Logo Image.
                 db.collection(Constants.Firestore.CollectionName.VBC)
                     .document(Constants.Firestore.CollectionName.data)
                     .collection(Constants.Firestore.CollectionName.users)
                     .document(user!)
                     .collection(Constants.Firestore.CollectionName.cardID)
                     .document(cardID)
-                    .setData([Constants.Firestore.Key.personalName: personalName2,
+                    .setData([Constants.Firestore.Key.personalName : personalName2,
                               Constants.Firestore.Key.companyName : companyName.text!,
                               Constants.Firestore.Key.sector : companySector.text!,
-                              Constants.Firestore.Key.type : companyProductType.text!,
+                              Constants.Firestore.Key.type: companyProductType.text!,
+                              Constants.Firestore.Key.cardID : cardID,
                               Constants.Firestore.Key.country : selectCountry.text!,
                               Constants.Firestore.Key.singlePlace : singlePlace,
-                              Constants.Firestore.Key.cardID : cardID,
                               Constants.Firestore.Key.companyCard : companyCard2,
                               Constants.Firestore.Key.userID : user!,
                               Constants.Firestore.Key.cardSaved : false,
-                              Constants.Firestore.Key.imageURL : ""], merge: true)
-            }
-            
-                // Adding Location Data from Step 2
-                db.collection(Constants.Firestore.CollectionName.VBC)
-                    .document(Constants.Firestore.CollectionName.data)
-                    .collection(Constants.Firestore.CollectionName.users)
-                    .document(user!)
-                    .collection(Constants.Firestore.CollectionName.cardID)
-                    .document(cardID)
-                    .collection(Constants.Firestore.CollectionName.locations)
-                    .document("\(cityName.text!) - \(streetName.text!)")
-                    .setData([Constants.Firestore.Key.city : cityName.text!,
-                              Constants.Firestore.Key.street : streetName.text!,
-                              Constants.Firestore.Key.gMaps : googleMapsLink.text!,
-                              Constants.Firestore.Key.socialAdded : false], merge: true) { error in
+                              Constants.Firestore.Key.imageURL : ""], merge: true) { error in
                         
                         if error != nil {
                             PopUp().popUpWithOk(newTitle: "Error!",
                                                 newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
                                                 vc: self)
                         } else {
-                            PopUp().popUpWithOk(newTitle: "Location successfully added",
-                                                newMessage: "You can see list of your locations by pressing List button.",
-                                                vc: self)
+                            self.stopSpinner()
                             
-                            if self.locationForEdit != "" {
-                                self.moveDataToNewLocation(city: self.cityName.text!,
-                                                           street: self.streetName.text!)
+                            if self.popUpSpinner.spinner.isAnimating == false {
+                                // Perform Segue to Step 3
+                                self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
                             }
-                            
-                            self.listButton.isHidden = false
-                            self.infoButton.isHidden = false
-                            self.selectCountry.isEnabled = false
-                            self.segmentedControl.isEnabled = false
-                            self.cityName.text = ""
-                            self.streetName.text = ""
-                            self.googleMapsLink.text = ""
-                            self.numberOfPlaces += 1
                         }
                     }
+                }
+            } else {
+                // User Edit existing Card.
+                // PopUp with Spinner.
+                startSpinner()
+                // Updating Edited Data to Firestore Database
+                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(self.user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(self.cardID)
+                    .setData(["Card Edited" : false,
+                              Constants.Firestore.Key.singlePlace : self.singlePlace], merge: true) { err in
+                        
+                        if let e = err {
+                            PopUp().popUpWithOk(newTitle: "Card Edit Error",
+                                                newMessage: "Please check your internet connection and try again. \(e)",
+                                                vc: self)
+                            return
+                        } else {
+                            
+                            self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                .document(Constants.Firestore.CollectionName.data)
+                                .collection(Constants.Firestore.CollectionName.users)
+                                .document(self.user!)
+                                .collection(Constants.Firestore.CollectionName.cardID)
+                                .document(self.cardID)
+                                .setData(["Card Edited" : true], merge: true) { err in
+                                    
+                                    if let e = err {
+                                        PopUp().popUpWithOk(newTitle: "Card Edit Error",
+                                                            newMessage: "Please check your internet connection and try again. \(e)",
+                                                            vc: self)
+                                        return
+                                    } else {
+                                        self.stopSpinner()
+                                        
+                                        if self.popUpSpinner.spinner.isAnimating == false {
+                                            // Go back to CardVC with Edited Card.
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                    }
+                                }
+                        }
+                    }
+            }
+        }
+    }
+    
+// MARK: - Add Location Button Pressed
+    
+    @IBAction func addLocationPressed(_ sender: UIButton) {
+        self.view.endEditing(true)
+        // Checking if Fields are empty.
+        if selectCountry.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" || cityName.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            PopUp().popUpWithOk(newTitle: "Location missing",
+                                newMessage: "Please select Country and enter City name. Press + Button to add location.",
+                                vc: self )
+        } else {
+            
+            if editCard2 == false {
+                // Create CardID
+                createCardID()
+                // Create UserID
+                createUserID()
+            }
+            // Uploading Location Data from Step 2
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.data)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(cardID)
+                .collection(Constants.Firestore.CollectionName.locations)
+                .document("\(cityName.text!) - \(streetName.text!)")
+                .setData([Constants.Firestore.Key.city : cityName.text!,
+                          Constants.Firestore.Key.street : streetName.text!,
+                          Constants.Firestore.Key.gMaps : googleMapsLink.text!,
+                          Constants.Firestore.Key.aMaps : aMapsLink.text!], merge: true) { [self] err in
+                    
+                    if let e = err {
+                        PopUp().popUpWithOk(newTitle: "Error!",
+                                            newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(e.localizedDescription)",
+                                            vc: self)
+                    } else {
+                        blinkButton(buttonName: self.listButton)
+                        if rowEdited == true {
+                            // If this is New Edited Location, move data from Old to New location.
+                            moveDataToNewLocation(city: cityName.text!,
+                                                       street: streetName.text!)
+                        }
+                        
+                        rowEdited = false
+                        selectCountry.isEnabled = false
+                        cityName.text?.removeAll()
+                        streetName.text?.removeAll()
+                        googleMapsLink.text?.removeAll()
+                        aMapsLink.text?.removeAll()
+                        getLocations()
+                    }
+                }
         }
     }
     
 // MARK: - List Button Pressed
     
     @IBAction func listButtonPressed(_ sender: UIButton) {
-        // Perform Segue to view List of Locations
-        self.performSegue(withIdentifier: Constants.Segue.newLocationsList, sender: self)
-    }
-    
-// MARK: - Info Button Pressed
-    
-    @IBAction func infoButtonPressed(_ sender: UIButton) {
-        PopUp().popUpWithOk(newTitle: "You want to change a Country?",
-                            newMessage: "To do it, you first need to delete all your Places from the List.",
-                            vc: self)
-    }
-
-// MARK: - Segment Control
-    
-    @IBAction func segmentedControl(_ sender: UISegmentedControl) {
-        // If Segment is 1, you can add Multiple places - If segment is 0, you can add only Single place
-        if segmentedControl.selectedSegmentIndex == 1 {
-            addButton.isHidden = false
-            listButton.isHidden = false
-            
-            if onlyCityName != "" || onlyStreetName != "" || onlyMapLink != "" {
-                cityName.text?.removeAll()
-                streetName.text?.removeAll()
-                googleMapsLink.text?.removeAll()
-            }
-            
-            if editSinglePlace2 == true {
-                onlyCityName = editCardCity2
-                onlyStreetName = editCardStreet2
-                onlyMapLink = editCardMap2
-                cityName.text?.removeAll()
-                streetName.text?.removeAll()
-                googleMapsLink.text?.removeAll()
-            }
-            
-            if editCard2 == true {
-                editSinglePlace2 = false
+        self.view.endEditing(true)
+        locationListPressed = true
+        // Show PopUp with TableView and Blur
+        if selectCountry.text != nil {
+            DispatchQueue.main.async {
+                self.rowDeleted = false
+                self.getLocations()
             }
         } else {
-            addButton.isHidden = true
-            listButton.isHidden = true
-            
-            if onlyCityName != "" || onlyStreetName != "" || onlyMapLink != "" {
-                cityName.text = onlyCityName
-                streetName.text = onlyStreetName
-                googleMapsLink.text = onlyMapLink
-            }
-            
-            if editCard2 == true {
-                editSinglePlace2 = true
-            }
+            PopUp().popUpWithOk(newTitle: "Location missing",
+                                newMessage: "Please select Country and enter City name. Press + Button to add location.",
+                                vc: self )
         }
     }
 
 // MARK: - Google Maps Icon Pressed
     
-    @IBAction func gMapsIconPressed(_ sender: UITapGestureRecognizer) {
-        
+    @IBAction func gMapsButtonPressed(_ sender: UIButton) {
+        self.view.endEditing(true)
         guard let url = URL(string: "https://www.google.com/maps") else { return }
         
         DispatchQueue.main.async {
             // Open Google Maps App if installed
             if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url)
+                self.gMapsInfo.setImage(UIImage.init(systemName: "doc.on.doc"), for: .normal)
             } else {
                 //Open Safari and Go to Google Maps Link.
+                let svc = SFSafariViewController(url: url)
+                self.present(svc, animated: true, completion: nil)
+                self.gMapsInfo.setImage(UIImage.init(systemName: "doc.on.doc"), for: .normal)
+            }
+        }
+    }
+    
+    // MARK: - Apple Maps Button Pressed
+    @IBAction func aMapsButtonPressed(_ sender: UIButton) {
+        self.view.endEditing(true)
+        guard let url = URL(string: "map://") else { return }
+        
+        DispatchQueue.main.async {
+            // Open Google Maps App if installed
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+                self.aMapsInfo.setImage(UIImage.init(systemName: "doc.on.doc"), for: .normal)
+            } else {
+                //Open Safari and Go to Google Maps Link.
+                self.aMapsInfo.setImage(UIImage.init(systemName: "doc.on.doc"), for: .normal)
                 let svc = SFSafariViewController(url: url)
                 self.present(svc, animated: true, completion: nil)
             }
         }
     }
-
+    
+    // MARK: - Google Maps Info Pressed
+    @IBAction func gMapsInfoPressed(_ sender: UIButton) {
+        self.view.endEditing(true)
+        if gMapsInfo.imageView?.image == UIImage.init(systemName: "questionmark.circle") {
+            PopUp().popUpWithOk(newTitle: "How to Get Link?",
+                                newMessage: "1. Press on Google Maps Icon\n2. Find Your Location\n3. Click on Share\n4. Click on Copy Link",
+                                vc: self)
+        } else {
+            googleMapsLink.text = UIPasteboard.general.string
+            self.gMapsInfo.setImage(UIImage.init(systemName: "questionmark.circle"), for: .normal)
+        }
+    }
+    
+    // MARK: - Apple Maps Info Pressed
+    @IBAction func aMapsInfoPressed(_ sender: UIButton) {
+        self.view.endEditing(true)
+        if aMapsInfo.imageView?.image == UIImage.init(systemName: "questionmark.circle") {
+            PopUp().popUpWithOk(newTitle: "How to Get Link?",
+                                newMessage: "1. Press on Apple Maps Icon\n2. Find Your Location\n3. Click on Share\n4. Click on Copy Link",
+                                vc: self)
+        } else {
+            aMapsLink.text = UIPasteboard.general.string
+            self.aMapsInfo.setImage(UIImage.init(systemName: "questionmark.circle"), for: .normal)
+        }
+    }
+    
+    // MARK: - PopUp with TableView Back Button Pressed
+    @objc func popUpBackButtonPressed() {
+        dismissPopUpWithTableView()
+        rowDeleted = false
+        rowEdited = false
+    }
     
 }//
 
@@ -572,11 +451,8 @@ class AddStep2VC: UIViewController {
 extension AddStep2VC {
     
     // MARK: - Upload Company Logo Image to Firebase Storage
-        
     func uploadImage() {
-        
-        spinnerWithBlur()
-        
+        // User Selected Image in Step 1.
         guard let image = logoImage2, let data = image.jpegData(compressionQuality: 0.2) else {
             PopUp().popUpWithOk(newTitle: "Error!",
                                 newMessage: "Something went wrong. Please Check your Internet connection and try again.",
@@ -589,7 +465,7 @@ extension AddStep2VC {
             .child(Constants.Firestore.Storage.logoImage)
             .child(user!)
             .child(imageName)
-    
+        
         imageReference.putData(data, metadata: nil) { mData, error in
             if let e = error {
                 PopUp().popUpWithOk(newTitle: "Error!",
@@ -599,7 +475,7 @@ extension AddStep2VC {
             }
             
             imageReference.downloadURL { [self] url, error in
-
+                
                 if let e = error {
                     PopUp().popUpWithOk(newTitle: "Error!",
                                         newMessage: "Error Downloading Image URL from Database. Please Check your Internet connection and try again. \(e.localizedDescription)",
@@ -613,62 +489,33 @@ extension AddStep2VC {
                                             newMessage: "Error Downloading URL. \(e.localizedDescription)",
                                             vc: self)
                     } else {
-                    
-                    guard let url = url else {
-                        PopUp().popUpWithOk(newTitle: "Error!",
-                                            newMessage: "Something went wrong. Please Check your Internet connection and try again.",
-                                            vc: self)
-                        return
-                    }
-                    
-                    let urlString = url.absoluteString
-
-                    let dbPath = db.collection(Constants.Firestore.CollectionName.VBC)
-                        .document(Constants.Firestore.CollectionName.data)
-                        .collection(Constants.Firestore.CollectionName.users)
-                        .document(user!)
-                        .collection(Constants.Firestore.CollectionName.cardID)
-                        .document(cardID)
                         
-                        if singlePlace == true {
-                            
-                            dbPath.setData(["\(Constants.Firestore.Key.imageURL)" : "\(urlString)",
-                                            "Personal Name": personalName2,
-                                            "Company Name": companyName.text!,
-                                            "Sector": companySector.text!,
-                                            "ProductType": companyProductType.text!,
-                                            "CardID": cardID,
-                                            "Country": selectCountry.text!,
-                                            "Single Place": true,
-                                            "Company Card": companyCard2,
-                                            "User ID": user!,
-                                            "Card Saved": false], merge: true)
-                            
-                            dbPath.collection(Constants.Firestore.CollectionName.locations)
-                                .document("\(cityName.text!) - \(streetName.text!)")
-                                .setData(["City": cityName.text!,
-                                            "Street": streetName.text!,
-                                            "gMaps Link": googleMapsLink.text!], merge: true) { error in
-                                    
-                                    if error != nil {
-                                        PopUp().popUpWithOk(newTitle: "Error!",
-                                                            newMessage: "Error Uploading data to Database. Please Check your Internet connection and try again. \(error!.localizedDescription)",
-                                                            vc: self)
-                                    } else {
-                                        
-                                        self.spinner.stopAnimating()
-                                        
-                                        if self.spinner.isAnimating == false {
-                                            // Perform Segue to Step 3
-                                            self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
-                                        }
-                                    }
-                                }
-                            
-                        } else {
-                            
-                            dbPath.setData([Constants.Firestore.Key.imageURL : "\(url)",
-                                            Constants.Firestore.Key.singlePlace : false], merge: true) { error in
+                        guard let url = url else {
+                            PopUp().popUpWithOk(newTitle: "Error!",
+                                                newMessage: "Something went wrong. Please Check your Internet connection and try again.",
+                                                vc: self)
+                            return
+                        }
+                        
+                        let urlString = url.absoluteString
+                        
+                        db.collection(Constants.Firestore.CollectionName.VBC)
+                            .document(Constants.Firestore.CollectionName.data)
+                            .collection(Constants.Firestore.CollectionName.users)
+                            .document(user!)
+                            .collection(Constants.Firestore.CollectionName.cardID)
+                            .document(cardID)
+                            .setData([Constants.Firestore.Key.personalName : personalName2,
+                                      Constants.Firestore.Key.companyName : companyName.text!,
+                                      Constants.Firestore.Key.sector : companySector.text!,
+                                      Constants.Firestore.Key.type: companyProductType.text!,
+                                      Constants.Firestore.Key.cardID : cardID,
+                                      Constants.Firestore.Key.country : selectCountry.text!,
+                                      Constants.Firestore.Key.singlePlace : singlePlace,
+                                      Constants.Firestore.Key.companyCard : companyCard2,
+                                      Constants.Firestore.Key.userID : user!,
+                                      Constants.Firestore.Key.cardSaved : false,
+                                      Constants.Firestore.Key.imageURL : "\(urlString)"], merge: true) { error in
                                 
                                 if let error = error {
                                     PopUp().popUpWithOk(newTitle: "Error!",
@@ -676,24 +523,30 @@ extension AddStep2VC {
                                                         vc: self)
                                     return
                                 } else {
+                                    self.stopSpinner()
                                     
-                                    self.spinner.stopAnimating()
-                                    
-                                    if self.spinner.isAnimating == false {
-                                        // Perform Segue to Step 3
-                                        self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
+                                    if self.editCard2 == false {
+                                        if self.popUpSpinner.spinner.isAnimating == false {
+                                            self.performSegue(withIdentifier: Constants.Segue.addNew3, sender: self)
+                                        }
+                                    } else {
+                                        if self.popUpSpinner.spinner.isAnimating == false {
+                                            // Go back to CardVC with Edited Card.
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
                                     }
                                 }
                             }
-                        }
+                        
                     }
                 }
             }
         }
-    }
+        
+        
+    }//
     
     // MARK: - Get Contries List from Firestore
-    
     func getCountryList() {
         
         db.collection(Constants.Firestore.CollectionName.countries).getDocuments { snapshot, error in
@@ -722,44 +575,61 @@ extension AddStep2VC {
         }
     }
     
-}
-
-// MARK: - Spinner With Blur
-
-extension AddStep2VC {
-    
-    func spinnerWithBlur() {
+    // MARK: - Get Locations from Firestore
+    func getLocations() {
         
-        // Set the Size of the Blur View to be = to all screen
-        blurEffect.bounds = self.view.bounds
-        
-        popUpView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width * 0.5, height: self.view.bounds.width * 0.5)
-        
-        animateIn(forView: blurEffect)
-        animateIn(forView: popUpView)
-        
-        spinner.startAnimating()
+        db.collection(Constants.Firestore.CollectionName.VBC)
+            .document(Constants.Firestore.CollectionName.data)
+            .collection(Constants.Firestore.CollectionName.users)
+            .document(user!)
+            .collection(Constants.Firestore.CollectionName.cardID)
+            .document(cardID)
+            .collection(Constants.Firestore.CollectionName.locations)
+            .getDocuments { snapshot, error in
+                
+                if let e = error {
+                    print ("Error getting Multiple Places List. \(e)")
+                } else {
+                    
+                    if let snapshotDocuments = snapshot?.documents {
+                        
+                        self.locationList.removeAll()
+                        
+                        for documents in snapshotDocuments {
+                            
+                            let data = documents.data()
+                            
+                            if let cityName = data[Constants.Firestore.Key.city] as? String {
+                                if let cityStreet = data[Constants.Firestore.Key.street] as? String {
+                                    if let gMap = data[Constants.Firestore.Key.gMaps] as? String {
+                                        if let aMap = data[Constants.Firestore.Key.aMaps] as? String {
+                                            
+                                            let places = Location(city: cityName, street: cityStreet, gMapsLink: gMap, aMapsLink: aMap)
+                                            
+                                            self.locationList.append(places)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if self.locationListPressed == true {
+                            DispatchQueue.main.async {
+                                if self.rowDeleted == false {
+                                    self.popUpWithTableView(rows: self.locationList.count, type: "Location")
+                                } else {
+                                    self.popUpTableView.rowDeleted(numberOfRows: self.locationList.count)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
     }
+
     
-    func animateIn(forView: UIView) {
-        let backgroundView = self.view!
-        
-        backgroundView.addSubview(forView)
-        
-        forView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-        forView.alpha = 0
-        forView.center = backgroundView.center
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            forView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            forView.alpha = 1
-        })
-        
-    }
 }
 
 // MARK: - UIPickerView for Country
-
 extension AddStep2VC: UIPickerViewDelegate, UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -779,7 +649,6 @@ extension AddStep2VC: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         if selectCountry.isEditing {
-            infoButton.isHidden = true
             return countryList[row].name
         }
         else {
@@ -800,24 +669,14 @@ extension AddStep2VC: UIPickerViewDelegate, UIPickerViewDataSource {
     }
 }
 
-// MARK: - EditSelectedLocation Delegate Function
-extension AddStep2VC: EditSelectedLocation {
-    
-    func getEditLocation(city: String, street: String, map: String) {
-        
-        locationForEdit = "\(city) - \(street)"
-        
-        cityName.text = city
-        streetName.text = street
-        
-        if map != "" {
-            googleMapsLink.text = map
-        }
-    }
+// MARK: - Edit Location Function
+extension AddStep2VC {
     
     func moveDataToNewLocation(city: String, street: String) {
+        // TODO: Dodaj spiner
+        let newLocation = "\(city) - \(street)"
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             // Get Social Media for Old Location
             self.db.collection(Constants.Firestore.CollectionName.VBC)
                 .document(Constants.Firestore.CollectionName.data)
@@ -849,7 +708,7 @@ extension AddStep2VC: EditSelectedLocation {
                                             .collection(Constants.Firestore.CollectionName.cardID)
                                             .document(self.cardID)
                                             .collection(Constants.Firestore.CollectionName.locations)
-                                            .document("\(city) - \(street)")
+                                            .document(newLocation)
                                             .collection(Constants.Firestore.CollectionName.social)
                                             .document(socialName)
                                             .setData([
@@ -858,29 +717,30 @@ extension AddStep2VC: EditSelectedLocation {
                                             ],merge: true) { error in
                                                 if let e = error {
                                                     PopUp().popUpWithOk(newTitle: "Error",
-                                                                        newMessage: "Error Moving Data to New Location.",
+                                                                        newMessage: "Error Moving Data to New Location. \(e.localizedDescription)",
                                                                         vc: self)
-                                                    print("\(e)")
                                                 } else {
-                                                    // Delete Social Media Data from Old Location
-                                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
-                                                        .document(Constants.Firestore.CollectionName.data)
-                                                        .collection(Constants.Firestore.CollectionName.users)
-                                                        .document(self.user!)
-                                                        .collection(Constants.Firestore.CollectionName.cardID)
-                                                        .document(self.cardID)
-                                                        .collection(Constants.Firestore.CollectionName.locations)
-                                                        .document(self.locationForEdit)
-                                                        .collection(Constants.Firestore.CollectionName.social)
-                                                        .document(socialName)
-                                                        .delete() { err in
-                                                            if let e = err {
-                                                                PopUp().popUpWithOk(newTitle: "Error",
-                                                                                    newMessage: "Error Deleting Social Media from Old Location.",
-                                                                                    vc: self)
-                                                                print("\(e)")
+                                                    
+                                                    if self.locationForEdit != newLocation {
+                                                        // Delete Social Media Data from Old Location
+                                                        self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                                            .document(Constants.Firestore.CollectionName.data)
+                                                            .collection(Constants.Firestore.CollectionName.users)
+                                                            .document(self.user!)
+                                                            .collection(Constants.Firestore.CollectionName.cardID)
+                                                            .document(self.cardID)
+                                                            .collection(Constants.Firestore.CollectionName.locations)
+                                                            .document(self.locationForEdit)
+                                                            .collection(Constants.Firestore.CollectionName.social)
+                                                            .document(socialName)
+                                                            .delete() { err in
+                                                                if let e = err {
+                                                                    PopUp().popUpWithOk(newTitle: "Error",
+                                                                                        newMessage: "Error Deleting Social Media from Old Location. \(e.localizedDescription)",
+                                                                                        vc: self)
+                                                                }
                                                             }
-                                                        }
+                                                    }
                                                 }
                                             }
                                     }
@@ -889,128 +749,248 @@ extension AddStep2VC: EditSelectedLocation {
                         }
                     }
                 }
-        }
-        // Get Contact Data for Old Location
-        db.collection(Constants.Firestore.CollectionName.VBC)
-            .document(Constants.Firestore.CollectionName.data)
-            .collection(Constants.Firestore.CollectionName.users)
-            .document(user!)
-            .collection(Constants.Firestore.CollectionName.cardID)
-            .document(cardID)
-            .collection(Constants.Firestore.CollectionName.locations)
-            .document(locationForEdit)
-            .getDocument { document, err in
-                if let e = err {
-                    print("Error Getting Data for Edit Location.\(e)")
-                } else {
-                    
-                    if document != nil && document!.exists {
+            
+            // Get Contact Data for Old Location
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.data)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(cardID)
+                .collection(Constants.Firestore.CollectionName.locations)
+                .document(locationForEdit)
+                .getDocument { document, err in
+                    if let e = err {
+                        print("Error Getting Data for Edit Location.\(e)")
+                    } else {
                         
-                        let data = document?.data()
-                        
-                        let socialAdded = data![Constants.Firestore.Key.socialAdded] as? Bool
-                        let email1 = data![Constants.Firestore.Key.email1] as? String
-                        let email2 = data![Constants.Firestore.Key.email2] as? String
-                        let phone1 = data![Constants.Firestore.Key.phone1] as? String
-                        let phone1Code = data![Constants.Firestore.Key.phone1code] as? String
-                        let phone2 = data![Constants.Firestore.Key.phone2] as? String
-                        let phone2Code = data![Constants.Firestore.Key.phone2code] as? String
-                        let phone3 = data![Constants.Firestore.Key.phone3] as? String
-                        let phone3Code = data![Constants.Firestore.Key.phone3code] as? String
-                        let web1 = data![Constants.Firestore.Key.web1] as? String
-                        let web2 = data![Constants.Firestore.Key.web2] as? String
-                        // Move Contact Data to New Location
-                        self.db.collection(Constants.Firestore.CollectionName.VBC)
-                            .document(Constants.Firestore.CollectionName.data)
-                            .collection(Constants.Firestore.CollectionName.users)
-                            .document(self.user!)
-                            .collection(Constants.Firestore.CollectionName.cardID)
-                            .document(self.cardID)
-                            .collection(Constants.Firestore.CollectionName.locations)
-                            .document("\(city) - \(street)")
-                            .setData([
-                                Constants.Firestore.Key.socialAdded : socialAdded!,
-                                Constants.Firestore.Key.email1 : email1 ?? "",
-                                Constants.Firestore.Key.email2 : email2 ?? "",
-                                Constants.Firestore.Key.phone1 : phone1 ?? "",
-                                Constants.Firestore.Key.phone1code : phone1Code ?? "",
-                                Constants.Firestore.Key.phone2 : phone2 ?? "",
-                                Constants.Firestore.Key.phone2code : phone2Code ?? "",
-                                Constants.Firestore.Key.phone3 : phone3 ?? "",
-                                Constants.Firestore.Key.phone3code : phone3Code ?? "",
-                                Constants.Firestore.Key.web1 : web1 ?? "",
-                                Constants.Firestore.Key.web2 : web2 ?? ""
-                            ],merge: true) { err in
-                                if let e = err {
-                                    PopUp().popUpWithOk(newTitle: "Error",
-                                                        newMessage: "Error Moving Contact Data to New Location.",
-                                                        vc: self)
-                                    print("\(e)")
-                                } else {
-                                    // Delete Old Location and All Data
-                                    self.db.collection(Constants.Firestore.CollectionName.VBC)
-                                        .document(Constants.Firestore.CollectionName.data)
-                                        .collection(Constants.Firestore.CollectionName.users)
-                                        .document(self.user!)
-                                        .collection(Constants.Firestore.CollectionName.cardID)
-                                        .document(self.cardID)
-                                        .collection(Constants.Firestore.CollectionName.locations)
-                                        .document(self.locationForEdit)
-                                        .delete() { err in
-                                            if let e = err {
-                                                PopUp().popUpWithOk(newTitle: "Error",
-                                                                    newMessage: "Error Deleting Contact Data from Old Location.",
-                                                                    vc: self)
-                                                print("\(e)")
-                                            }
+                        if document != nil && document!.exists {
+                            
+                            let data = document?.data()
+                            
+                            let socialAdded = data![Constants.Firestore.Key.socialAdded] as? Bool
+                            let email1 = data![Constants.Firestore.Key.email1] as? String
+                            let email2 = data![Constants.Firestore.Key.email2] as? String
+                            let phone1 = data![Constants.Firestore.Key.phone1] as? String
+                            let phone1Code = data![Constants.Firestore.Key.phone1code] as? String
+                            let phone2 = data![Constants.Firestore.Key.phone2] as? String
+                            let phone2Code = data![Constants.Firestore.Key.phone2code] as? String
+                            let phone3 = data![Constants.Firestore.Key.phone3] as? String
+                            let phone3Code = data![Constants.Firestore.Key.phone3code] as? String
+                            let web1 = data![Constants.Firestore.Key.web1] as? String
+                            let web2 = data![Constants.Firestore.Key.web2] as? String
+                            // Move Contact Data to New Location
+                            self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                .document(Constants.Firestore.CollectionName.data)
+                                .collection(Constants.Firestore.CollectionName.users)
+                                .document(self.user!)
+                                .collection(Constants.Firestore.CollectionName.cardID)
+                                .document(self.cardID)
+                                .collection(Constants.Firestore.CollectionName.locations)
+                                .document(newLocation)
+                                .setData([
+                                    Constants.Firestore.Key.socialAdded : socialAdded ?? "",
+                                    Constants.Firestore.Key.email1 : email1 ?? "",
+                                    Constants.Firestore.Key.email2 : email2 ?? "",
+                                    Constants.Firestore.Key.phone1 : phone1 ?? "",
+                                    Constants.Firestore.Key.phone1code : phone1Code ?? "",
+                                    Constants.Firestore.Key.phone2 : phone2 ?? "",
+                                    Constants.Firestore.Key.phone2code : phone2Code ?? "",
+                                    Constants.Firestore.Key.phone3 : phone3 ?? "",
+                                    Constants.Firestore.Key.phone3code : phone3Code ?? "",
+                                    Constants.Firestore.Key.web1 : web1 ?? "",
+                                    Constants.Firestore.Key.web2 : web2 ?? ""
+                                ],merge: true) { err in
+                                    if let e = err {
+                                        PopUp().popUpWithOk(newTitle: "Error",
+                                                            newMessage: "Error Moving Contact Data to New Location. \(e.localizedDescription)",
+                                                            vc: self)
+                                    } else {
+                                        
+                                        if self.locationForEdit != newLocation {
+                                            // Delete Old Location and All Data
+                                            self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                                .document(Constants.Firestore.CollectionName.data)
+                                                .collection(Constants.Firestore.CollectionName.users)
+                                                .document(self.user!)
+                                                .collection(Constants.Firestore.CollectionName.cardID)
+                                                .document(self.cardID)
+                                                .collection(Constants.Firestore.CollectionName.locations)
+                                                .document(self.locationForEdit)
+                                                .delete() { err in
+                                                    if let e = err {
+                                                        PopUp().popUpWithOk(newTitle: "Error",
+                                                                            newMessage: "Error Deleting Contact Data from Old Location. \(e.localizedDescription)",
+                                                                            vc: self)
+                                                    }
+                                                }
                                         }
+                                    }
                                 }
-                            }
-                        self.delegate?.getNewEditedLocation(newLocation: "\(city) - \(street)")
+                        }
                     }
                 }
-            }
+        }
     }
-    
 }
 
-// MARK: - Get Number of Places Delegate
-extension AddStep2VC: MultiplePlacesDelegate {
+// MARK: - Pop Ups and other UI Settings
+extension AddStep2VC {
     
-    func getOnlyLocation(city: String, street: String, map: String) {
-        segmentedControl.selectedSegmentIndex = 0
-        addButton.isHidden = true
-        listButton.isHidden = true
-        onlyCityName = city
-        onlyStreetName = street
-        onlyMapLink = map
-        
-        cityName.text = city
-        streetName.text = street
-        googleMapsLink.text = map
-    }
-    
-    
-    func getNumberOfPlaces(places: Int) {
-        numberOfPlaces = places
-        
-        if places == 0 && editCard2 == false {
-            selectCountry.isEnabled = true
-            segmentedControl.isEnabled = true
-            infoButton.isHidden = true
-        } else if places == 0 && editCard2 == true {
-            selectCountry.isEnabled = false
-            segmentedControl.isEnabled = true
-            infoButton.isHidden = false
-        } else if places == 1 {
-            selectCountry.isEnabled = false
-            segmentedControl.isEnabled = true
-            infoButton.isHidden = false
-        } else if places > 1 {
-            selectCountry.isEnabled = false
-            segmentedControl.isEnabled = false
-            infoButton.isHidden = false
+    //  Blink Button Function
+    func blinkButton(buttonName: UIButton) {
+        buttonName.tintColor = .green
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            buttonName.tintColor = UIColor(named: "Reverse Background Color")
         }
     }
     
+    // Pop Up With Table View and Blur
+    func popUpWithTableView(rows: Int, type: String) {
+        
+        self.popUpTableView = PopUpTableView(frame: self.view.frame)
+        self.popUpTableView.popUpWithTableView(vc: self,
+                                               rows: rows,
+                                               type: type,
+                                               nibName: Constants.Nib.locationCell,
+                                               cellIdentifier: Constants.Cell.locationCell)
+        self.popUpTableView.backButton.addTarget(self, action: #selector(self.popUpBackButtonPressed), for: UIControl.Event.touchUpInside)
+        self.view.addSubview(self.popUpTableView)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    func dismissPopUpWithTableView() {
+        popUpTableView.animateOut(forView: popUpTableView.popUpView, mainView: popUpTableView)
+        popUpTableView.animateOut(forView: popUpTableView.blurEffectView, mainView: popUpTableView)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        locationListPressed = false
+    }
+    
+    func startSpinner() {
+        self.popUpSpinner = PopUpSpinner(frame: self.view.frame)
+        self.popUpSpinner.spinnerWithBlur()
+        self.view.addSubview(self.popUpSpinner)
+    }
+    
+    func stopSpinner() {
+        self.popUpSpinner.animateOut(forView: popUpSpinner.popUpView, mainView: popUpSpinner)
+    }
+}
+
+// MARK: - Table View
+
+extension AddStep2VC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return locationList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.locationCell, for: indexPath) as! LocationCell
+        
+        let locationRow = locationList[indexPath.row]
+        
+        cell.configure(city: locationRow.city,
+                       street: locationRow.street,
+                       gMap: locationRow.gMapsLink,
+                       aMap: locationRow.aMapsLink)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedLocation = "\(locationList[indexPath.row].city) - \(locationList[indexPath.row].street)"
+        
+        let actionSheetController: UIAlertController = UIAlertController(title: selectedLocation, message: nil, preferredStyle: .actionSheet)
+        
+        // Edit Location Action
+        let editLocation: UIAlertAction = UIAlertAction(title: "Edit", style: .default) { [self] action -> Void in
+            locationForEdit = selectedLocation
+            rowEdited = true
+            
+            cityName.text = locationList[indexPath.row].city
+            streetName.text = locationList[indexPath.row].street
+            googleMapsLink.text = locationList[indexPath.row].gMapsLink
+            aMapsLink.text = locationList[indexPath.row].aMapsLink
+            
+            dismissPopUpWithTableView()
+        }
+        // Delete Location Action
+        let deleteLocation: UIAlertAction = UIAlertAction(title: "Delete", style: .destructive) { [self] action -> Void in
+            
+            DispatchQueue.main.async {
+                // Get Location Social Media Data
+                self.db.collection(Constants.Firestore.CollectionName.VBC)
+                    .document(Constants.Firestore.CollectionName.data)
+                    .collection(Constants.Firestore.CollectionName.users)
+                    .document(self.user!)
+                    .collection(Constants.Firestore.CollectionName.cardID)
+                    .document(self.cardID)
+                    .collection(Constants.Firestore.CollectionName.locations)
+                    .document(selectedLocation)
+                    .collection(Constants.Firestore.CollectionName.social)
+                    .getDocuments { snapshot, err in
+                        if let e = err {
+                            PopUp().popUpWithOk(newTitle: "Error", newMessage: "\(e)", vc: self)
+                        } else {
+                            
+                            if let snapshotDocuments = snapshot?.documents {
+                                
+                                for documents in snapshotDocuments {
+                                    
+                                    let data = documents.data()
+                                    // Delete Social Media Data for Location
+                                    if let socialName = data[Constants.Firestore.Key.name] as? String {
+                                        self.db.collection(Constants.Firestore.CollectionName.VBC)
+                                            .document(Constants.Firestore.CollectionName.data)
+                                            .collection(Constants.Firestore.CollectionName.users)
+                                            .document(self.user!)
+                                            .collection(Constants.Firestore.CollectionName.cardID)
+                                            .document(self.cardID)
+                                            .collection(Constants.Firestore.CollectionName.locations)
+                                            .document(selectedLocation)
+                                            .collection(Constants.Firestore.CollectionName.social)
+                                            .document(socialName)
+                                            .delete() { err in
+                                                if let e = err {
+                                                    PopUp().popUpWithOk(newTitle: "Error",
+                                                                        newMessage: "Error Deleting Location Social Media Data. \(e.localizedDescription)",
+                                                                        vc: self)
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            }
+            // Delete Location
+            db.collection(Constants.Firestore.CollectionName.VBC)
+                .document(Constants.Firestore.CollectionName.data)
+                .collection(Constants.Firestore.CollectionName.users)
+                .document(user!)
+                .collection(Constants.Firestore.CollectionName.cardID)
+                .document(cardID)
+                .collection(Constants.Firestore.CollectionName.locations)
+                .document(selectedLocation)
+                .delete()
+            
+            
+            DispatchQueue.main.async {
+                self.rowDeleted = true
+                self.locationList.removeAll()
+                self.getLocations()
+            }
+        }
+        // Cancel Action
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
+        
+        actionSheetController.addAction(editLocation)
+        actionSheetController.addAction(deleteLocation)
+        actionSheetController.addAction(cancelAction)
+        
+        present(actionSheetController, animated: true, completion: nil)
+    }
 }

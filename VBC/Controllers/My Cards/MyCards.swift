@@ -44,7 +44,7 @@ class MyCardsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.defaultCell)
         
         getCards()
         createObserver()
@@ -148,7 +148,6 @@ class MyCardsVC: UIViewController {
                         let data = diff.document.data()
                         
                         if diff.type == .added  {
-                            
                             if let name = data[Constants.Firestore.Key.companyName] as? String {
                                 if let sector = data[Constants.Firestore.Key.sector] as? String {
                                     if let productType = data[Constants.Firestore.Key.type] as? String {
@@ -161,8 +160,17 @@ class MyCardsVC: UIViewController {
                                                                 
                                                                 if companyCard == false {
                                                                     if let personalName = data[Constants.Firestore.Key.personalName] as? String {
-                                                                        
-                                                                        let card = ShowVBC(personalName: personalName, companyName: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, imageURL: imageURL)
+                                                                       
+                                                                        let card = ShowVBC(personalName: personalName,
+                                                                                           companyName: name,
+                                                                                           sector: sector,
+                                                                                           type: productType,
+                                                                                           country: country,
+                                                                                           cardID: cardID,
+                                                                                           singlePlace: singlePlace,
+                                                                                           companyCard: companyCard,
+                                                                                           userID: userID,
+                                                                                           imageURL: imageURL)
                                                                         
                                                                         self.personalCards.append(card)
                                                                         
@@ -171,7 +179,7 @@ class MyCardsVC: UIViewController {
                                                                         }
                                                                     }
                                                                 } else {
-                                                                    
+                                                                   
                                                                     let card = ShowVBC(companyName: name, sector: sector, type: productType, country: country, cardID: cardID, singlePlace: singlePlace, companyCard: companyCard, userID: userID, imageURL: imageURL)
                                                                     
                                                                     self.companyCards.append(card)
@@ -268,7 +276,6 @@ class MyCardsVC: UIViewController {
     
     // MARK: - Segment Company or Personal
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
-        
         if segmentControl.selectedSegmentIndex == 0 {
             currentSegment0 = true
             tableView.reloadData()
@@ -293,7 +300,7 @@ extension MyCardsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! DefaultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.defaultCell, for: indexPath) as! DefaultCell
         
         if currentSegment0 == true {
             

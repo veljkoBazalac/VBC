@@ -123,7 +123,6 @@ class VerifyVC: UIViewController {
                                        newMessage: "Email verification error. Check your internet connection and try again.",
                                        vc: self,
                                        numberOfSeconds: 2)
-                    print(error)
                 } else {
                     // Email verification sent again
                     PopUp().quickPopUp(newTitle: "Email Verification Sent",

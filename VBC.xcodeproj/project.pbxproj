@@ -27,6 +27,7 @@
 		D01EF8F1272D233000146DDC /* DefaultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01EF8EF272D233000146DDC /* DefaultCell.swift */; };
 		D01EF8F2272D233000146DDC /* DefaultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D01EF8F0272D233000146DDC /* DefaultCell.xib */; };
 		D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0317F6127818F9400E67776 /* SocialMedia.swift */; };
+		D03B6BDE2832A3DB00A593CD /* PopUpSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03B6BDD2832A3DB00A593CD /* PopUpSpinner.swift */; };
 		D0401766282BC8C2002BDCCA /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0401765282BC8C2002BDCCA /* Email.swift */; };
 		D0401769282BC967002BDCCA /* Website.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0401768282BC967002BDCCA /* Website.swift */; };
 		D040176B282BC9AB002BDCCA /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = D040176A282BC9AB002BDCCA /* Map.swift */; };
@@ -39,7 +40,6 @@
 		D07BC3622773A0FB00711110 /* CardPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BC3602773A0FB00711110 /* CardPopUpCell.swift */; };
 		D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07BC3612773A0FB00711110 /* CardPopUpCell.xib */; };
 		D089920327F879C60045B896 /* EmailComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D089920227F879C60045B896 /* EmailComposer.swift */; };
-		D08BFA0D28295FD300B9E189 /* PopUpTableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D08BFA0C28295FD300B9E189 /* PopUpTableView.xib */; };
 		D08BFA0F2829643300B9E189 /* PopUpTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08BFA0E2829643300B9E189 /* PopUpTableView.swift */; };
 		D091C01E27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */; };
 		D0955D242767BCF7009E9CA7 /* ShowVBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0955D232767BCF7009E9CA7 /* ShowVBC.swift */; };
@@ -61,9 +61,8 @@
 		D0D5C67527D612FA00E8C07E /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D5C67327D612F900E8C07E /* SettingsCell.xib */; };
 		D0D5C67727D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D5C67627D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift */; };
 		D0D6A5782743104700773C52 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A5772743104700773C52 /* Location.swift */; };
-		D0D6A57A27431AF000773C52 /* LocationListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57927431AF000773C52 /* LocationListVC.swift */; };
-		D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */; };
-		D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */; };
+		D0D6A57F27431B6800773C52 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D6A57D27431B6800773C52 /* LocationCell.swift */; };
+		D0D6A58027431B6800773C52 /* LocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D6A57E27431B6800773C52 /* LocationCell.xib */; };
 		D0E7753E272D7322001FB9F8 /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7753D272D7321001FB9F8 /* AboutVC.swift */; };
 		D0E8BD492742BE0700B0AB0D /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8BD482742BE0600B0AB0D /* Country.swift */; };
 		D0FB84AE27249B8E0053D4BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */; };
@@ -113,6 +112,7 @@
 		D01EF8EF272D233000146DDC /* DefaultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCell.swift; sourceTree = "<group>"; };
 		D01EF8F0272D233000146DDC /* DefaultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefaultCell.xib; sourceTree = "<group>"; };
 		D0317F6127818F9400E67776 /* SocialMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMedia.swift; sourceTree = "<group>"; };
+		D03B6BDD2832A3DB00A593CD /* PopUpSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpSpinner.swift; sourceTree = "<group>"; };
 		D0401765282BC8C2002BDCCA /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 		D0401768282BC967002BDCCA /* Website.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Website.swift; sourceTree = "<group>"; };
 		D040176A282BC9AB002BDCCA /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
@@ -125,7 +125,6 @@
 		D07BC3602773A0FB00711110 /* CardPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPopUpCell.swift; sourceTree = "<group>"; };
 		D07BC3612773A0FB00711110 /* CardPopUpCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardPopUpCell.xib; sourceTree = "<group>"; };
 		D089920227F879C60045B896 /* EmailComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailComposer.swift; sourceTree = "<group>"; };
-		D08BFA0C28295FD300B9E189 /* PopUpTableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PopUpTableView.xib; sourceTree = "<group>"; };
 		D08BFA0E2829643300B9E189 /* PopUpTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpTableView.swift; sourceTree = "<group>"; };
 		D091C01D27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedEmailVerifyVC.swift; sourceTree = "<group>"; };
 		D0955D232767BCF7009E9CA7 /* ShowVBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowVBC.swift; sourceTree = "<group>"; };
@@ -146,9 +145,8 @@
 		D0D5C67327D612F900E8C07E /* SettingsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		D0D5C67627D65BC600E8C07E /* ChangeEmailOrPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeEmailOrPasswordVC.swift; sourceTree = "<group>"; };
 		D0D6A5772743104700773C52 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		D0D6A57927431AF000773C52 /* LocationListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationListVC.swift; sourceTree = "<group>"; };
-		D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocListTableViewCell.swift; sourceTree = "<group>"; };
-		D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddLocListTableViewCell.xib; sourceTree = "<group>"; };
+		D0D6A57D27431B6800773C52 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		D0D6A57E27431B6800773C52 /* LocationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LocationCell.xib; sourceTree = "<group>"; };
 		D0E7753D272D7321001FB9F8 /* AboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutVC.swift; sourceTree = "<group>"; };
 		D0E8BD482742BE0600B0AB0D /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		D0FB84AD27249B8E0053D4BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -240,13 +238,8 @@
 			isa = PBXGroup;
 			children = (
 				D00F0A34272449EE00A6331B /* Main.storyboard */,
-				D0E77543272DDA25001FB9F8 /* DefaultCell */,
-				D0D6A58127431B6F00773C52 /* Add Location List */,
-				D059CA6127BD11830006A6E7 /* Contact List Cell */,
-				D07BC3642773AA7600711110 /* Card Pop Up Cell */,
-				D0D5C67127D612CD00E8C07E /* Settings Cell */,
-				D08BFA0C28295FD300B9E189 /* PopUpTableView.xib */,
-				D08BFA0E2829643300B9E189 /* PopUpTableView.swift */,
+				D03B6BDA2832A34B00A593CD /* Cells */,
+				D03B6BDB2832A36300A593CD /* Pop Ups */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -282,6 +275,28 @@
 				D0C0DE0927F7111E006EAC27 /* AboutVBCVC.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		D03B6BDA2832A34B00A593CD /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D0E77543272DDA25001FB9F8 /* DefaultCell */,
+				D0D6A58127431B6F00773C52 /* Add Location List */,
+				D059CA6127BD11830006A6E7 /* Contact List Cell */,
+				D07BC3642773AA7600711110 /* Card Pop Up Cell */,
+				D0D5C67127D612CD00E8C07E /* Settings Cell */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		D03B6BDB2832A36300A593CD /* Pop Ups */ = {
+			isa = PBXGroup;
+			children = (
+				D015C48027F9B221005E134C /* PopUp.swift */,
+				D08BFA0E2829643300B9E189 /* PopUpTableView.swift */,
+				D03B6BDD2832A3DB00A593CD /* PopUpSpinner.swift */,
+			);
+			path = "Pop Ups";
 			sourceTree = "<group>";
 		};
 		D0401767282BC8E4002BDCCA /* Contact Data */ = {
@@ -340,7 +355,6 @@
 			children = (
 				D0AB29C4273B204800A43EF2 /* AddStep1VC.swift */,
 				D0A7196F274138EC000B2E1F /* AddStep2VC.swift */,
-				D0D6A57927431AF000773C52 /* LocationListVC.swift */,
 				D0A7197127413922000B2E1F /* AddStep3VC.swift */,
 			);
 			path = "Add New VBC";
@@ -384,7 +398,6 @@
 			children = (
 				D089920127F879A30045B896 /* Firebase */,
 				D089920227F879C60045B896 /* EmailComposer.swift */,
-				D015C48027F9B221005E134C /* PopUp.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -401,8 +414,8 @@
 		D0D6A58127431B6F00773C52 /* Add Location List */ = {
 			isa = PBXGroup;
 			children = (
-				D0D6A57D27431B6800773C52 /* AddLocListTableViewCell.swift */,
-				D0D6A57E27431B6800773C52 /* AddLocListTableViewCell.xib */,
+				D0D6A57D27431B6800773C52 /* LocationCell.swift */,
+				D0D6A57E27431B6800773C52 /* LocationCell.xib */,
 			);
 			path = "Add Location List";
 			sourceTree = "<group>";
@@ -545,7 +558,7 @@
 			files = (
 				D00E608B27F078280035BEF7 /* check.json in Resources */,
 				D07BC3632773A0FB00711110 /* CardPopUpCell.xib in Resources */,
-				D0D6A58027431B6800773C52 /* AddLocListTableViewCell.xib in Resources */,
+				D0D6A58027431B6800773C52 /* LocationCell.xib in Resources */,
 				D0C9BA0827D9F19900291AA3 /* email.json in Resources */,
 				D00F0A3B272449F400A6331B /* LaunchScreen.storyboard in Resources */,
 				D0D5C67527D612FA00E8C07E /* SettingsCell.xib in Resources */,
@@ -556,7 +569,6 @@
 				D00E608427F069D50035BEF7 /* verifySend.json in Resources */,
 				D059CA6527BD11AF0006A6E7 /* ContactListCell.xib in Resources */,
 				D01EF8F2272D233000146DDC /* DefaultCell.xib in Resources */,
-				D08BFA0D28295FD300B9E189 /* PopUpTableView.xib in Resources */,
 				D0A4360A27CD549C00017DF0 /* Assets.xcassets in Resources */,
 				D00F0A36272449EE00A6331B /* Main.storyboard in Resources */,
 			);
@@ -628,6 +640,7 @@
 				D089920327F879C60045B896 /* EmailComposer.swift in Sources */,
 				D00F0A61272452D300A6331B /* LoginVC.swift in Sources */,
 				D091C01E27EC764E00D0AE30 /* UpdatedEmailVerifyVC.swift in Sources */,
+				D03B6BDE2832A3DB00A593CD /* PopUpSpinner.swift in Sources */,
 				D016DFDB272ABF7A0041B633 /* VerifyVC.swift in Sources */,
 				D00E608727F076830035BEF7 /* DeleteAccountVC.swift in Sources */,
 				D0401769282BC967002BDCCA /* Website.swift in Sources */,
@@ -651,10 +664,9 @@
 				D015C48127F9B221005E134C /* PopUp.swift in Sources */,
 				D0A7196E274138C1000B2E1F /* AddNewCardVC.swift in Sources */,
 				D0317F6227818F9400E67776 /* SocialMedia.swift in Sources */,
-				D0D6A57F27431B6800773C52 /* AddLocListTableViewCell.swift in Sources */,
+				D0D6A57F27431B6800773C52 /* LocationCell.swift in Sources */,
 				D0D5C67427D612FA00E8C07E /* SettingsCell.swift in Sources */,
 				D0C0DE0A27F7111E006EAC27 /* AboutVBCVC.swift in Sources */,
-				D0D6A57A27431AF000773C52 /* LocationListVC.swift in Sources */,
 				D0CF1CD3273DB51900599EF5 /* Sectors.swift in Sources */,
 				D00463F9276BA78F005B13F7 /* PhoneNumbers.swift in Sources */,
 				D0611E3827BFBE7300434AD8 /* SearchBy.swift in Sources */,

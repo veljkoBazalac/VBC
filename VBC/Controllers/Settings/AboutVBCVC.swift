@@ -34,7 +34,7 @@ class AboutVBCVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     private let text2 : UITextView = { () -> UITextView in
         let text = UITextView()
-        text.text = "VBC - Virtual Business Card is application created by Solomon Software.\nVBC is created with idea to help connections between Companies and Business People more easily. Our app allow users to connect with others in just few steps. \n\nCreating Virtual Business Card is very simple and it can be created for both Single Place or Multiple Places, based on Company's or Person's locations.\n \nIf you have any questions, be free to Contact Us."
+        text.text = "VBC - Virtual Business Card is application created by Veljko Bazalac.\nVBC is created with idea to help connections between Companies and Business People more easily. Our app allow users to connect with others in just few steps. \n\nCreating Virtual Business Card is very simple and it can be created for both Single Place or Multiple Places, based on Company's or Person's locations.\n \nIf you have any questions, be free to Contact Us."
         text.font = UIFont.systemFont(ofSize: 16)
         text.textAlignment = .left
         text.backgroundColor = .clear

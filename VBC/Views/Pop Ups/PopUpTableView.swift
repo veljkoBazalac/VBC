@@ -26,8 +26,6 @@ class PopUpTableView: UIView {
     let blurEffectView = UIVisualEffectView()
     var popUpView = UIView()
     
-    let cardVC = CardVC()
-    
     // Pop Up with TableView and Ok Button
     var popUpTableView : UITableView = { () -> UITableView in
         let tableView = UITableView()
@@ -42,24 +40,24 @@ class PopUpTableView: UIView {
         
         return tableView
     }()
-    
+    // Pop Up Title
     var popUpTitle : UILabel = { () -> UILabel in
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = UIColor(named: "Reverse Background Color")
+        label.textColor = UIColor(named: "Color DO")
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
-    
+    // Pop Up Back Button
     lazy var backButton : UIButton = { () -> UIButton in
         let button = UIButton()
         button.setTitle("Back", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(UIColor(named: "Background Color"), for: .normal)
-        button.backgroundColor = UIColor(named: "Reverse Background Color")
+        button.backgroundColor = UIColor(named: "Color DO")
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -101,6 +99,12 @@ class PopUpTableView: UIView {
             }
         case "Social":
             popUpTitle.text = "Social Media"
+        case "Location":
+            if rows == 1 {
+                popUpTitle.text = "Location"
+            } else {
+                popUpTitle.text = "Locations"
+            }
         default:
             popUpTitle.text = "Error"
         }
@@ -116,8 +120,11 @@ class PopUpTableView: UIView {
             popUpView.heightAnchor.constraint(equalToConstant: 320).isActive = true
         case 5:
             popUpView.heightAnchor.constraint(equalToConstant: 370).isActive = true
+        case 5...:
+            popUpView.heightAnchor.constraint(equalToConstant: 420).isActive = true
+            popUpTableView.isScrollEnabled = true
         default:
-            popUpView.heightAnchor.constraint(equalToConstant: 370).isActive = true
+            popUpView.heightAnchor.constraint(equalToConstant: 420).isActive = true
         }
         
         blurEffectView.effect = blurEffect
@@ -134,7 +141,6 @@ class PopUpTableView: UIView {
         popUpView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         popUpView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         popUpView.widthAnchor.constraint(equalToConstant: self.bounds.width * 0.7).isActive = true
-        
         
         popUpTitle.topAnchor.constraint(equalTo: popUpView.topAnchor, constant: 10).isActive = true
         popUpTitle.leftAnchor.constraint(equalTo: popUpView.leftAnchor).isActive = true
@@ -169,6 +175,9 @@ class PopUpTableView: UIView {
                 self.popUpView.heightAnchor.constraint(equalToConstant: 320).isActive = true
             case 5:
                 self.popUpView.heightAnchor.constraint(equalToConstant: 370).isActive = true
+            case 5...:
+                self.popUpView.heightAnchor.constraint(equalToConstant: 420).isActive = true
+                self.popUpTableView.isScrollEnabled = true
             default:
                 self.popUpView.heightAnchor.constraint(equalToConstant: 370).isActive = true
             }

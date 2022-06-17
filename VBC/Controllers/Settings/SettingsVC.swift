@@ -137,7 +137,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         // Section 2
         models.append(Section(title: "Application", options: [
             
-            SettingsOption(title: "Contact Us", icon: UIImage(named: "ContactUs"), iconBackgroundColor: .systemOrange) {
+            SettingsOption(title: "Contact Us", icon: UIImage(named: "ContactUs"), iconBackgroundColor: .systemTeal) {
                 EmailComposer().showEmailComposer(recipient: "solosoft.serbia@gmail.com",
                                                   subject: "VBC - \(self.user?.email ?? "Your Email here...")",
                                                   body: "Dear VBC Team,\n\n",
@@ -244,7 +244,7 @@ extension SettingsVC {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         view.tintColor = UIColor.clear
         let header = view as! UITableViewHeaderFooterView
-        header.textLabel?.textColor = UIColor(named: "Reverse Background Color")
+        header.textLabel?.textColor = UIColor(named: "Color DO")
     }
     
     

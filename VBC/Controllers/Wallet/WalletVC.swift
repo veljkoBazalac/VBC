@@ -38,7 +38,7 @@ class WalletVC: UIViewController, UISearchResultsUpdating {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.homeCell)
+        tableView.register(UINib(nibName: Constants.Nib.defaultCell, bundle: nil), forCellReuseIdentifier: Constants.Cell.defaultCell)
         
         getSavedVBC()
     }
@@ -270,7 +270,7 @@ extension WalletVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.homeCell, for: indexPath) as! DefaultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.Cell.defaultCell, for: indexPath) as! DefaultCell
         
         if searchController.isActive == true {
             

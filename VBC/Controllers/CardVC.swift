@@ -20,12 +20,9 @@ class CardVC: UIViewController {
     @IBOutlet weak var companyNameLabel: UILabel!
     @IBOutlet weak var sectorLabel: UILabel!
     @IBOutlet weak var productTypeLabel: UILabel!
-    
     // Location StackView
-    @IBOutlet weak var locationStack: UIStackView!
     @IBOutlet weak var selectLocation: UITextField!
     @IBOutlet weak var countryFlag: UIImageView!
-    
     // Buttons Outlets
     @IBOutlet weak var callButton: UIButton!
     @IBOutlet weak var mailButton: UIButton!
@@ -65,7 +62,8 @@ class CardVC: UIViewController {
     var cityNameForEdit : String = ""
     var streetNameForEdit : String = ""
     var mapForEdit : String = ""
-    var locationForEdit : String = ""
+    // Location data for Edit
+    private var locationForEdit : String = ""
     var cardIDForEdit : String = ""
     var cardRowForEdit : Int?
     var cardRowForRemove : Int?
@@ -73,7 +71,8 @@ class CardVC: UIViewController {
     var phoneNumbersList : [PhoneNumber] = []
     var emailAddressList : [String] = []
     var websiteList : [String] = []
-    var mapLink : String = ""
+    var gMapLink : String = ""
+    var aMapLink : String = ""
     var socialMediaList : [SocialMedia] = []
     // Card Has Data
     var cardHasPhone : Bool = false
@@ -87,6 +86,8 @@ class CardVC: UIViewController {
     var mapPressed : Bool = false
     var websitePressed : Bool = false
     var socialPressed : Bool = false
+    private var gMapsExist = false
+    private var aMapsExist = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,6 +135,8 @@ class CardVC: UIViewController {
             self.getLocationList()
         }
         getSaveStatus()
+        gMapsExist = false
+        aMapsExist = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -251,14 +254,7 @@ class CardVC: UIViewController {
             destinationVC.editCardSaved2 = cardSaved
             destinationVC.editCardCountry2 = self.countryName
             destinationVC.editSinglePlace2 = singlePlace
-            destinationVC.numberOfPlaces = locationsList.count
-            destinationVC.delegate = self
-            
-            if singlePlace == true {
-                destinationVC.editCardCity2 = cityNameForEdit
-                destinationVC.editCardStreet2 = streetNameForEdit
-                destinationVC.editCardMap2 = mapForEdit
-            }
+    
             
             destinationVC.logoImage2 = logoImage.image!
             destinationVC.companyName2 = companyNameLabel.text!
@@ -284,8 +280,6 @@ class CardVC: UIViewController {
             
             destinationVC.editCard3 = true
             destinationVC.cardID = cardID
-            destinationVC.editUserID3 = userID
-            destinationVC.editCardSaved3 = cardSaved
             destinationVC.singlePlace = singlePlace
             destinationVC.companyCard3 = companyCard
             destinationVC.editCardLocation = self.selectLocation.text!
@@ -298,7 +292,7 @@ class CardVC: UIViewController {
             destinationVC.companyName3 = companyNameLabel.text!
             destinationVC.sector3 = sectorLabel.text!
             destinationVC.productType3 = productTypeLabel.text!
-            destinationVC.selectedNewCountry = self.countryName
+            destinationVC.selectedCountry = self.countryName
             destinationVC.NavBarTitle3 = "Edit VBC - Step 3/3"
             
         }
@@ -851,28 +845,20 @@ extension CardVC {
                             // Get Location Data
                             if let cityName = data[Constants.Firestore.Key.city] as? String {
                                 if let cityStreet = data[Constants.Firestore.Key.street] as? String {
-                                    if let cityMap = data[Constants.Firestore.Key.gMaps] as? String {
-                                        
-                                        let places = Location(city: cityName, street: cityStreet, gMapsLink: cityMap)
-                                        
-                                        self.locationsList.append(places)
-                                        
-                                        self.cityNameForEdit = cityName
-                                        self.streetNameForEdit = cityStreet
-                                        self.mapForEdit = cityMap
-                                        
-                                        if self.cardEdited == false {
+                                    if let gMap = data[Constants.Firestore.Key.gMaps] as? String {
+                                        if let aMap = data[Constants.Firestore.Key.aMaps] as? String {
+                                            
+                                            let places = Location(city: cityName, street: cityStreet, gMapsLink: gMap, aMapsLink: aMap)
+                                            
+                                            self.locationsList.append(places)
+                                            
                                             self.selectLocation.text = "\(self.locationsList.first!.city) - \(self.locationsList.first!.street)"
                                             self.locationForEdit = self.selectLocation.text!
-                                        } else {
-                                            self.selectLocation.text = self.locationForEdit
                                         }
-                                        
                                     }
                                 }
                             }
                         }
-                        
                         if self.locationsList.count <= 1 {
                             self.selectLocation.isEnabled = false
                         } else {
@@ -949,9 +935,21 @@ extension CardVC {
                             if (data![Constants.Firestore.Key.gMaps] as? String) != "" {
                                 DispatchQueue.main.async {
                                     self.mapButton.isHidden = false
+                                    self.gMapsExist = true
                                 }
                             }
                         }
+                        
+                        if data![Constants.Firestore.Key.aMaps] != nil {
+                            if (data![Constants.Firestore.Key.aMaps] as? String) != "" {
+                                DispatchQueue.main.async {
+                                    self.mapButton.isHidden = false
+                                    self.aMapsExist = true
+                                }
+                            }
+                            
+                        }
+                        
                         // Website Check
                         if data![Constants.Firestore.Key.web1] != nil {
                             if (data![Constants.Firestore.Key.web1] as? String) != "" {
@@ -970,8 +968,10 @@ extension CardVC {
                         // Social Check
                         if data![Constants.Firestore.Key.socialAdded] != nil {
                             if (data![Constants.Firestore.Key.socialAdded] as? Bool) != false {
-                                DispatchQueue.main.async {
-                                    self.socialButton.isHidden = false
+                                if (data![Constants.Firestore.Key.socialAdded] as? String) != "" {
+                                    DispatchQueue.main.async {
+                                        self.socialButton.isHidden = false
+                                    }
                                 }
                             }
                         }
@@ -1108,29 +1108,80 @@ extension CardVC {
                             // Map Button Pressed, Get Data and Open Google Maps or Safari
                             if self.mapPressed == true {
                                 
-                                self.mapLink.removeAll()
+                                let actionSheetController: UIAlertController = UIAlertController(title: "Open with:", message: nil, preferredStyle: .actionSheet)
                                 
-                                // Map Contact Info
-                                if let map = data![Constants.Firestore.Key.gMaps] as? String {
-                                    if map != "" {
-                                        self.mapLink = map
+                                // Google Maps
+                                let gMaps: UIAlertAction = UIAlertAction(title: "Google Maps", style: .default) { [self] action -> Void in
+                                    
+                                    // Google Maps Contact Info
+                                    if let googleMaps = data![Constants.Firestore.Key.gMaps] as? String {
                                         
-                                        if let index = (self.mapLink.range(of: "http")?.lowerBound) {
-                                            
-                                            let newCleanLink = String(self.mapLink.suffix(from: index))
-                                            
-                                            DispatchQueue.main.async {
-                                                if let gMap = URL(string: newCleanLink), UIApplication.shared.canOpenURL(gMap) {
-                                                    UIApplication.shared.open(gMap, options: [:], completionHandler: nil)
-                                                } else {
-                                                    PopUp().popUpWithOk(newTitle: "Invalid Map Link",
-                                                                        newMessage: "Map Link for this location is invalid.",
-                                                                        vc: self)
-                                                }
+                                        guard let index = (googleMaps.range(of: "http")?.lowerBound) else {
+                                            PopUp().popUpWithOk(newTitle: "Invalid Map Link",
+                                                                newMessage: "Invalid Google Maps Link for\n\(selectLocation.text!)",
+                                                                vc: self)
+                                            return
+                                        }
+                                        
+                                        let gMapCleanLink = String(googleMaps.suffix(from: index))
+                                        
+                                        DispatchQueue.main.async {
+                                            if let gMap = URL(string: gMapCleanLink), UIApplication.shared.canOpenURL(gMap) {
+                                                UIApplication.shared.open(gMap)
+                                            } else {
+                                                PopUp().popUpWithOk(newTitle: "Invalid Map Link",
+                                                                    newMessage: "Google Maps Link for this location is invalid.",
+                                                                    vc: self)
                                             }
                                         }
                                     }
                                 }
+                                // Apple Maps
+                                let aMaps: UIAlertAction = UIAlertAction(title: "Apple Maps", style: .default) { [self] action -> Void in
+                            
+                                    // Google Maps Contact Info
+                                    if let appleMaps = data![Constants.Firestore.Key.aMaps] as? String {
+                                        
+                                        guard let index = (appleMaps.range(of: "https://maps.apple.com/")?.upperBound) else {
+                                            PopUp().popUpWithOk(newTitle: "Invalid Map Link",
+                                                                newMessage: "Invalid Apple Maps Link for\n\(selectLocation.text!)",
+                                                                vc: self)
+                                            return
+                                        }
+                                        
+                                        let aMapCleanLink = String(appleMaps.suffix(from: index))
+                                        
+                                        DispatchQueue.main.async {
+                                            guard let aMap = URL(string: "maps://\(aMapCleanLink)") else {
+                                                PopUp().popUpWithOk(newTitle: "Link Error",
+                                                                    newMessage: "Invalid Apple Maps Link for\n\(self.selectLocation.text!)",
+                                                                    vc: self)
+                                                return
+                                            }
+                                            print(aMapCleanLink)
+                                            if UIApplication.shared.canOpenURL(aMap) {
+                                                UIApplication.shared.open(aMap)
+                                            } else {
+                                                PopUp().popUpWithOk(newTitle: "Map Link Error",
+                                                                    newMessage: "Can NOT open Apple Maps.",
+                                                                    vc: self)
+                                            }
+                                        }
+                                    }
+                                }
+                                // Cancel Action
+                                let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in }
+                                
+                                if self.gMapsExist == true {
+                                    actionSheetController.addAction(gMaps)
+                                }
+                                if self.aMapsExist == true {
+                                    actionSheetController.addAction(aMaps)
+                                }
+                                actionSheetController.addAction(cancelAction)
+                                
+                                self.present(actionSheetController, animated: true, completion: nil)
+                                
                                 self.mapPressed = false
                                 self.callButton.isUserInteractionEnabled = true
                                 self.mailButton.isUserInteractionEnabled = true
@@ -1169,7 +1220,6 @@ extension CardVC {
     // MARK: - Get Card Basic Info
     
     func getCardBasicInfo() {
-        
         // Getting Basic Info
         db.collection(Constants.Firestore.CollectionName.VBC)
             .document(Constants.Firestore.CollectionName.data)
@@ -1193,10 +1243,6 @@ extension CardVC {
                                         if let checkSinglePlace = data![Constants.Firestore.Key.singlePlace] as? Bool {
                                             
                                             self.singlePlace = checkSinglePlace
-                                            
-                                            if self.singlePlace == true {
-                                                self.selectLocation.isEnabled = false
-                                            }
                                             
                                             // Basic Card Info
                                             self.companyNameLabel.text = companyName
@@ -1248,15 +1294,10 @@ extension CardVC: UIPickerViewDelegate, UIPickerViewDataSource {
         mapButton.isHidden = true
         websiteButton.isHidden = true
         socialButton.isHidden = true
+        gMapsExist = false
+        aMapsExist = false
         
         self.checkCardData()
-    }
-}
-
-extension CardVC: NewEditedLocation {
-    
-    func getNewEditedLocation(newLocation: String) {
-        self.locationForEdit = newLocation
     }
 }
 
